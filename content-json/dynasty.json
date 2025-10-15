@@ -1,0 +1,113 @@
+{
+    "magadha": {
+        "title": "भाग I: मगध का उत्कर्ष (Rise of Magadha)",
+        "items": [
+            { "type": "event-details", "summary": { "title": "प्रस्तावना: छठी शताब्दी ईसा पूर्व का भारत" }, "content": "<ul><li>छठी शताब्दी ईसा पूर्व में, भारत 16 बड़े राज्यों में बंटा हुआ था, जिन्हें <strong>महाजनपद (Mahajanapada)</strong> कहा जाता था।</li><li>ये महाजनपद आपस में सत्ता के लिए संघर्ष करते रहते थे। इनमें से चार सबसे शक्तिशाली थे - <strong>मगध (Magadha)</strong>, <strong>कोसल (Kosala)</strong>, <strong>वत्स (Vatsa)</strong>, और <strong>अवन्ति (Avanti)</strong>।</li><li>अंत में, मगध ही इन सब पर हावी होकर भारत के पहले साम्राज्य के रूप में उभरा।</li></ul>" },
+            { "id": "haryanka-dynasty", "type": "dynasty-details", "summary": { "title": "हर्यक वंश (Haryanka Dynasty)", "period": "c. 544–413 BCE", "founder": "बिम्बिसार", "capital": "राजगृह" }, "subItems": ["bimbisara", "ajatashatru", "udayin", "nagadashaka"] },
+            { "id": "shishunaga-dynasty", "type": "dynasty-details", "summary": { "title": "शिशुनाग वंश (Shishunaga Dynasty)", "period": "c. 413–345 BCE", "founder": "शिशुनाग", "capital": "वैशाली" }, "subItems": ["shishunaga", "kalashoka", "mahanandin"] },
+            { "id": "nanda-dynasty", "type": "dynasty-details", "summary": { "title": "नंद वंश (Nanda Dynasty)", "period": "c. 345–322 BCE", "founder": "महापद्म नंद", "capital": "पाटलिपुत्र" }, "subItems": ["nanda-intro", "mahapadma-nanda", "dhanananda"] }
+        ]
+    },
+    "invasions": {
+        "title": "भाग II: मौर्य-पूर्व विदेशी आक्रमण",
+        "items": [
+            { "id": "iranian-greek-invasions", "type": "event-details", "summary": { "title": "ईरानी और यूनानी आक्रमण" }, "subItems": ["invasions-intro", "iranian-invasion", "greek-invasion", "invasions-conclusion"] }
+        ]
+    },
+    "maurya": {
+        "title": "भाग III: मौर्य साम्राज्य",
+        "items": [
+            { "type": "event-details", "summary": { "title": "प्रस्तावना और स्रोत" }, "content": "<ul><li>चौथी शताब्दी ईसा पूर्व का भारत राजनीतिक उथल-पुथल का केंद्र था। पश्चिमोत्तर में सिकंदर के आक्रमण ने एक शून्य (vacuum) पैदा कर दिया था, और पूर्व में नंद वंश का शासक धनानंद अपने दमनकारी करों (oppressive taxes) के कारण जनता में अलोकप्रिय था।</li><li>इसी पृष्ठभूमि में, एक साधारण युवक चंद्रगुप्त (Chandragupta) ने अपने गुरु, एक असाधारण रणनीतिकार चाणक्य (Chanakya), के मार्गदर्शन में इतिहास की धारा को हमेशा के लिए बदल दिया।</li></ul><h4>मौर्य इतिहास के स्रोत (Sources of Mauryan History):</h4><ul><li><strong>साहित्यिक (Literary):</strong> कौटिल्य का 'अर्थशास्त्र', मेगस्थनीज की 'इंडिका', विशाखदत्त का नाटक 'मुद्राराक्षस' (Mudrarakshasa), और पुराण, बौद्ध एवं जैन ग्रंथ।</li><li><strong>पुरातात्विक (Archaeological):</strong> अशोक के शिलालेख और स्तंभ लेख (Rock Edicts and Pillar Edicts), चांदी और तांबे के आहत सिक्के (Punch-marked Coins)।</li></ul>" },
+            { "id": "maurya-dynasty-details", "type": "dynasty-details", "summary": { "title": "मौर्य वंश (Maurya Dynasty)", "period": "c. 322–185 BCE", "founder": "चंद्रगुप्त मौर्य", "capital": "पाटलिपुत्र" }, "subItems": ["chandragupta-maurya", "bindusara", "ashoka", "later-mauryas"] }
+        ]
+    },
+    "post-maurya-sangam": {
+        "title": "भाग IV: मौर्योत्तर और संगम काल",
+        "items": [
+            { "id": "shunga-dynasty", "type": "dynasty-details", "summary": { "title": "शुंग वंश (Shunga Dynasty)", "period": "c. 185–73 BCE", "founder": "पुष्यमित्र शुंग", "capital": "पाटलिपुत्र / विदिशा" }, "subItems": ["shunga-intro", "pushyamitra-shunga", "agnimitra", "later-shungas"] },
+            { "id": "kanva-dynasty", "type": "dynasty-details", "summary": { "title": "कण्व वंश (Kanva Dynasty)", "period": "c. 73–28 BCE", "founder": "वासुदेव कण्व", "capital": "पाटलिपुत्र" }, "subItems": ["kanva-intro", "kanva-rulers", "kanva-legacy"] },
+            { "id": "satavahana-dynasty", "type": "dynasty-details", "summary": { "title": "सातवाहन वंश (Satavahana Dynasty)", "period": "c. 1st Cent. BCE – 3rd Cent. CE", "founder": "सिमुक", "capital": "प्रतिष्ठान (पैठन)" }, "subItems": ["satavahana-details"] },
+            { "id": "foreign-rulers-nw", "type": "dynasty-details", "summary": { "title": "पश्चिमोत्तर के विदेशी शासक" }, "subItems": ["indo-greeks", "sakas", "parthians", "kushans"] },
+            { "id": "sangam-age-intro", "type": "event-details", "summary": { "title": "संगम काल: दक्षिण के तीन मुकुटधारी राजा" }, "subItems": ["sangam-chola-dynasty", "sangam-chera-dynasty", "sangam-pandya-dynasty"] },
+            { "id": "kalabhra-dynasty", "type": "dynasty-details", "summary": { "title": "कलभ्र राजवंश (Kalabhra Dynasty)", "period": "c. 3rd – 6th Cent. CE", "founder": "अज्ञात", "capital": "तमिल क्षेत्र" }, "subItems": ["kalabhra-details"] },
+            { "id": "abhira-dynasty", "type": "dynasty-details", "summary": { "title": "आभीर राजवंश (Abhira Dynasty)", "period": "c. 203 – 370 CE", "founder": "आभीर ईश्वरसेन", "capital": "नासिक" }, "subItems": ["abhira-details"] },
+            { "id": "ikshvaku-dynasty", "type": "dynasty-details", "summary": { "title": "आंध्र इक्ष्वाकु वंश (Andhra Ikshvaku Dynasty)", "period": "c. 225 – 340 CE", "founder": "वासिष्ठिपुत्र श्री शांतमूल", "capital": "विजयपुरी (नागार्जुनकोंडा)" }, "subItems": ["ikshvaku-details"] }
+        ]
+    },
+    "gupta-post-gupta": {
+        "title": "भाग V: गुप्त साम्राज्य और परवर्ती काल",
+        "items": [
+            { "id": "gupta-dynasty", "type": "dynasty-details", "summary": { "title": "गुप्त वंश (Gupta Dynasty)", "period": "c. 319–550 CE", "founder": "श्री गुप्त", "capital": "पाटलिपुत्र" }, "subItems": ["chandragupta-i", "samudragupta", "chandragupta-ii"] },
+            { "id": "vakataka-dynasty", "type": "dynasty-details", "summary": { "title": "वाकाटक वंश (Vakataka Dynasty)", "period": "c. 250–500 CE", "founder": "विंध्यशक्ति", "capital": "वत्सगुल्म" }, "subItems": ["vakataka-intro"] },
+            { "id": "pallava-dynasty", "type": "dynasty-details", "summary": { "title": "पल्लव वंश (Pallava Dynasty)", "period": "c. 275 – 897 CE", "founder": "सिंहविष्णु", "capital": "कांचीपुरम" }, "subItems": ["pallava-details"] },
+            { "id": "rai-dynasty", "type": "dynasty-details", "summary": { "title": "राय वंश (सिंध) (Rai Dynasty)", "period": "c. 489 – 632 CE", "founder": "राय साहसी प्रथम", "capital": "अरोड़" }, "subItems": ["rai-details"] },
+            { "id": "western-chalukya-dynasty", "type": "dynasty-details", "summary": { "title": "पश्चिमी चालुक्य वंश (Western Chalukya)", "period": "c. 543 – 753 CE", "founder": "पुलकेशिन प्रथम", "capital": "बादामी (वातापी)" }, "subItems": ["western-chalukya-details"] },
+            { "id": "maukhari-dynasty", "type": "dynasty-details", "summary": { "title": "मौखरि वंश (Maukhari Dynasty)", "period": "c. 550 – 606 CE", "founder": "ईशानवर्मन", "capital": "कन्नौज" }, "subItems": ["maukhari-details"] },
+            { "id": "gauda-kingdom", "type": "dynasty-details", "summary": { "title": "गौड़ साम्राज्य (Gauda Kingdom)", "period": "c. 590 – 626 CE", "founder": "शशांक", "capital": "कर्णसुवर्ण" }, "subItems": ["gauda-details"] },
+            { "id": "vardhana-dynasty-parent", "type": "dynasty-details", "summary": { "title": "वर्धन वंश (थानेसर) (Vardhana Dynasty)", "period": "c. 550–647 CE", "founder": "पुष्यभूति", "capital": "थानेसर / कन्नौज" }, "subItems": ["vardhana-dynasty"] }
+        ]
+    },
+    "early-medieval": {
+        "title": "भाग VI: प्रारंभिक मध्यकालीन भारत",
+        "items": [
+            { "id": "tripartite-struggle", "type": "event-details", "summary": { "title": "त्रिपक्षीय संघर्ष (कन्नौज के लिए)" }, "subItems": ["gurjara-pratihara-dynasty", "pala-dynasty", "rashtrakuta-dynasty"] },
+            { "id": "eastern-chalukya-dynasty", "type": "dynasty-details", "summary": { "title": "पूर्वी चालुक्य वंश (Eastern Chalukya)", "period": "c. 624 – 1189 CE", "founder": "कुब्ज विष्णुवर्धन", "capital": "वेंगी" }, "subItems": ["eastern-chalukya-details"] },
+            { "id": "brahman-dynasty", "type": "dynasty-details", "summary": { "title": "ब्राह्मण वंश (सिंध) (Brahman Dynasty)", "period": "c. 632 – 712 CE", "founder": "चच", "capital": "अरोड़" }, "subItems": ["brahman-details"] },
+            { "id": "tomara-dynasty", "type": "dynasty-details", "summary": { "title": "तोमर वंश (Tomara Dynasty)", "period": "c. 8th – 12th Cent. CE", "founder": "अनंगपाल प्रथम", "capital": "दिल्ली (ढिल्लिका)" }, "subItems": ["tomara-details"] },
+            { "id": "imperial-chola-dynasty", "type": "dynasty-details", "summary": { "title": "शाही चोल वंश (Imperial Chola)", "period": "c. 850 – 1279 CE", "founder": "विजयालय चोल", "capital": "तंजावुर" }, "subItems": ["imperial-chola-details"] },
+            { "id": "yadava-dynasty", "type": "dynasty-details", "summary": { "title": "यादव वंश (सेउण) (Yadava Dynasty)", "period": "c. 850 – 1334 CE", "founder": "भिल्लम पंचम", "capital": "देवगिरि (दौलताबाद)" }, "subItems": ["yadava-details"] },
+            { "id": "chandela-dynasty", "type": "dynasty-details", "summary": { "title": "चंदेल वंश (Chandela Dynasty)", "period": "c. 9th – 13th Cent. CE", "founder": "नन्नुक", "capital": "खजुराहो, महोबा" }, "subItems": ["chandela-details"] },
+            { "id": "paramara-dynasty", "type": "dynasty-details", "summary": { "title": "परमार वंश (Paramara Dynasty)", "period": "c. 9th – 14th Cent. CE", "founder": "उपेंद्र (कृष्णराज)", "capital": "धार" }, "subItems": ["paramara-details"] },
+            { "id": "solanki-dynasty", "type": "dynasty-details", "summary": { "title": "सोलंकी / गुजरात के चालुक्य", "period": "c. 940 – 1244 CE", "founder": "मूलराज", "capital": "अन्हिलवाड़ पाटन" }, "subItems": ["solanki-details"] },
+            { "id": "kalyani-chalukya-dynasty", "type": "dynasty-details", "summary": { "title": "कल्याणी के पश्चिमी चालुक्य", "period": "c. 973 – 1189 CE", "founder": "तैलप द्वितीय", "capital": "मान्यखेट, बाद में कल्याणी" }, "subItems": ["kalyani-chalukya-details"] },
+            { "id": "hoysala-dynasty", "type": "dynasty-details", "summary": { "title": "होयसल वंश (Hoysala Dynasty)", "period": "c. 1026 – 1343 CE", "founder": "नृप काम द्वितीय (सल)", "capital": "बेलूर, हलेबिडु" }, "subItems": ["hoysala-details"] },
+            { "id": "gahadavala-dynasty", "type": "dynasty-details", "summary": { "title": "गाहड़वाल वंश (Gahadavala Dynasty)", "period": "c. 1080 – 1194 CE", "founder": "चंद्रदेव", "capital": "कन्नौज, वाराणसी" }, "subItems": ["gahadavala-details"] },
+            { "id": "kakatiya-dynasty", "type": "dynasty-details", "summary": { "title": "काकतीय वंश (Kakatiya Dynasty)", "period": "c. 1083 – 1323 CE", "founder": "प्रोल प्रथम / बेत राजा प्रथम", "capital": "वारंगल" }, "subItems": ["kakatiya-details"] }
+        ]
+    },
+    "sultanate": {
+        "title": "भाग VII: दिल्ली सल्तनत और समकालीन राज्य",
+        "items": [
+            { 
+                "id": "delhi-sultanate-intro", 
+                "type": "timeline-link-card",
+                "target": "sultanate-dynasties",
+                "summary": { 
+                    "title": "दिल्ली सल्तनत के राजवंश",
+                    "subtitle": "Explore the 5 Dynasties of the Sultanate"
+                }
+            },
+            { "id": "vijayanagara-empire", "type": "dynasty-details", "summary": { "title": "विजयनगर साम्राज्य (Vijayanagara Empire)", "period": "1336 – 1646 CE", "founder": "हरिहर प्रथम और बुक्का राय प्रथम", "capital": "विजयनगर (हम्पी)" }, "subItems": ["vijayanagara-details"] },
+            { "id": "chutiya-kingdom", "type": "dynasty-details", "summary": { "title": "चुटिया साम्राज्य (Chutiya Kingdom)", "period": "c. 1187 – 1673 CE", "founder": "बीरपाल", "capital": "सादिया" }, "subItems": ["chutiya-details"] },
+            { "id": "ahom-dynasty", "type": "dynasty-details", "summary": { "title": "अहोम वंश (Ahom Dynasty)", "period": "1228 – 1826 CE", "founder": "सुकाफ़ा", "capital": "चराइदेव, रंगपुर" }, "subItems": ["ahom-details"] },
+            { "id": "sharqi-dynasty", "type": "dynasty-details", "summary": { "title": "शर्की वंश (जौनपुर) (Sharqi Dynasty)", "period": "c. 1394 – 1479 CE", "founder": "मलिक सरवर", "capital": "जौनपुर" }, "subItems": ["sharqi-details"] },
+            { "id": "manikya-dynasty", "type": "dynasty-details", "summary": { "title": "माणिक्य वंश (त्रिपुरा) (Manikya Dynasty)", "period": "c. 1400 – 1949 CE", "founder": "महा माणिक्य", "capital": "उदयपुर, बाद में अगरतला" }, "subItems": ["manikya-details"] }
+        ]
+    },
+    "sultanate-dynasties": {
+        "title": "दिल्ली सल्तनत के राजवंश (Dynasties of the Delhi Sultanate)",
+        "parent": "sultanate",
+        "items": [
+            { "id": "mamluk-dynasty", "type": "dynasty-details", "summary": { "title": "मामलुक वंश (दिल्ली)", "period": "1206 – 1290 CE", "founder": "कुतुबुद्दीन ऐबक", "capital": "दिल्ली, लाहौर" }, "subItems": ["mamluk-details"] },
+            { "id": "khilji-dynasty", "type": "dynasty-details", "summary": { "title": "खिलजी वंश", "period": "1290 – 1320 CE", "founder": "जलाल-उद-दीन खिलजी", "capital": "दिल्ली" }, "subItems": ["khilji-details"] },
+            { "id": "tughlaq-dynasty", "type": "dynasty-details", "summary": { "title": "तुगलक वंश", "period": "1320 – 1414 CE", "founder": "गियास-उद-दीन तुगलक", "capital": "दिल्ली" }, "subItems": ["tughlaq-details"] },
+            { "id": "sayyid-dynasty", "type": "dynasty-details", "summary": { "title": "सैयद वंश", "period": "1414 – 1451 CE", "founder": "खिज्र खान", "capital": "दिल्ली" }, "subItems": ["sayyid-details"] },
+            { "id": "lodi-dynasty", "type": "dynasty-details", "summary": { "title": "लोदी वंश", "period": "1451 – 1526 CE", "founder": "बहलोल लोदी", "capital": "दिल्ली" }, "subItems": ["lodi-details"] }
+        ]
+    },
+    "mughal": {
+        "title": "भाग VIII: मुगल साम्राज्य",
+        "items": [
+            { "id": "mughal-empire", "type": "dynasty-details", "summary": { "title": "मुगल साम्राज्य (Mughal Empire)", "period": "1526 – 1857 CE", "founder": "बाबर", "capital": "आगरा, दिल्ली" }, "subItems": ["mughal-details"] }
+        ]
+    },
+    "regional": {
+        "title": "भाग IX: अन्य क्षेत्रीय और पौराणिक राजवंश",
+        "items": [
+            { "id": "gonanda-dynasty", "type": "dynasty-details", "summary": { "title": "गोनंद वंश (पौराणिक) (Gonanda Dynasty)", "period": "Legendary", "founder": "गोनंद प्रथम", "capital": "श्रीनगर" }, "subItems": ["gonanda-details"] },
+            { "id": "nagvanshi-dynasty", "type": "dynasty-details", "summary": { "title": "नागवंशी वंश (छोटानागपुर)", "period": "Legendary - 19th Cent. CE", "founder": "फणि मुकुट राय", "capital": "सुतियाम्बे" }, "subItems": ["nagvanshi-details"] },
+            { "id": "kachwaha-dynasty", "type": "dynasty-details", "summary": { "title": "कछवाहा वंश (Kachwaha Dynasty)", "period": "c. 11th Cent. CE - 1949", "founder": "दूल्हा राय", "capital": "आमेर, बाद में जयपुर" }, "subItems": ["kachwaha-details"] },
+            { "id": "jaintia-kingdom", "type": "dynasty-details", "summary": { "title": "जयंतिया साम्राज्य (Jaintia Kingdom)", "period": "c. 1500 – 1835 CE", "founder": "का खूरा / प्रभात राय", "capital": "जयंतियापुर" }, "subItems": ["jaintia-details"] }
+        ]
+    }
+}

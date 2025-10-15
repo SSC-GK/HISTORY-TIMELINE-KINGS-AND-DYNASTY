@@ -1,0 +1,30 @@
+{
+    "magadha": {
+        "start": 544, "end": 321,
+        "dynasties": [
+            { "name": "Haryanka", "start": 544, "end": 413, "detailsId": "haryanka-dynasty", "color": "#ef4444" },
+            { "name": "Shishunaga", "start": 413, "end": 345, "detailsId": "shishunaga-dynasty", "color": "#22c55e" },
+            { "name": "Nanda", "start": 345, "end": 321, "detailsId": "nanda-dynasty", "color": "#f97316" }
+        ]
+    },
+    "maurya": {
+        "start": 322, "end": 185,
+        "dynasties": [
+            { "name": "Mauryan Empire", "start": 322, "end": 185, "detailsId": "maurya-dynasty-details", "color": "#eab308" }
+        ]
+    },
+    "post-maurya": {
+        "start": 185, "end": 28,
+        "dynasties": [
+             { "name": "Shunga", "start": 185, "end": 73, "detailsId": "shunga-dynasty", "color": "#8b5cf6" },
+             { "name": "Kanva", "start": 73, "end": 28, "detailsId": "kanva-dynasty", "color": "#14b8a6" }
+        ]
+    },
+    "gupta": {
+        "start": 319, "end": 647,
+        "dynasties": [
+            { "name": "Gupta", "start": 319, "end": 550, "detailsId": "gupta-dynasty", "color": "#3b82f6" },
+            { "name": "Vardhana", "start": 550, "end": 647, "detailsId": "vardhana-dynasty", "color": "#ec4899" }
+        ]
+    }
+}

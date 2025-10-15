@@ -1,0 +1,16 @@
+{
+  "subtitle": "प्राचीन काल से मुगल साम्राज्य तक का अन्वेषण करें। (Explore from Ancient Origins to the Mughal Empire.)",
+  "breadcrumbHome": "Home",
+  "searchPlaceholder": "dynasties, founders, capitals, kings, events को खोजें...",
+  "timelineCards": [
+    { "target": "magadha", "title": "मगध का उत्कर्ष", "subtitle": "Rise of Magadha", "period": "c. 544 BCE – 321 BCE" },
+    { "target": "invasions", "title": "मौर्य-पूर्व आक्रमण", "subtitle": "Pre-Mauryan Invasions", "period": "c. 518 BCE – 326 BCE" },
+    { "target": "maurya", "title": "मौर्य साम्राज्य", "subtitle": "Mauryan Empire", "period": "c. 322 BCE – 185 BCE" },
+    { "target": "post-maurya-sangam", "title": "मौर्योत्तर और संगम काल", "subtitle": "Post-Mauryan & Sangam Age", "period": "c. 185 BCE – 300 CE" },
+    { "target": "gupta-post-gupta", "title": "गुप्त एवं परवर्ती काल", "subtitle": "Gupta & Post-Gupta Era", "period": "c. 275 CE – 750 CE" },
+    { "target": "early-medieval", "title": "प्रारंभिक मध्यकालीन भारत", "subtitle": "Early Medieval India", "period": "c. 750 CE – 1206 CE" },
+    { "target": "sultanate", "title": "दिल्ली सल्तनत काल", "subtitle": "Delhi Sultanate Era", "period": "c. 1206 CE – 1526 CE" },
+    { "target": "mughal", "title": "मुगल साम्राज्य", "subtitle": "Mughal Empire", "period": "c. 1526 CE – 1857 CE" },
+    { "target": "regional", "title": "क्षेत्रीय और पौराणिक राजवंश", "subtitle": "Regional & Legendary Dynasties", "period": "Various" }
+  ]
+}

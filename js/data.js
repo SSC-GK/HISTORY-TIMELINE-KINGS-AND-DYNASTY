@@ -11,13 +11,13 @@ import * as state from './state.js';
 export const fetchData = async () => {
     try {
         const [part, dynasty, kings, other, glossary, connections, timelineData] = await Promise.all([
-            fetch('part.json').then(res => res.json()),
-            fetch('dynasty.json').then(res => res.json()),
-            fetch('kings.json').then(res => res.json()),
-            fetch('other.json').then(res => res.json()),
-            fetch('Glossary.json').then(res => res.json()),
-            fetch('ConnectionsData.json').then(res => res.json()),
-            fetch('TimelineData.json').then(res => res.json()),
+            fetch('content-json/part.json').then(res => res.json()),
+            fetch('content-json/dynasty.json').then(res => res.json()),
+            fetch('content-json/kings.json').then(res => res.json()),
+            fetch('content-json/other.json').then(res => res.json()),
+            fetch('content-json/Glossary.json').then(res => res.json()),
+            fetch('content-json/ConnectionsData.json').then(res => res.json()),
+            fetch('content-json/TimelineData.json').then(res => res.json()),
         ]);
         state.setDataStore({ part, dynasty, kings, other, glossary, connections, timelineData });
     } catch (error) {

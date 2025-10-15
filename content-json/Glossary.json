@@ -1,0 +1,296 @@
+{
+    "रथमूसल": { 
+        "title_en": "रथमूसल (Rathamusala)", 
+        "definition_en": "A powerful war chariot with rotating maces, used by Ajatashatru in the war against Vaishali.",
+        "title_hi": "रथमूसल",
+        "definition_hi": "एक शक्तिशाली युद्ध रथ जिसमें घूमते हुए गदा लगे होते थे, जिसका उपयोग अजातशत्रु ने वैशाली के विरुद्ध युद्ध में किया था।"
+    },
+    "महाशिलाकंटक": { 
+        "title_en": "महाशिलाकंटक (Mahashilakantaka)", 
+        "definition_en": "A large engine for hurling big stones, used by Ajatashatru against Vaishali.",
+        "title_hi": "महाशिलाकंटक",
+        "definition_hi": "बड़े पत्थरों को फेंकने वाला एक विशाल इंजन, जिसका उपयोग अजातशत्रु ने वैशाली के विरुद्ध किया था।"
+    },
+    "सेल्यूकस निकेटर": { 
+        "title_en": "सेल्यूकस निकेटर (Seleucus Nicator)", 
+        "definition_en": "A general of Alexander the Great who founded the Seleucid Empire. He was defeated by Chandragupta Maurya.",
+        "title_hi": "सेल्यूकस निकेटर",
+        "definition_hi": "सिकंदर महान का एक सेनापति जिसने सेल्यूसिड साम्राज्य की स्थापना की। वह चंद्रगुप्त मौर्य से पराजित हुआ था।"
+    },
+    "संलेखना": { 
+        "title_en": "संलेखना (Sallekhana)", 
+        "definition_en": "A Jain religious practice of voluntary death by fasting to purify the soul.",
+        "title_hi": "संलेखना",
+        "definition_hi": "आत्मा को शुद्ध करने के लिए उपवास द्वारा स्वैच्छिक मृत्यु की एक जैन धार्मिक प्रथा।"
+    },
+    "अमित्रघात": { 
+        "title_en": "अमित्रघात (Amitraghata)", 
+        "definition_en": "A title meaning \"Slayer of Enemies,\" attributed to the Mauryan emperor Bindusara.",
+        "title_hi": "अमित्रघात",
+        "definition_hi": "एक उपाधि जिसका अर्थ है 'शत्रुओं का नाश करने वाला', जो मौर्य सम्राट बिंदुसार को दी गई थी।"
+    },
+    "अमात्य": { 
+        "title_en": "अमात्य (Amatya)", 
+        "definition_en": "A high-ranking minister or counselor in ancient Indian kingdoms, equivalent to a minister in a cabinet.",
+        "title_hi": "अमात्य",
+        "definition_hi": "प्राचीन भारतीय राज्यों में एक उच्च पदस्थ मंत्री या सलाहकार, जो एक कैबिनेट मंत्री के बराबर होता था।"
+    },
+    "धम्मघोष": { 
+        "title_en": "धम्मघोष (Dhammaghosha)", 
+        "definition_en": "Ashoka's policy of conquest through Dharma (righteousness) instead of war (Bherighosha).",
+        "title_hi": "धम्मघोष",
+        "definition_hi": "अशोक की युद्ध (भेरीघोष) के बजाय धम्म (धार्मिकता) के माध्यम से विजय की नीति।"
+    },
+    "भेरीघोष": { 
+        "title_en": "भेरीघोष (Bherighosha)", 
+        "definition_en": "The policy of military conquest (sound of the war drum), which Ashoka abandoned after the Kalinga War in favor of Dhammaghosha.",
+        "title_hi": "भेरीघोष",
+        "definition_hi": "सैन्य विजय की नीति (युद्ध के नगाड़े की ध्वनि), जिसे अशोक ने कलिंग युद्ध के बाद धम्मघोष के पक्ष में त्याग दिया था।"
+    },
+    "अश्वमेध यज्ञ": { 
+        "title_en": "अश्वमेध यज्ञ (Ashvamedha Yajna)", 
+        "definition_en": "A horse sacrifice ritual used by ancient Indian kings to prove their imperial sovereignty.",
+        "title_hi": "अश्वमेध यज्ञ",
+        "definition_hi": "एक अश्व-बलि अनुष्ठान जिसका उपयोग प्राचीन भारतीय राजा अपनी शाही संप्रभुता को साबित करने के लिए करते थे।"
+    },
+    "शक संवत": { 
+        "title_en": "शक संवत (Saka Era)", 
+        "definition_en": "A historical calendar era started in 78 CE, initiated by the Kushan emperor Kanishka. It is used by the Government of India.",
+        "title_hi": "शक संवत",
+        "definition_hi": "78 ई. में शुरू हुआ एक ऐतिहासिक कैलेंडर युग, जिसे कुषाण सम्राट कनिष्क ने शुरू किया था। इसका उपयोग भारत सरकार द्वारा किया जाता है।"
+    },
+    "नवरत्नों": { 
+        "title_en": "नवरत्न (Navaratnas)", 
+        "definition_en": "The \"Nine Gems,\" a group of nine extraordinary people in an emperor's court, most famously associated with Chandragupta II.",
+        "title_hi": "नवरत्न",
+        "definition_hi": "एक सम्राट के दरबार में नौ असाधारण लोगों का समूह, जिन्हें 'नवरत्न' कहा जाता था, जो सबसे प्रसिद्ध रूप से चंद्रगुप्त द्वितीय से जुड़े हैं।"
+    },
+    "श्रेणिक": { 
+        "title_en": "श्रेणिक (Shrenika)", 
+        "definition_en": "Bimbisara's title, possibly meaning \"one with an army.\" He was the first Indian king with a regular standing army.",
+        "title_hi": "श्रेणिक",
+        "definition_hi": "बिम्बिसार की उपाधि, जिसका संभवतः अर्थ है 'सेना वाला'। वह एक नियमित स्थायी सेना रखने वाले पहले भारतीय राजा थे।"
+    },
+    "कुणिक": { 
+        "title_en": "कुणिक (Kunika)", 
+        "definition_en": "A name for Ajatashatru, as he is said to have killed his father Bimbisara to ascend the throne.",
+        "title_hi": "कुणिक",
+        "definition_hi": "अजातशत्रु का एक नाम, क्योंकि कहा जाता है कि उसने सिंहासन पर बैठने के लिए अपने पिता बिम्बिसार की हत्या कर दी थी।"
+    },
+    "काकवर्ण": { 
+        "title_en": "काकवर्ण (Kakavarna)", 
+        "definition_en": "Meaning \"crow-colored,\" this was another name for the Shishunaga king Kalashoka, as mentioned in the Puranas.",
+        "title_hi": "काकवर्ण",
+        "definition_hi": "अर्थ 'कौवे के रंग का', यह शिशुनाग राजा कालाशोक का दूसरा नाम था, जैसा कि पुराणों में वर्णित है।"
+    },
+    "सर्वक्षत्रांतक": { 
+        "title_en": "सर्वक्षत्रांतक (Sarvakshatrantaka)", 
+        "definition_en": "A title of Mahapadma Nanda, meaning \"Destroyer of all Kshatriyas,\" highlighting his military conquests.",
+        "title_hi": "सर्वक्षत्रांतक",
+        "definition_hi": "महापद्म नंद की एक उपाधि, जिसका अर्थ है 'सभी क्षत्रियों का नाश करने वाला', जो उनकी सैन्य विजयों को उजागर करती है।"
+    },
+    "एकराट": { 
+        "title_en": "एकराट (Ekarat)", 
+        "definition_en": "A title of Mahapadma Nanda mentioned in the Puranas, meaning \"the sole sovereign\" who destroyed all other ruling princes.",
+        "title_hi": "एकराट",
+        "definition_hi": "पुराणों में वर्णित महापद्म नंद की एक उपाधि, जिसका अर्थ है 'एकमात्र संप्रभु' जिसने अन्य सभी शासक राजकुमारों को नष्ट कर दिया।"
+    },
+    "अर्थशास्त्र": { 
+        "title_en": "अर्थशास्त्र (Arthashastra)", 
+        "definition_en": "A comprehensive treatise on statecraft, economic policy, and military strategy written by Chanakya (Kautilya), adviser to Chandragupta Maurya.",
+        "title_hi": "अर्थशास्त्र",
+        "definition_hi": "चंद्रगुप्त मौर्य के सलाहकार चाणक्य (कौटिल्य) द्वारा लिखित शासन कला, आर्थिक नीति और सैन्य रणनीति पर एक व्यापक ग्रंथ।"
+    },
+    "इंडिका": { 
+        "title_en": "इंडिका (Indica)", 
+        "definition_en": "An account of Mauryan India written by Megasthenes, the Greek ambassador to Chandragupta Maurya's court. The original work is lost but survives in fragments.",
+        "title_hi": "इंडिका",
+        "definition_hi": "चंद्रगुप्त मौर्य के दरबार में यूनानी राजदूत मेगस्थनीज द्वारा लिखित मौर्यकालीन भारत का एक विवरण। मूल कृति खो गई है लेकिन टुकड़ों में जीवित है।"
+    },
+    "देवनाम्पिय पियदस्सी": { 
+        "title_en": "देवनाम्पिय पियदस्सी (Devanampiya Piyadassi)", 
+        "definition_en": "A title used by Emperor Ashoka in his inscriptions, meaning \"Beloved of the Gods, He who looks on with affection.\"",
+        "title_hi": "देवनाम्पिय पियदस्सी",
+        "definition_hi": "सम्राट अशोक द्वारा अपने शिलालेखों में प्रयुक्त एक उपाधि, जिसका अर्थ है 'देवताओं का प्रिय, जो स्नेह से देखता है।'"
+    },
+    "धम्म महामत्त": { 
+        "title_en": "धम्म महामत्त (Dhamma Mahamatta)", 
+        "definition_en": "A special class of officers appointed by Ashoka to propagate and enforce his policy of Dhamma (righteous conduct).",
+        "title_hi": "धम्म महामत्त",
+        "definition_hi": "अशोक द्वारा अपनी धम्म (धार्मिक आचरण) की नीति का प्रचार और उसे लागू करने के लिए नियुक्त अधिकारियों का एक विशेष वर्ग।"
+    },
+    "मिलिंदपन्हो": { 
+        "title_en": "मिलिंदपन्हो (Milindapanho)", 
+        "definition_en": "A Buddhist text (\"Questions of Milinda\") recording a dialogue between the Indo-Greek king Menander I (Milinda) and the sage Nagasena.",
+        "title_hi": "मिलिंदपन्हो",
+        "definition_hi": "एक बौद्ध ग्रंथ ('मिलिंद के प्रश्न') जिसमें इंडो-ग्रीक राजा मिनांडर प्रथम (मिलिंद) और ऋषि नागसेन के बीच एक संवाद दर्ज है।"
+    },
+    "महाराजाधिराज": { 
+        "title_en": "महाराजाधिराज (Maharajadhiraja)", 
+        "definition_en": "An imperial title meaning \"King of great Kings,\" adopted by powerful rulers like Chandragupta I to signify their supreme sovereignty.",
+        "title_hi": "महाराजाधिराज",
+        "definition_hi": "एक शाही उपाधि जिसका अर्थ है 'महान राजाओं का राजा', जिसे चंद्रगुप्त प्रथम जैसे शक्तिशाली शासकों ने अपनी सर्वोच्च संप्रभुता को दर्शाने के लिए अपनाया था।"
+    },
+    "कविराज": { 
+        "title_en": "कविराज (Kaviraja)", 
+        "definition_en": "A title meaning \"King of Poets,\" attributed to the Gupta emperor Samudragupta, highlighting his patronage of arts and his own poetic skills.",
+        "title_hi": "कविराज",
+        "definition_hi": "एक उपाधि जिसका अर्थ है 'कवियों का राजा', जो गुप्त सम्राट समुद्रगुप्त को दी गई थी, जो कला के प्रति उनके संरक्षण और उनके स्वयं के काव्य कौशल को उजागर करती है।"
+    },
+    "प्रयाग प्रशस्ति": { 
+        "title_en": "प्रयाग प्रशस्ति (Prayaga Prashasti)", 
+        "definition_en": "The Allahabad Pillar inscription, a eulogy (prashasti) for Samudragupta composed by his court poet Harisena, detailing his military conquests.",
+        "title_hi": "प्रयाग प्रशस्ति",
+        "definition_hi": "इलाहाबाद स्तंभ शिलालेख, जो समुद्रगुप्त के लिए उनके दरबारी कवि हरिसेन द्वारा रचित एक स्तुति (प्रशस्ति) है, जिसमें उनकी सैन्य विजयों का विवरण है।"
+    },
+    "शकारि": { 
+        "title_en": "शकारि (Shakari)", 
+        "definition_en": "A title meaning \"Enemy of the Shakas,\" adopted by Chandragupta II after his decisive victory over the Western Kshatrapas (Sakas).",
+        "title_hi": "शकारि",
+        "definition_hi": "एक उपाधि जिसका अर्थ है 'शकों का शत्रु', जिसे चंद्रगुप्त द्वितीय ने पश्चिमी क्षत्रपों (शकों) पर अपनी निर्णायक जीत के बाद अपनाया था।"
+    },
+    "सी-यू-की": { 
+        "title_en": "सी-यू-की (Si-Yu-Ki)", 
+        "definition_en": "Meaning \"Records of the Western Regions,\" this is the detailed travelogue of the Chinese pilgrim Xuanzang describing India during the reign of Harshavardhana.",
+        "title_hi": "सी-यू-की",
+        "definition_hi": "अर्थ 'पश्चिमी क्षेत्रों का रिकॉर्ड', यह चीनी तीर्थयात्री ह्वेनसांग का विस्तृत यात्रा वृतांत है जिसमें हर्षवर्धन के शासनकाल के दौरान भारत का वर्णन है।"
+    },
+    "वातापिकोंड": { 
+        "title_en": "वातापिकोंड (Vatapikonda)", 
+        "definition_en": "A title meaning \"Conqueror of Vatapi,\" assumed by the Pallava king Narasimhavarman I after he defeated the Chalukya king Pulakeshin II.",
+        "title_hi": "वातापिकोंड",
+        "definition_hi": "एक उपाधि जिसका अर्थ है 'वातापी का विजेता', जिसे पल्लव राजा नरसिंहवर्मन प्रथम ने चालुक्य राजा पुलकेशिन द्वितीय को हराने के बाद धारण किया था।"
+    },
+    "महाजनपद": { 
+        "title_en": "महाजनपद (Mahajanpada)", 
+        "definition_en": "A large kingdom or republic in ancient India. Around the 6th century BCE, there were sixteen such major states in the northern and central Indian subcontinent.",
+        "title_hi": "महाजनपद",
+        "definition_hi": "प्राचीन भारत में एक बड़ा राज्य या गणराज्य। लगभग छठी शताब्दी ईसा पूर्व, उत्तरी और मध्य भारतीय उपमहाद्वीप में ऐसे सोलह प्रमुख राज्य थे।"
+    },
+    "बौद्ध संगीति": { 
+        "title_en": "बौद्ध संगीति (Buddhist Council)", 
+        "definition_en": "A formal meeting of Buddhist monks and scholars to settle matters of doctrine and discipline. Four major councils are historically recognized.",
+        "title_hi": "बौद्ध संगीति",
+        "definition_hi": "बौद्ध भिक्षुओं और विद्वानों की एक औपचारिक बैठक जो सिद्धांत और अनुशासन के मामलों को निपटाने के लिए होती थी। चार प्रमुख संगीतियाँ ऐतिहासिक रूप से मान्यता प्राप्त हैं।"
+    },
+    "स्थविर": { 
+        "title_en": "स्थविरवाद (Sthaviravada)", 
+        "definition_en": "One of the two earliest schools of Buddhism that emerged after the Second Buddhist Council. It is considered a more conservative school, adhering closely to the original teachings.",
+        "title_hi": "स्थविरवाद",
+        "definition_hi": "बौद्ध धर्म के दो सबसे पुराने स्कूलों में से एक जो दूसरी बौद्ध संगीति के बाद उभरा। इसे एक अधिक रूढ़िवादी स्कूल माना जाता है, जो मूल शिक्षाओं का बारीकी से पालन करता है।"
+    },
+    "महासांघिक": { 
+        "title_en": "महासांघिक (Mahasanghika)", 
+        "definition_en": "One of the two earliest schools of Buddhism. It represented a more liberal interpretation of Buddhist doctrine and discipline compared to the Sthaviravada school.",
+        "title_hi": "महासांघिक",
+        "definition_hi": "बौद्ध धर्म के दो सबसे पुराने स्कूलों में से एक। यह स्थविरवाद स्कूल की तुलना में बौद्ध सिद्धांत और अनुशासन की अधिक उदार व्याख्या का प्रतिनिधित्व करता था।"
+    },
+    "शूद्र": { 
+        "title_en": "शूद्र (Shudra)", 
+        "definition_en": "The fourth and lowest of the traditional Hindu varnas, or social classes, whose prescribed duty was to serve the other three classes (Brahmins, Kshatriyas, and Vaishyas).",
+        "title_hi": "शूद्र",
+        "definition_hi": "पारंपरिक हिंदू वर्णों या सामाजिक वर्गों में से चौथा और सबसे निचला, जिसका निर्धारित कर्तव्य अन्य तीन वर्गों (ब्राह्मण, क्षत्रिय और वैश्य) की सेवा करना था।"
+    },
+    "हाथीगुम्फा शिलालेख": { 
+        "title_en": "हाथीगुम्फा शिलालेख (Hathigumpha Inscription)", 
+        "definition_en": "A famous 1st century BCE inscription in Odisha, written by King Kharavela of Kalinga, detailing his military campaigns and public works in a year-by-year account.",
+        "title_hi": "हाथीगुम्फा शिलालेख",
+        "definition_hi": "ओडिशा में पहली शताब्दी ईसा पूर्व का एक प्रसिद्ध शिलालेख, जिसे कलिंग के राजा खारवेल ने लिखा था, जिसमें उनके सैन्य अभियानों और सार्वजनिक कार्यों का साल-दर-साल विवरण है।"
+    },
+    "आहत सिक्कों": { 
+        "title_en": "आहत सिक्के (Punch-marked Coins)", 
+        "definition_en": "The earliest form of coinage in India, primarily made of silver. These coins were not inscribed but had various symbols (like geometric shapes or animals) punched onto them.",
+        "title_hi": "आहत सिक्के",
+        "definition_hi": "भारत में सिक्के का सबसे प्रारंभिक रूप, जो मुख्य रूप से चांदी से बने होते थे। इन सिक्कों पर लिखा नहीं होता था, बल्कि उन पर विभिन्न प्रतीक (जैसे ज्यामितीय आकार या जानवर) अंकित होते थे।"
+    },
+    "खरोष्ठी लिपि": { 
+        "title_en": "खरोष्ठी लिपि (Kharosthi Script)", 
+        "definition_en": "An ancient script used in the northwestern Indian subcontinent, written from right to left. It was derived from the Aramaic script and used for the Gandhari language.",
+        "title_hi": "खरोष्ठी लिपि",
+        "definition_hi": "उत्तर-पश्चिमी भारतीय उपमहाद्वीप में प्रयुक्त एक प्राचीन लिपि, जो दाएं से बाएं लिखी जाती थी। यह अरामी लिपि से ली गई थी और गांधारी भाषा के लिए उपयोग की जाती थी।"
+    },
+    "मुद्राराक्षस": { 
+        "title_en": "मुद्राराक्षस (Mudrarakshasa)", 
+        "definition_en": "A historical play in Sanskrit by Vishakhadatta (c. 4th-8th century CE) that narrates the ascent of King Chandragupta Maurya to power with the help of his strategist, Chanakya.",
+        "title_hi": "मुद्राराक्षस",
+        "definition_hi": "विशाखदत्त (लगभग चौथी-आठवीं शताब्दी ई.) द्वारा संस्कृत में लिखा गया एक ऐतिहासिक नाटक जो राजा चंद्रगुप्त मौर्य के अपने रणनीतिकार चाणक्य की मदद से सत्ता में आने का वर्णन करता है।"
+    },
+    "आजीवक संप्रदाय": { 
+        "title_en": "आजीवक संप्रदाय (Ajivika Sect)", 
+        "definition_en": "An ancient Indian religious and philosophical school that believed in a doctrine of absolute determinism (Niyati), suggesting that all events are predetermined and cannot be changed by human effort.",
+        "title_hi": "आजीवक संप्रदाय",
+        "definition_hi": "एक प्राचीन भारतीय धार्मिक और दार्शनिक स्कूल जो पूर्ण नियतिवाद (नियति) के सिद्धांत में विश्वास करता था, यह सुझाव देता है कि सभी घटनाएं पूर्व निर्धारित हैं और मानव प्रयास से नहीं बदली जा सकतीं।"
+    },
+    "हीनयान": { 
+        "title_en": "हीनयान (Hinayana)", 
+        "definition_en": "Literally \"Lesser Vehicle,\" a term used by the Mahayana school to refer to earlier schools of Buddhism. It emphasizes individual liberation through self-discipline and meditation.",
+        "title_hi": "हीनयान",
+        "definition_hi": "शाब्दिक अर्थ 'छोटी गाड़ी', महायान स्कूल द्वारा बौद्ध धर्म के पुराने स्कूलों को संदर्भित करने के लिए इस्तेमाल किया जाने वाला एक शब्द। यह आत्म-अनुशासन और ध्यान के माध्यम से व्यक्तिगत मुक्ति पर जोर देता है।"
+    },
+    "महायान": { 
+        "title_en": "महायान (Mahayana)", 
+        "definition_en": "Literally \"Great Vehicle,\" one of the two main existing branches of Buddhism. It emphasizes the path of the Bodhisattva, who seeks enlightenment for the benefit of all sentient beings.",
+        "title_hi": "महायान",
+        "definition_hi": "शाब्दिक अर्थ 'बड़ी गाड़ी', बौद्ध धर्म की दो मुख्य मौजूदा शाखाओं में से एक। यह बोधिसत्व के मार्ग पर जोर देता है, जो सभी संवेदनशील प्राणियों के लाभ के लिए ज्ञान की तलाश करता है।"
+    },
+    "रेशम मार्ग": { 
+        "title_en": "रेशम मार्ग (Silk Route)", 
+        "definition_en": "A vast network of trade routes connecting the East and West, central to economic, cultural, and political interactions between civilizations for centuries.",
+        "title_hi": "रेशम मार्ग",
+        "definition_hi": "पूर्व और पश्चिम को जोड़ने वाले व्यापार मार्गों का एक विशाल नेटवर्क, जो सदियों से सभ्यताओं के बीच आर्थिक, सांस्कृतिक और राजनीतिक बातचीत का केंद्र था।"
+    },
+    "संगम¹": { 
+        "title_en": "संगम¹ (Sangam)", 
+        "definition_en": "A gathering or assembly of poets, especially the legendary academies of poets and scholars in ancient Madurai under the patronage of the Pandya kings. The literature produced is known as Sangam literature.",
+        "title_hi": "संगम¹",
+        "definition_hi": "कवियों का एक जमावड़ा या सभा, विशेष रूप से पांड्य राजाओं के संरक्षण में प्राचीन मदुरै में कवियों और विद्वानों की प्रसिद्ध अकादमियाँ। यहाँ उत्पन्न साहित्य को संगम साहित्य के रूप में जाना जाता है।"
+    },
+    "संगम²": { 
+        "title_en": "संगम² (Confluence)", 
+        "definition_en": "The confluence or meeting point of two or more rivers, a concept of great geographical and religious significance in India. Pataliputra, for instance, was strategically located at the confluence of the Ganga, Son, and Gandak rivers.",
+        "title_hi": "संगम² (नदियों का)",
+        "definition_hi": "दो या दो से अधिक नदियों का संगम या मिलन बिंदु, जो भारत में एक महान भौगोलिक और धार्मिक महत्व की अवधारणा है। उदाहरण के लिए, पाटलिपुत्र गंगा, सोन और गंडक नदियों के संगम पर रणनीतिक रूप से स्थित था।"
+    },
+    "शिलप्पादिकारम": { 
+        "title_en": "शिलप्पादिकारम (Shilappadikaram)", 
+        "definition_en": "One of the Five Great Epics of Tamil literature. It is a tragic love story of an ordinary couple, Kannagi and her husband Kovalan, and is a rich source of information on the Sangam period.",
+        "title_hi": "शिलप्पादिकारम",
+        "definition_hi": "तमिल साहित्य के पाँच महाकाव्यों में से एक। यह एक साधारण जोड़े, कन्नगी और उसके पति कोवलन की एक दुखद प्रेम कहानी है, और संगम काल की जानकारी का एक समृद्ध स्रोत है।"
+    },
+    "आर्यावर्त": { 
+        "title_en": "आर्यावर्त (Aryavarta)", 
+        "definition_en": "A term for the northern part of the Indian subcontinent in ancient Hindu texts, literally meaning \"land of the Aryas.\" It often refers to the region between the Himalayas and the Vindhya mountains.",
+        "title_hi": "आर्यावर्त",
+        "definition_hi": "प्राचीन हिंदू ग्रंथों में भारतीय उपमहाद्वीप के उत्तरी भाग के लिए एक शब्द, जिसका शाब्दिक अर्थ है 'आर्यों की भूमि'। यह अक्सर हिमालय और विंध्य पर्वतों के बीच के क्षेत्र को संदर्भित करता है।"
+    },
+    "दक्षिणापथ": { 
+        "title_en": "दक्षिणापथ (Dakshinapatha)", 
+        "definition_en": "A term for the southern part of the Indian subcontinent, literally \"the southern road.\" It also referred to the major trade route that connected the north and south.",
+        "title_hi": "दक्षिणापथ",
+        "definition_hi": "भारतीय उपमहाद्वीप के दक्षिणी भाग के लिए एक शब्द, जिसका शाब्दिक अर्थ है 'दक्षिणी सड़क'। यह उत्तर और दक्षिण को जोड़ने वाले प्रमुख व्यापार मार्ग को भी संदर्भित करता था।"
+    },
+    "फाह्यान": { 
+        "title_en": "फाह्यान (Faxian)", 
+        "definition_en": "A Chinese Buddhist monk who traveled by foot from China to India in the early 5th century to acquire Buddhist scriptures. His travelogue is a key source for the Gupta period.",
+        "title_hi": "फाह्यान",
+        "definition_hi": "एक चीनी बौद्ध भिक्षु जो बौद्ध धर्मग्रंथों को प्राप्त करने के लिए 5वीं शताब्दी की शुरुआत में चीन से भारत तक पैदल यात्रा की। उनका यात्रा वृतांत गुप्त काल के लिए एक प्रमुख स्रोत है।"
+    },
+    "ह्वेनसांग": { 
+        "title_en": "ह्वेनसांग (Xuanzang)", 
+        "definition_en": "A 7th-century Chinese Buddhist monk, scholar, and traveler who described the interaction between Chinese and Indian Buddhism during the reign of Harshavardhana. His travelogue is titled \"Si-Yu-Ki\".",
+        "title_hi": "ह्वेनसांग",
+        "definition_hi": "7वीं शताब्दी के एक चीनी बौद्ध भिक्षु, विद्वान और यात्री, जिन्होंने हर्षवर्धन के शासनकाल के दौरान चीनी और भारतीय बौद्ध धर्म के बीच की बातचीत का वर्णन किया। उनके यात्रा वृतांत का शीर्षक 'सी-यू-की' है।"
+    },
+    "ऐहोल शिलालेख": { 
+        "title_en": "ऐहोल शिलालेख (Aihole Inscription)", 
+        "definition_en": "A 634 CE inscription at Aihole, Karnataka, composed by the court poet Ravikirti. It eulogizes his patron, the Chalukya king Pulakeshin II, and details his military victories, notably against Harshavardhana.",
+        "title_hi": "ऐहोल शिलालेख",
+        "definition_hi": "634 ई. में कर्नाटक के ऐहोल में एक शिलालेख, जिसे दरबारी कवि रविकीर्ति ने रचा था। यह अपने संरक्षक, चालुक्य राजा पुलकेशिन द्वितीय की प्रशंसा करता है, और उनकी सैन्य विजयों, विशेष रूप से हर्षवर्धन के खिलाफ, का विवरण देता है।"
+    },
+    "द्रविड़ मंदिर वास्तुकला": { 
+        "title_en": "द्रविड़ मंदिर वास्तुकला (Dravidian Architecture)", 
+        "definition_en": "A style of temple architecture that emerged in Southern India. It is primarily characterized by its pyramidal towers (vimana) constructed with stepped tiers that are smaller and smaller as they ascend.",
+        "title_hi": "द्रविड़ मंदिर वास्तुकला",
+        "definition_hi": "मंदिर वास्तुकला की एक शैली जो दक्षिण भारत में उभरी। इसकी मुख्य विशेषता इसके पिरामिडनुमा शिखर (विमान) हैं जो सीढ़ीदार स्तरों से बने होते हैं, जो ऊपर की ओर छोटे होते जाते हैं।"
+    }
+}

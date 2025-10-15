@@ -21,15 +21,13 @@
             <li><strong>Fully Dynamic, Data-Driven Architecture:</strong> To maximize performance and maintainability, the application is built on a data-driven architecture. The main HTML file is a lightweight skeleton. All displayable content—from UI text to detailed historical narratives—is externalized into a set of structured JSON files. The application fetches these files on load and dynamically builds the entire DOM, completely separating content from presentation.</li>
             <li><strong>Dynamic Content Panels:</strong> To ensure a clean UI, accordion content panels have a maximum height capped at 80% of the viewport height. Content exceeding this limit becomes scrollable. This behavior is responsive and adjusts as nested accordions are opened or closed.</li>
             <li><strong>Bilingual Interface:</strong> To cater to a wider audience, all major headings, titles, and key names (including dynasties and rulers) are presented in both Hindi (Devanagari script) and English.</li>
-            <li><strong>Standardized Footer:</strong> A clean, responsive footer provides copyright information and a persistent link back to this project overview page, ensuring transparency and easy access to documentation.</li>
         </ol>
         <hr>
         <h3>Project Structure</h3>
         <p>The project follows a modular structure to separate concerns:</p>
         <ul>
             <li><code>index.html</code>: The main application shell.</li>
-            <li><code>readme.html</code>: A user-facing HTML version of the project documentation (this file).</li>
-            <li><code>css/</code>: A directory containing all modular stylesheets.</li>
+            <li><code>index.css</code>: Contains all styles for the application.</li>
             <li><code>index.js</code>: The primary script that initializes the application and wires up event listeners.</li>
             <li><code>/js/</code>: A directory for JavaScript modules.
                 <ul>
@@ -60,13 +58,7 @@
             <li><strong>"Ocean Breeze & Royal Heirs" Hierarchy:</strong>
                 <ul>
                     <li><strong>Level 1 (Dynasty Panel):</strong> A cool "Ocean Breeze" gradient (<code>cyan-50</code> to <code>green-50</code>) provides a refreshing backdrop for dynasty-level content.</li>
-                    <li><strong>Level 2 (Ruler Panel):</strong> A "Royal Heirs" hierarchical color system distinguishes rulers within a dynasty based on their position:
-                        <ul>
-                           <li><strong>Founder King:</strong> The first ruler of any dynasty is always highlighted with a special <strong>dark red gradient</strong> to signify their foundational role.</li>
-                           <li><strong>Successor Kings:</strong> The subsequent rulers (2nd to 12th) each receive a unique, fixed light gradient based on their rank. This creates a consistent visual timeline within the dynasty. For very long dynasties, the colors will cycle.</li>
-                           <li><strong>Last King:</strong> To signify the end of a dynasty, the <strong>last ruler</strong> is always highlighted with a special dark yellow gradient, overriding their positional color. The Founder color takes precedence if a dynasty has only one ruler.</li>
-                        </ul>
-                    </li>
+                    <li><strong>Level 2 (Ruler Panel):</strong> A "Royal Heirs" positional color system distinguishes rulers within a dynasty. The first 12 rulers each get a unique light gradient. To signify the end of a dynasty, the <strong>last ruler</strong> is always highlighted with a special dark yellow gradient.</li>
                 </ul>
             </li>
             <li><strong>Event-Specific Theming:</strong>
@@ -122,7 +114,7 @@
             <li><strong>Read Aloud Accessibility Feature:</strong>
                 <ul>
                     <li><strong>Purpose:</strong> To provide text-to-speech functionality for key content, improving accessibility for users with visual impairments or for those who prefer auditory learning.</li>
-                    <li><strong>Functionality:</strong> A small speaker icon button is placed in the header of each accordion. Clicking this button reads the main <strong>content of the corresponding panel</strong> aloud, intelligently skipping over the titles of any nested accordions. The button animates to provide clear visual feedback during playback and acts as a toggle to stop narration. If a panel is closed while being read, the speech automatically stops. A small speaker icon is also available in the glossary popover.</li>
+                    <li><strong>Functionality:</strong> This feature is implemented using the browser's native Web Speech API, requiring no external services. A small speaker icon button is placed next to dynasty/ruler titles and within the glossary popover. Clicking the button reads the relevant text aloud. The button acts as a toggle; clicking it again while it's speaking will stop the narration. The icon animates to provide clear visual feedback during playback.</li>
                 </ul>
             </li>
             <li><strong>Contextual Connections Hub:</strong>
