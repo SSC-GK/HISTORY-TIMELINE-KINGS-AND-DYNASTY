@@ -27,7 +27,6 @@
         <p>The project follows a modular structure to separate concerns:</p>
         <ul>
             <li><code>index.html</code>: The main application shell.</li>
-            <li><code>index.css</code>: Contains all styles for the application.</li>
             <li><code>index.js</code>: The primary script that initializes the application and wires up event listeners.</li>
             <li><code>/js/</code>: A directory for JavaScript modules.
                 <ul>
@@ -37,11 +36,13 @@
                     <li><code>speech.js</code>: Manages the Web Speech API for the "Read Aloud" feature.</li>
                 </ul>
             </li>
-            <li><code>*.json</code>: A collection of JSON files that serve as the application's database, containing all UI text, historical content, and relationship data.</li>
+            <li><code>/css/</code>: A directory containing modular CSS files for different components of the application (e.g., <code>accordion.css</code>, <code>search.css</code>, <code>glossary.css</code>).</li>
+            <li><code>/content-json/</code>: This directory serves as the application's database, containing all UI text, historical content, and relationship data in structured JSON files.</li>
+            <li><code>readme.html</code>: This documentation file.</li>
         </ul>
         <hr>
         <h3>Data Architecture & Hierarchy</h3>
-        <p>The application's content is managed through a hierarchy of interconnected JSON files:</p>
+        <p>The application's content is managed through a hierarchy of interconnected JSON files, all located within the <code>/content-json/</code> directory:</p>
         <ul>
             <li><strong><code>part.json</code></strong>: The top-level UI content file. It stores static text like the subtitle, search placeholder, and the data for rendering the main timeline selection cards on the home screen.</li>
             <li><strong><code>dynasty.json</code></strong>: The primary structural file. It organizes each major historical period (e.g., "Rise of Magadha", "Early Medieval India") into a sequence of items. It defines the high-level accordion structure, including dynasty summaries (with founder/capital info) and introductory event details. Crucially, for detailed content, it uses a <code>subItems</code> array containing keys that act as pointers to <code>kings.json</code>.</li>
