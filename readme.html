@@ -202,6 +202,13 @@
                     <li><strong>Solution:</strong> The conflicting <code>background: transparent;</code> rule was removed from the <code>button.link-card</code> style definition. The <code>background-color: white;</code> rule is sufficient to override the browser's default button styles and set the correct color, ensuring visual consistency.</li>
                 </ul>
             </li>
+            <li><strong>Unstyled Link Card (CSS File Structure):</strong>
+                <ul>
+                    <li><strong>Problem:</strong> The special link card for navigating to sub-sections (e.g., "Dynasties of the Delhi Sultanate") was unstyled and appeared as a default browser button.</li>
+                    <li><strong>Root Cause:</strong> The CSS rules for the <code>.link-card</code> class were located in a legacy file, <code>index.css</code>, which was not being loaded by the main <code>index.html</code> page. The project had been refactored to use a modular CSS structure in the <code>/css/</code> directory, but these specific styles were not migrated.</li>
+                    <li><strong>Solution:</strong> The styles for <code>button.link-card</code> were moved from the unlinked <code>index.css</code> into the correct, loaded stylesheet: <code>css/components.css</code>. This ensures the component is styled consistently with the rest of the application.</li>
+                </ul>
+            </li>
         </ul>
         <hr>
         <h3>Developer & Contribution Guidelines</h3>

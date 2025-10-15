@@ -1,3 +1,37 @@
+/* --- Link Card (used within content sections) --- */
+button.link-card {
+    /* Reset button styles */
+    border: none;
+    margin: 0;
+    font: inherit;
+    width: 100%;
+    
+    /* Base styles from .timeline-card */
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid #e2e8f0; /* slate-200 */
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05);
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 1.25rem; /* Space it out from other content */
+}
+button.link-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+}
+button.link-card:focus-visible {
+    outline: 2px solid #6366f1;
+    outline-offset: 2px;
+}
+/* Ensure clicking text still triggers the button */
+button.link-card .timeline-title,
+button.link-card .timeline-subtitle {
+    pointer-events: none;
+}
+
+
 /* --- Read Aloud Button & Summary Controls --- */
 .summary-controls {
     display: flex;
