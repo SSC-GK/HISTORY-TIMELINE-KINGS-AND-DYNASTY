@@ -75,9 +75,9 @@ export const createAccordionItem = (item, level, index, totalItems) => {
 
     const arrowClasses = level === 0 ? 'arrow w-6 h-6 text-indigo-500' : 'arrow w-5 h-5 text-indigo-600';
     const arrowIcon = `<svg class="${arrowClasses}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>`;
-
-    const readAloudButton = `<button class="read-aloud-btn" aria-label="Read ${item.summary.title} aloud"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M11.25 3.383c0-1.113-1.347-1.67-2.134-.883l-3.75 3.75H4.58c-.95 0-1.93.553-2.216 1.587A8.135 8.135 0 0 0 2.08 10c0 1.33.315 2.603.875 3.763.286 1.034 1.266 1.587 2.216 1.587h.783l3.75 3.75c.787.787 2.134.23 2.134-.883V3.383z" /><path d="M15.485 12.357a1.25 1.25 0 0 0 0-1.768 4.196 4.196 0 0 0-5.934 0 1.25 1.25 0 1 0 1.768 1.768 1.696 1.696 0 0 1 2.4 0 1.25 1.25 0 0 0 1.768 0z" /><path d="M13.719 14.375a1.25 1.25 0 0 0 0-1.768c-1.952-1.952-5.118-1.952-7.07 0a1.25 1.25 0 0 0 1.768 1.768c.976-.976 2.559-.976 3.535 0a1.25 1.25 0 0 0 1.768 0z" /></svg></button>`;
     
+    // [REVERTED] Read Aloud button placed back in the summary controls
+    const readAloudButton = `<button class="read-aloud-btn" aria-label="Read content aloud"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M11.25 3.383c0-1.113-1.347-1.67-2.134-.883l-3.75 3.75H4.58c-.95 0-1.93.553-2.216 1.587A8.135 8.135 0 0 0 2.08 10c0 1.33.315 2.603.875 3.763.286 1.034 1.266 1.587 2.216 1.587h.783l3.75 3.75c.787.787 2.134.23 2.134-.883V3.383z" /><path d="M15.485 12.357a1.25 1.25 0 0 0 0-1.768 4.196 4.196 0 0 0-5.934 0 1.25 1.25 0 1 0 1.768 1.768 1.696 1.696 0 0 1 2.4 0 1.25 1.25 0 0 0 1.768 0z" /><path d="M13.719 14.375a1.25 1.25 0 0 0 0-1.768c-1.952-1.952-5.118-1.952-7.07 0a1.25 1.25 0 0 0 1.768 1.768c.976-.976 2.559-.976 3.535 0a1.25 1.25 0 0 0 1.768 0z" /></svg></button>`;
     const summaryControls = `<div class="summary-controls">${readAloudButton}${arrowIcon}</div>`;
 
     const connections = state.dataStore.connections[item.id];
@@ -252,9 +252,13 @@ export const handleAccordionToggle = (details) => {
         // When opening, set max-height to its content's scroll height.
         contentPanel.style.maxHeight = `${contentPanel.scrollHeight}px`;
     } else {
-        // When closing, we need to animate it shut.
-        // First, set the height explicitly (it might be 'auto').
-        // Then, in the next frame, set it to 0 to trigger the CSS transition.
+        // When closing, stop any speech originating from the header button.
+        const speakingButton = details.querySelector('summary .read-aloud-btn.speaking');
+        if (speakingButton) {
+            stopSpeech();
+        }
+        
+        // Animate it shut.
         requestAnimationFrame(() => {
             contentPanel.style.maxHeight = `${contentPanel.scrollHeight}px`;
             requestAnimationFrame(() => {
@@ -263,13 +267,11 @@ export const handleAccordionToggle = (details) => {
         });
     }
 
-    // After any toggle, we must update the heights of all parent accordions
-    // to ensure the layout adjusts to the change in content size.
+    // After any toggle, update parent accordion heights.
     updateParentAccordions(details);
 
 
-    // This is the 'focus mode' logic for top-level accordions (dynasties).
-    // When one is opened, all other top-level ones are hidden.
+    // 'Focus mode' logic for top-level accordions.
     if (details.dataset.level === '0') {
         const allTopLevel = details.closest('.timeline-section')?.querySelectorAll(':scope > details[data-level="0"]');
         allTopLevel?.forEach(d => {

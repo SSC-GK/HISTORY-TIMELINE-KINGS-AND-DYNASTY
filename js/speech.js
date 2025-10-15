@@ -29,11 +29,17 @@ export const handleReadAloud = async (button) => {
             }
         }
     } else {
+        // New logic for reading content from the panel adjacent to the summary header
         const summary = button.closest('summary');
-        if (summary) {
-            const summaryClone = summary.cloneNode(true);
-            summaryClone.querySelector('.summary-controls')?.remove(); // Remove button/arrow container
-            textToRead = summaryClone.textContent.trim().replace(/\s+/g, ' ');
+        const contentPanel = summary?.nextElementSibling;
+
+        if (contentPanel && contentPanel.classList.contains('content-panel')) {
+            const contentClone = contentPanel.cloneNode(true);
+            
+            // IMPORTANT: Remove all nested summaries to avoid re-reading titles
+            contentClone.querySelectorAll('summary').forEach(summary => summary.remove());
+            
+            textToRead = contentClone.textContent.trim().replace(/\s+/g, ' ');
         }
     }
 
@@ -50,8 +56,8 @@ export const handleReadAloud = async (button) => {
         stopSpeech();
     };
     
-    utterance.onerror = () => {
-        console.error("Speech synthesis error.");
+    utterance.onerror = (e) => {
+        console.error("Speech synthesis error:", e);
         stopSpeech();
     };
 

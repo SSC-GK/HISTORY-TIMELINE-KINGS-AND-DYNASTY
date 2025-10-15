@@ -122,7 +122,7 @@
             <li><strong>Read Aloud Accessibility Feature:</strong>
                 <ul>
                     <li><strong>Purpose:</strong> To provide text-to-speech functionality for key content, improving accessibility for users with visual impairments or for those who prefer auditory learning.</li>
-                    <li><strong>Functionality:</strong> This feature is implemented using the browser's native Web Speech API. A circular button featuring a clear speaker icon is now seamlessly integrated into the header bar of every accordion (for both dynasties and rulers) and within the glossary popover. This button's functionality is independent of the accordion's toggle mechanism; clicking the speaker icon exclusively triggers the read-aloud feature without opening or closing the content panel. Clicking it again while speaking will stop the narration. The icon animates with a pulse effect to provide clear visual feedback during playback.</li>
+                    <li><strong>Functionality:</strong> A small speaker icon button is placed in the header of each accordion. Clicking this button reads the main <strong>content of the corresponding panel</strong> aloud, intelligently skipping over the titles of any nested accordions. The button animates to provide clear visual feedback during playback and acts as a toggle to stop narration. If a panel is closed while being read, the speech automatically stops. A small speaker icon is also available in the glossary popover.</li>
                 </ul>
             </li>
             <li><strong>Contextual Connections Hub:</strong>

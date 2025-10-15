@@ -77,7 +77,6 @@ function setupEventListeners() {
         // --- Speech ---
         const readAloudButton = target.closest('.read-aloud-btn');
         if (readAloudButton) {
-            event.stopPropagation(); // Stop click from toggling <details>
             speech.handleReadAloud(readAloudButton);
             return;
         }
