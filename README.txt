@@ -5,13 +5,29 @@ This document outlines the core architecture, styling conventions, and key inter
 ---
 ### Core Architecture & UI Principles
 
-1.  **Single-Page Application (SPA):** The entire experience is contained within a single HTML file, with content sections dynamically shown or hidden using vanilla JavaScript.
+1.  **Single-Page Application (SPA):** The entire experience is contained within a single HTML file, with content sections dynamically shown or hidden. The application logic is organized into a modular JavaScript architecture, with `index.js` as the main entry point and separate modules in a `js/` directory for managing state (`state.js`), data fetching (`data.js`), UI rendering (`ui.js`), and speech synthesis (`speech.js`).
 2.  **Nested Accordion UI:** The primary content structure relies on nested `<details>` elements. This allows for progressive disclosure, letting users explore high-level topics before drilling down into specific details.
 3.  **Fully Dynamic, Data-Driven Architecture:** To maximize performance and maintainability, the application is built on a data-driven architecture. The main HTML file is a lightweight skeleton. All displayable content—from UI text to detailed historical narratives—is externalized into a set of structured JSON files. The application fetches these files on load and dynamically builds the entire DOM, completely separating content from presentation.
 4.  **Dynamic Content Panels:** To ensure a clean UI, accordion content panels have a maximum height capped at 80% of the viewport height. Content exceeding this limit becomes scrollable. This behavior is responsive and adjusts as nested accordions are opened or closed.
 5.  **Bilingual Interface:** To cater to a wider audience, all major headings, titles, and key names (including dynasties and rulers) are presented in both Hindi (Devanagari script) and English.
 
-#### Data Architecture & Hierarchy
+---
+### Project Structure
+
+The project follows a modular structure to separate concerns:
+
+-   `index.html`: The main application shell.
+-   `index.css`: Contains all styles for the application.
+-   `index.js`: The primary script that initializes the application and wires up event listeners.
+-   `/js/`: A directory for JavaScript modules.
+    -   `state.js`: Manages the application's global state.
+    -   `data.js`: Handles fetching and processing of all JSON data.
+    -   `ui.js`: Contains all functions related to DOM manipulation, rendering, and UI event handling.
+    -   `speech.js`: Manages the Web Speech API for the "Read Aloud" feature.
+-   `*.json`: A collection of JSON files that serve as the application's database, containing all UI text, historical content, and relationship data.
+
+---
+### Data Architecture & Hierarchy
 
 The application's content is managed through a hierarchy of interconnected JSON files:
 
@@ -126,7 +142,7 @@ The following rules govern all content additions and modifications to ensure con
 -   **Initialization Crash (Defensive Rendering):**
     *   **Problem:** The application would crash on startup with a `Cannot read properties of undefined (reading 'includes')` error.
     *   **Root Cause:** The rendering logic unconditionally tried to access `.summary.founder` and `.summary.capital` for all items typed as a "dynasty-details". However, some summary items in `dynasty.json` (e.g., "Post-Gupta Period") are structurally typed as dynasties for layout purposes but do not contain `founder` or `capital` fields, causing the error.
-    *   **Solution:** The rendering logic in `index.tsx` was updated to include conditional checks. It now verifies the existence of `founder` and `capital` properties before attempting to render them, making the application more resilient to variations in the data and preventing the crash.
+    *   **Solution:** The rendering logic, now located in `js/ui.js`, was updated to include conditional checks. It now verifies the existence of `founder` and `capital` properties before attempting to render them, making the application more resilient to variations in the data and preventing the crash.
 
 ---
 ### Developer & Contribution Guidelines

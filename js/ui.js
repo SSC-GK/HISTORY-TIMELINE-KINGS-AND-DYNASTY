@@ -201,6 +201,36 @@ export const navigateToElement = (targetId) => {
 };
 
 /**
+ * Recursively updates the max-height of all open parent accordions.
+ * This ensures that when a nested accordion is opened or closed, the parent
+ * containers expand or shrink correctly to fit the new content.
+ * @param {HTMLElement} element - The starting element (the one that was toggled).
+ */
+function updateParentAccordions(element) {
+    // Find the immediate parent <details> element that is currently open.
+    const parentDetails = element.parentElement.closest('details[open]');
+
+    // Base case: If there are no more open parent <details>, stop the recursion.
+    if (!parentDetails) {
+        return;
+    }
+
+    const parentContentPanel = parentDetails.querySelector('.content-panel');
+    if (parentContentPanel) {
+        // We use requestAnimationFrame to ensure the browser has calculated the new
+        // scrollHeight of the parent before we try to set its maxHeight. This prevents
+        // jerky animations and incorrect height calculations.
+        requestAnimationFrame(() => {
+            parentContentPanel.style.maxHeight = `${parentContentPanel.scrollHeight}px`;
+        });
+    }
+
+    // Continue recursing up the DOM tree to update all ancestors.
+    updateParentAccordions(parentDetails);
+}
+
+
+/**
  * Handles smooth accordion open/close animations and focus mode.
  * @param {HTMLDetailsElement} details - The details element being toggled.
  */
@@ -209,20 +239,27 @@ export const handleAccordionToggle = (details) => {
     if (!contentPanel) return;
 
     if (details.open) {
+        // When opening, set max-height to its content's scroll height.
         contentPanel.style.maxHeight = `${contentPanel.scrollHeight}px`;
     } else {
+        // When closing, we need to animate it shut.
+        // First, set the height explicitly (it might be 'auto').
+        // Then, in the next frame, set it to 0 to trigger the CSS transition.
         requestAnimationFrame(() => {
             contentPanel.style.maxHeight = `${contentPanel.scrollHeight}px`;
-            requestAnimationFrame(() => { contentPanel.style.maxHeight = '0px'; });
+            requestAnimationFrame(() => {
+                contentPanel.style.maxHeight = '0px';
+            });
         });
     }
 
-    const parentDetails = details.parentElement.closest('details[open]');
-    if (parentDetails) {
-        const parentContent = parentDetails.querySelector('.content-panel');
-        if (parentContent) parentContent.style.maxHeight = `${parentContent.scrollHeight}px`;
-    }
+    // After any toggle, we must update the heights of all parent accordions
+    // to ensure the layout adjusts to the change in content size.
+    updateParentAccordions(details);
 
+
+    // This is the 'focus mode' logic for top-level accordions (dynasties).
+    // When one is opened, all other top-level ones are hidden.
     if (details.dataset.level === '0') {
         const allTopLevel = details.closest('.timeline-section')?.querySelectorAll(':scope > .details-wrapper > details[data-level="0"]');
         allTopLevel?.forEach(d => {

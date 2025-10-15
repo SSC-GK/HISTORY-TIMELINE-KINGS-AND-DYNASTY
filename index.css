@@ -760,3 +760,97 @@ button.key-term:focus-visible {
 .profile-achievements li:last-child {
     margin-bottom: 0;
 }
+
+/* --- [NEW] Footer --- */
+.app-footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    margin-top: 3rem;
+    border-top: 1px solid #e2e8f0; /* slate-200 */
+    font-size: 0.875rem;
+    color: #64748b; /* slate-500 */
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+}
+.app-footer a {
+    color: #4f46e5; /* indigo-600 */
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+}
+.app-footer a:hover {
+    color: #3730a3; /* indigo-800 */
+    text-decoration: underline;
+}
+.app-footer a:focus-visible {
+    outline: 2px solid #4f46e5;
+    outline-offset: 2px;
+}
+@media (min-width: 640px) {
+    .app-footer {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+/* --- [NEW] README Page Styles --- */
+.readme-content h1 {
+    font-size: 2.25rem; /* text-4xl */
+    font-weight: 800;
+    color: #1e293b; /* slate-800 */
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #cbd5e1; /* slate-300 */
+}
+.readme-content > p:first-of-type {
+    font-size: 1.125rem; /* text-lg */
+    color: #475569; /* slate-600 */
+    margin-bottom: 2rem;
+}
+.readme-content h3 {
+    font-size: 1.5rem; /* text-2xl */
+    font-weight: 700;
+    color: #1e293b; /* slate-800 */
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e2e8f0; /* slate-200 */
+}
+.readme-content hr {
+    border-top: 2px solid #6366f1; /* indigo-500 */
+    margin: 2.5rem 0;
+}
+.readme-content ol, .readme-content ul {
+    list-style-position: outside;
+    padding-left: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    line-height: 1.7;
+    color: #334155; /* slate-700 */
+}
+.readme-content ol { list-style-type: decimal; }
+.readme-content ul { list-style-type: disc; }
+.readme-content li { margin-bottom: 0.75rem; }
+.readme-content li > ul { margin-top: 0.5rem; }
+.readme-content p {
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    color: #334155; /* slate-700 */
+}
+.readme-content strong {
+    color: #1e293b; /* slate-800 */
+    font-weight: 600;
+}
+.readme-content code {
+    background-color: #eef2ff; /* indigo-100 */
+    color: #4338ca; /* indigo-700 */
+    padding: 0.15rem 0.3rem;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9em;
+}
