@@ -105,7 +105,6 @@ button.link-card {
     border: none;
     margin: 0;
     font: inherit;
-    background: transparent;
     width: 100%;
     
     /* Base styles from .timeline-card */
