@@ -1,625 +1,834 @@
+/**
+ * @file This script manages the entire lifecycle of the Indian History Timeline SPA.
+ * @author [Your Name/Team]
+ * @version 2.0.0
+ */
+
+// --- [STATE MANAGEMENT] ---
+let dataStore = {}; // Holds all fetched JSON data (timelines, glossary, etc.)
+let currentTimeline = null; // ID of the currently displayed timeline section
+let speechInstance = null; // Holds the global SpeechSynthesisUtterance instance
+let speechState = {
+    isSpeaking: false,
+    currentButton: null,
+};
+let searchIndex = []; // Holds the flattened data for searching
+
+// --- [DATA FETCHING] ---
+/**
+ * Fetches all necessary JSON data in parallel.
+ * @returns {Promise<void>}
+ */
+const fetchData = async () => {
+    try {
+        const [part, dynasty, kings, other, glossary, connections, timelineData] = await Promise.all([
+            fetch('part.json').then(res => res.json()),
+            fetch('dynasty.json').then(res => res.json()),
+            fetch('kings.json').then(res => res.json()),
+            fetch('other.json').then(res => res.json()),
+            fetch('Glossary.json').then(res => res.json()),
+            fetch('ConnectionsData.json').then(res => res.json()),
+            fetch('TimelineData.json').then(res => res.json()),
+        ]);
+        dataStore = { part, dynasty, kings, other, glossary, connections, timelineData };
+    } catch (error) {
+        console.error("Failed to fetch initial data:", error);
+        // Display a user-friendly error message on the page
+    }
+};
+
+// --- [RENDERING LOGIC] ---
+
+/**
+ * Creates and populates the main timeline selection cards.
+ */
+const renderTimelineSelection = () => {
+    const container = document.getElementById('timeline-selection');
+    const cards = dataStore.part.timelineCards.map(card => `
+        <div class="timeline-card" data-target="${card.target}" role="button" tabindex="0" aria-label="Select timeline: ${card.subtitle}">
+            <span class="timeline-title">${card.title}</span>
+            <span class="timeline-subtitle">${card.subtitle}</span>
+            <span class="timeline-period">${card.period}</span>
+        </div>
+    `).join('');
+    container.innerHTML = cards;
+};
+
+/**
+ * Creates the HTML for a single accordion item (dynasty, king, or event).
+ * @param {object} item - The data object for the accordion item.
+ * @param {number} level - The nesting level (0 for top-level, 1 for inner, etc.).
+ * @param {number} index - The index of the item at its level, for color coding.
+ * @param {number} totalItems - The total number of items at the same level.
+ * @returns {string} The HTML string for the accordion item.
+ */
+const createAccordionItem = (item, level, index, totalItems) => {
+    const detailsId = item.id || `item-${Date.now()}-${Math.random()}`;
+    let detailsClass, summaryClass, contentClass;
+    let colorClass = '';
+
+    // Determine classes based on nesting level
+    if (level === 0) {
+        detailsClass = 'dynasty-details';
+        summaryClass = 'dynasty-summary';
+        contentClass = 'content-panel';
+    } else {
+        detailsClass = 'king-details';
+        summaryClass = 'king-summary';
+        contentClass = 'content-panel';
+        
+        // --- [NEW] King Color Coding System ---
+        if (item.type && item.type.includes('king-details')) {
+             if (index === totalItems - 1) {
+                 colorClass = 'king-color-last';
+             } else {
+                 const colorIndex = (index % 12) + 1; // Cycle through 12 colors
+                 colorClass = `king-color-${colorIndex}`;
+             }
+        }
+        if (item.type && item.type.includes('invasion-type-iranian')) {
+            colorClass = 'invasion-type-iranian';
+        }
+        if (item.type && item.type.includes('invasion-type-greek')) {
+            colorClass = 'invasion-type-greek';
+        }
+        if (item.type && item.type.includes('enhanced-profile')) {
+            detailsClass += ' enhanced-profile';
+        }
+
+    }
+
+    const title = item.summary.title || 'No Title';
+    const period = item.summary.period || item.summary.reign || '';
+    
+    // --- [NEW] At-a-glance info for dynasties ---
+    const founder = item.summary.founder ? `<span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" /></svg><strong>Founder:</strong> ${item.summary.founder}</span>` : '';
+    const capital = item.summary.capital ? `<span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M4 1.5a.5.5 0 0 0-.5.5v11.586l3.5-3.5 3.5 3.5V2a.5.5 0 0 0-.5-.5h-6Z" clip-rule="evenodd" /></svg><strong>Capital:</strong> ${item.summary.capital}</span>` : '';
+    const dynastyMeta = (founder || capital) ? `<div class="dynasty-meta">${founder}${capital}</div>` : '';
+
+    const summaryContent = level === 0 ? `
+        <div class="summary-content-wrapper">
+            <div class="summary-title-line">
+                <span class="summary-title">${title}</span>
+                ${period ? `<span class="dynasty-period">${period}</span>` : ''}
+            </div>
+            ${dynastyMeta}
+        </div>
+    ` : `
+        <span class="summary-title">${title}</span>
+        ${period ? `<span class="king-reign">${period}</span>` : ''}
+    `;
+
+    const arrowIcon = level === 0 
+        ? `<svg class="arrow w-6 h-6 text-indigo-500 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>`
+        : `<span class="arrow-inner text-indigo-600" aria-hidden="true">▶</span>`;
+        
+    // --- [NEW] ACCESSIBILITY FIX: Read Aloud button is now a sibling, not a child ---
+    const readAloudButton = `<button class="read-aloud-btn" aria-label="Read ${title} aloud"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M7.787 2.213A.75.75 0 0 0 6.75 3v10.5a.75.75 0 0 0 1.037.713l8.25-5.25a.75.75 0 0 0 0-1.426l-8.25-5.25Z" /><path d="M2.25 3A.75.75 0 0 0 1.5 3.75v8.5A.75.75 0 0 0 2.25 13h1.5a.75.75 0 0 0 0-1.5H3V4.5h.75a.75.75 0 0 0 0-1.5h-1.5Z" /></svg></button>`;
+
+    // --- [NEW] Connections Hub ---
+    const connections = dataStore.connections[item.id];
+    const connectionsHtml = connections ? `
+        <div class="connections-hub">
+            <h4 class="connections-title">Related Topics:</h4>
+            <div class="connections-tags">
+                ${connections.map(conn => `<button class="connection-tag" data-target-id="${conn.targetId}">${conn.label}</button>`).join('')}
+            </div>
+        </div>
+    ` : '';
+        
+    // Recursively build content for sub-items
+    let subContent = '';
+    if (item.subItems && item.subItems.length > 0) {
+        subContent = item.subItems.map((subItemKey, idx) => {
+            const subItemData = dataStore.kings[subItemKey] || dataStore.other[subItemKey] || { type: 'dynasty-details', summary: { title: 'Unknown' }, subItems: [] };
+             // --- [FIX] Defensive Rendering ---
+            if (typeof subItemKey === 'object') { // Handles cases where subItems are objects, not keys
+                return createAccordionItem(subItemKey, level + 1, idx, item.subItems.length);
+            }
+            const fullSubItemData = { id: subItemKey, ...subItemData };
+            return createAccordionItem(fullSubItemData, level + 1, idx, item.subItems.length);
+        }).join('');
+    } else if (item.content) {
+        subContent = item.content;
+    }
+
+    // --- [NEW] ACCESSIBILITY FIX: Wrapper for details + button ---
+    return `
+        <div class="details-wrapper">
+            <details id="${detailsId}" class="${detailsClass} ${colorClass}" data-level="${level}">
+                <summary class="${summaryClass}">
+                    ${summaryContent}
+                    ${arrowIcon}
+                </summary>
+                <div class="${contentClass}">
+                    ${subContent}
+                    ${connectionsHtml}
+                </div>
+            </details>
+            ${readAloudButton}
+        </div>
+    `;
+};
+
+
+/**
+ * Renders a specific timeline section based on its ID.
+ * @param {string} timelineId - The ID of the timeline to render (e.g., 'magadha').
+ */
+const renderTimeline = (timelineId) => {
+    const timelineData = dataStore.dynasty[timelineId];
+    if (!timelineData) return;
+
+    const container = document.getElementById(timelineId);
+    container.innerHTML = `
+        <h3 class="main-section-title">${timelineData.title}</h3>
+        ${renderVisualTimelineBar(timelineId)}
+        ${timelineData.items.map((item, index) => createAccordionItem(item, 0, index, timelineData.items.length)).join('')}
+    `;
+
+    // Re-apply glossary terms and other dynamic elements
+    applyGlossaryToElement(container);
+};
+
+
+/**
+ * Renders the interactive visual timeline bar for a section.
+ * @param {string} timelineId - The ID of the timeline section.
+ * @returns {string} The HTML for the timeline bar.
+ */
+const renderVisualTimelineBar = (timelineId) => {
+    const data = dataStore.timelineData[timelineId];
+    if (!data || !data.dynasties || data.dynasties.length === 0) return '';
+
+    const totalDuration = data.end - data.start;
+
+    const blocks = data.dynasties.map(dynasty => {
+        const duration = dynasty.end - dynasty.start;
+        const widthPercentage = (duration / totalDuration) * 100;
+        const label = `${dynasty.name} (${duration} yrs)`;
+        return `<button class="timeline-block" style="width: ${widthPercentage}%; background-color: ${dynasty.color};" data-target-id="${dynasty.detailsId}" title="${label}" aria-label="Go to ${dynasty.name}">${label}</button>`;
+    }).join('');
+
+    return `
+        <div class="visual-timeline-container" aria-label="Visual timeline of dynasties">
+            <div class="visual-timeline-bar">
+                ${blocks}
+            </div>
+        </div>
+    `;
+};
+
+// --- [UI/UX & INTERACTIVITY] ---
+
+/**
+ * Manages the UI transition between timeline selection and content view.
+ * @param {string|null} timelineId - The ID of the timeline to show, or null to show the menu.
+ */
+const showTimeline = (timelineId) => {
+    const timelineSelection = document.getElementById('timeline-selection');
+    const timelineContent = document.getElementById('timeline-content');
+    const allSections = timelineContent.querySelectorAll('.timeline-section');
+    const searchResultsContainer = document.getElementById('search-results-container');
+    const searchBar = document.getElementById('search-bar');
+    
+    currentTimeline = timelineId;
+
+    // Reset UI state
+    stopSpeech();
+    searchResultsContainer.classList.add('hidden');
+    searchBar.value = '';
+
+    if (timelineId) {
+        // Show a specific timeline
+        timelineSelection.classList.add('hidden');
+        timelineContent.classList.remove('hidden');
+        allSections.forEach(section => {
+            section.classList.toggle('hidden', section.id !== timelineId);
+        });
+        // Render if it's the first time
+        if (!document.getElementById(timelineId).hasChildNodes()) {
+            renderTimeline(timelineId);
+        }
+    } else {
+        // Show the main menu
+        timelineSelection.classList.remove('hidden');
+        timelineContent.classList.add('hidden');
+    }
+    
+    updateBreadcrumbs();
+};
+
+/**
+ * Updates the breadcrumb navigation based on the current view.
+ */
+const updateBreadcrumbs = () => {
+    const nav = document.getElementById('breadcrumb-nav');
+    const homeText = dataStore.part.breadcrumbHome || 'Home';
+    
+    let breadcrumbs = `<button class="breadcrumb-item" data-target="home">${homeText}</button>`;
+    
+    if (currentTimeline) {
+        const timelineTitle = dataStore.dynasty[currentTimeline].title.split('(')[1]?.replace(')','').trim() || currentTimeline;
+        breadcrumbs += `<span class="breadcrumb-separator">/</span><span class="breadcrumb-item-current">${timelineTitle}</span>`;
+    }
+    
+    nav.innerHTML = breadcrumbs;
+};
+
+/**
+ * Smoothly scrolls to and highlights a target element.
+ * @param {string} targetId - The ID of the element to navigate to.
+ */
+const navigateToElement = (targetId) => {
+    const targetElement = document.getElementById(targetId);
+    if (!targetElement) return;
+
+    // --- [BUG FIX] Reset focus mode before navigating ---
+    // Find the parent timeline section
+    const parentSection = targetElement.closest('.timeline-section');
+    if (parentSection) {
+        const topLevelDetails = parentSection.querySelectorAll(':scope > .details-wrapper > details[data-level="0"]');
+        topLevelDetails.forEach(d => {
+            d.style.display = ''; // Reset display style
+        });
+    }
+
+    // Open all parent <details> elements
+    let parent = targetElement.parentElement;
+    while (parent) {
+        if (parent.tagName === 'DETAILS') {
+            parent.open = true;
+        }
+        parent = parent.parentElement;
+    }
+
+    targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // Highlight the element
+    targetElement.classList.add('highlight-search-target');
+    setTimeout(() => {
+        targetElement.classList.remove('highlight-search-target');
+    }, 1500);
+};
+
+
+/**
+ * Handles smooth accordion open/close animations.
+ * @param {HTMLDetailsElement} details - The details element being toggled.
+ */
+const handleAccordionToggle = (details) => {
+    const contentPanel = details.querySelector('.content-panel');
+    if (!contentPanel) return;
+
+    if (details.open) {
+        // Is opening
+        contentPanel.style.maxHeight = `${contentPanel.scrollHeight}px`;
+    } else {
+        // Is closing
+        // We need to set the current height explicitly before transitioning to 0
+        requestAnimationFrame(() => {
+            contentPanel.style.maxHeight = `${contentPanel.scrollHeight}px`;
+            requestAnimationFrame(() => {
+                contentPanel.style.maxHeight = '0px';
+            });
+        });
+    }
+    
+    // --- [FIX] Adjust parent accordion heights if nested. This is more robust.
+    const parentDetails = details.parentElement.closest('details[open]');
+    if (parentDetails) {
+        const parentContentPanel = parentDetails.querySelector('.content-panel');
+        if (parentContentPanel) {
+            // This ensures the parent resizes to fit its new content height
+            parentContentPanel.style.maxHeight = `${parentContentPanel.scrollHeight}px`;
+        }
+    }
+
+    // --- [NEW] Focus Mode ---
+    const isTopLevel = details.dataset.level === '0';
+    if (isTopLevel) {
+        const parentSection = details.closest('.timeline-section');
+        if (parentSection) {
+            const allTopLevelDetails = parentSection.querySelectorAll(':scope > .details-wrapper > details[data-level="0"]');
+            if (details.open) {
+                // When one opens, hide others
+                allTopLevelDetails.forEach(d => {
+                    if (d !== details) {
+                        d.style.display = 'none';
+                    }
+                });
+            } else {
+                // When it closes, show all again
+                allTopLevelDetails.forEach(d => {
+                    d.style.display = '';
+                });
+            }
+        }
+    }
+};
+
+
+// --- [SEARCH FUNCTIONALITY] ---
+
+/**
+ * Creates a flat, searchable index from the nested data.
+ */
+const buildSearchIndex = () => {
+    searchIndex = [];
+    Object.keys(dataStore.dynasty).forEach(timelineId => {
+        const timeline = dataStore.dynasty[timelineId];
+        const timelinePath = timeline.title.split('(')[1]?.replace(')', '').trim() || timeline.title;
+
+        const traverse = (item, path, parentId) => {
+            const currentId = item.id || parentId;
+            const currentPath = [...path, item.summary.title];
+            
+            // --- [NEW] Include founder and capital in searchable text ---
+            const founderText = item.summary.founder ? `founder ${item.summary.founder}` : '';
+            const capitalText = item.summary.capital ? `capital ${item.summary.capital}` : '';
+
+            // Extract text from content for snippet generation
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = item.content || '';
+            const contentText = tempDiv.textContent || tempDiv.innerText || '';
+
+            searchIndex.push({
+                id: currentId,
+                title: item.summary.title,
+                text: `${item.summary.title} ${founderText} ${capitalText} ${contentText}`.toLowerCase(),
+                path: currentPath.join(' > '),
+                timelineId: timelineId
+            });
+
+            if (item.subItems) {
+                item.subItems.forEach(subItemKey => {
+                     if (typeof subItemKey === 'object') {
+                         traverse(subItemKey, currentPath, currentId);
+                     } else {
+                        const subItemData = dataStore.kings[subItemKey] || dataStore.other[subItemKey];
+                        if (subItemData) {
+                            const fullSubItemData = { id: subItemKey, ...subItemData };
+                            traverse(fullSubItemData, currentPath, currentId);
+                        }
+                     }
+                });
+            }
+        };
+
+        timeline.items.forEach(item => traverse(item, [timelinePath], item.id));
+    });
+};
+
+/**
+ * Performs a search based on the input query.
+ * @param {string} query - The search term.
+ */
+const performSearch = (query) => {
+    const resultsContainer = document.getElementById('search-results-container');
+    const timelineSelection = document.getElementById('timeline-selection');
+    const timelineContent = document.getElementById('timeline-content');
+
+    if (!query || query.trim().length < 2) {
+        resultsContainer.classList.add('hidden');
+        if (!currentTimeline) {
+            timelineSelection.classList.remove('hidden');
+        } else {
+            timelineContent.classList.remove('hidden');
+        }
+        return;
+    }
+    
+    stopSpeech();
+    timelineSelection.classList.add('hidden');
+    timelineContent.classList.add('hidden');
+    resultsContainer.classList.remove('hidden');
+    
+    const searchTerms = query.toLowerCase().split(' ').filter(t => t);
+    const results = searchIndex.filter(item => {
+        return searchTerms.every(term => item.text.includes(term));
+    });
+    
+    renderSearchResults(results, searchTerms);
+};
+
+/**
+ * Renders the search results to the DOM.
+ * @param {Array<object>} results - The array of search result objects.
+ * @param {Array<string>} searchTerms - The terms to highlight.
+ */
+const renderSearchResults = (results, searchTerms) => {
+    const container = document.getElementById('search-results-container');
+    if (results.length === 0) {
+        container.innerHTML = '<p class="text-center text-gray-500 mt-8">No results found.</p>';
+        return;
+    }
+    
+    const resultsHtml = results.map(result => {
+        // Create snippet
+        let snippet = '';
+        const text = result.text;
+        const firstMatchIndex = text.indexOf(searchTerms[0]);
+        if (firstMatchIndex !== -1) {
+            const start = Math.max(0, firstMatchIndex - 50);
+            const end = Math.min(text.length, firstMatchIndex + 150);
+            snippet = text.substring(start, end);
+            if (start > 0) snippet = '...' + snippet;
+            if (end < text.length) snippet += '...';
+        }
+
+        // Highlight terms
+        const regex = new RegExp(`(${searchTerms.join('|')})`, 'gi');
+        const highlightedSnippet = snippet.replace(regex, '<mark>$1</mark>');
+
+        return `
+            <button class="search-result-item" data-timeline-id="${result.timelineId}" data-target-id="${result.id}">
+                <div class="search-result-path">${result.path.split(' > ')[0]}</div>
+                <div class="search-result-title">${result.title}</div>
+                <div class="search-result-snippet">${highlightedSnippet}</div>
+            </button>
+        `;
+    }).join('');
+
+    container.innerHTML = resultsHtml;
+};
+
+// --- [GLOSSARY & SPEECH] ---
+
+/**
+ * Finds all key terms in an element and makes them interactive.
+ * @param {HTMLElement} element - The parent element to scan for glossary terms.
+ */
+const applyGlossaryToElement = (element) => {
+    const allTextNodes = [];
+    const treeWalker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+    let node;
+    while(node = treeWalker.nextNode()) {
+        allTextNodes.push(node);
+    }
+    
+    const glossaryTerms = Object.keys(dataStore.glossary);
+    const regex = new RegExp(`\\b(${glossaryTerms.join('|')})\\b`, 'g');
+
+    allTextNodes.forEach(textNode => {
+        if (textNode.parentElement.tagName === 'BUTTON' && textNode.parentElement.classList.contains('key-term')) {
+            return; // Already processed
+        }
+        
+        const text = textNode.textContent;
+        if (regex.test(text)) {
+            const fragment = document.createDocumentFragment();
+            let lastIndex = 0;
+            text.replace(regex, (match, offset) => {
+                // Add preceding text
+                fragment.appendChild(document.createTextNode(text.substring(lastIndex, offset)));
+                // Add the button
+                const button = document.createElement('button');
+                button.className = 'key-term';
+                button.textContent = match;
+                button.dataset.term = match;
+                fragment.appendChild(button);
+                lastIndex = offset + match.length;
+            });
+            // Add remaining text
+            fragment.appendChild(document.createTextNode(text.substring(lastIndex)));
+            textNode.parentNode.replaceChild(fragment, textNode);
+        }
+    });
+};
+
+/**
+ * Creates and displays the glossary popover.
+ * @param {HTMLElement} targetButton - The button that was clicked.
+ */
+const renderGlossaryPopover = (targetButton) => {
+    // Remove any existing popover
+    const existingPopover = document.querySelector('.glossary-popover');
+    if (existingPopover) existingPopover.remove();
+    
+    const termKey = targetButton.dataset.term;
+    const termData = dataStore.glossary[termKey];
+    if (!termData) return;
+    
+    const popover = document.createElement('div');
+    popover.className = 'glossary-popover';
+    popover.setAttribute('role', 'dialog');
+    popover.setAttribute('aria-modal', 'true');
+    popover.setAttribute('aria-labelledby', 'glossary-title');
+    
+    popover.innerHTML = `
+        <div class="glossary-popover-header">
+            <div class="glossary-titles">
+                 <h3 id="glossary-title" class="glossary-popover-title">${termData.title_hi}</h3>
+            </div>
+            <div class="glossary-controls">
+                <button class="language-toggle" data-lang="en" aria-label="Switch to English">En</button>
+                <button class="read-aloud-btn" data-type="glossary" aria-label="Read definition aloud"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M7.787 2.213A.75.75 0 0 0 6.75 3v10.5a.75.75 0 0 0 1.037.713l8.25-5.25a.75.75 0 0 0 0-1.426l-8.25-5.25Z" /><path d="M2.25 3A.75.75 0 0 0 1.5 3.75v8.5A.75.75 0 0 0 2.25 13h1.5a.75.75 0 0 0 0-1.5H3V4.5h.75a.75.75 0 0 0 0-1.5h-1.5Z" /></svg></button>
+                <button class="glossary-popover-close" aria-label="Close popover">&times;</button>
+            </div>
+        </div>
+        <div class="glossary-popover-content">
+            <p>${termData.definition_hi}</p>
+        </div>
+        <button class="glossary-learn-more hidden" aria-label="Show full definition">Learn More</button>
+    `;
+
+    document.body.appendChild(popover);
+
+    // Intelligent positioning
+    const rect = targetButton.getBoundingClientRect();
+    popover.style.left = `${rect.left}px`;
+    popover.style.top = `${rect.bottom + window.scrollY + 8}px`;
+    
+    // Check for overflow and reposition if necessary
+    const popoverRect = popover.getBoundingClientRect();
+    if (popoverRect.right > window.innerWidth - 16) {
+        popover.style.left = `${window.innerWidth - popoverRect.width - 16}px`;
+    }
+    if (popoverRect.bottom > window.innerHeight) {
+        popover.style.top = `${rect.top + window.scrollY - popoverRect.height - 8}px`;
+    }
+    
+    // Check for truncation and show 'Learn More'
+    const contentP = popover.querySelector('.glossary-popover-content p');
+    if (contentP.scrollHeight > contentP.clientHeight) {
+        popover.querySelector('.glossary-popover-content').classList.add('is-truncated');
+        popover.querySelector('.glossary-learn-more').classList.remove('hidden');
+    }
+
+    // Fade in
+    requestAnimationFrame(() => {
+        popover.classList.add('visible');
+    });
+};
+
+/**
+ * Handles the text-to-speech functionality.
+ * @param {HTMLElement} button - The read-aloud button element that was clicked.
+ */
+const handleReadAloud = async (button) => {
+    if (speechState.isSpeaking && speechState.currentButton === button) {
+        stopSpeech();
+        return;
+    }
+
+    stopSpeech(); // Stop any previous speech before starting new
+
+    let textToRead = '';
+    
+    if (button.dataset.type === 'glossary') {
+        const popover = button.closest('.glossary-popover');
+        if (popover) {
+            const contentP = popover.querySelector('.glossary-popover-content p');
+            if (contentP) textToRead = contentP.textContent;
+        }
+    } else {
+        const detailsWrapper = button.closest('.details-wrapper');
+        if (detailsWrapper) {
+            const details = detailsWrapper.querySelector('details');
+            if (details) {
+                const summary = details.querySelector('summary');
+                if (summary) {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = summary.innerHTML;
+                    const arrow = tempDiv.querySelector('.arrow, .arrow-inner');
+                    if (arrow) arrow.remove();
+                    textToRead = tempDiv.textContent.trim().replace(/\s+/g, ' ');
+                }
+            }
+        }
+    }
+
+    if (!textToRead) return;
+
+    speechInstance = new SpeechSynthesisUtterance(textToRead);
+    speechInstance.lang = 'hi-IN'; // Default to Hindi, can be adjusted
+    
+    speechState.isSpeaking = true;
+    speechState.currentButton = button;
+    button.classList.add('speaking');
+    
+    speechInstance.onend = () => {
+        stopSpeech();
+    };
+
+    window.speechSynthesis.speak(speechInstance);
+};
+
+/**
+ * Stops any ongoing speech and resets the UI state.
+ */
+const stopSpeech = () => {
+    if (speechState.isSpeaking) {
+        window.speechSynthesis.cancel();
+        speechState.isSpeaking = false;
+    }
+    if (speechState.currentButton) {
+        speechState.currentButton.classList.remove('speaking');
+        speechState.currentButton = null;
+    }
+    speechInstance = null;
+};
+
+
+// --- [EVENT LISTENERS & INITIALIZATION] ---
+
+/**
+ * Main function to initialize the app.
+ */
 document.addEventListener('DOMContentLoaded', async () => {
     const loader = document.getElementById('loader-overlay');
     const mainContent = document.getElementById('main-content');
-
-    // --- Read Aloud Feature ---
-    const synth = window.speechSynthesis;
-    let voices = [];
-    let speakingButton = null;
-
-    const getPlayIcon = () => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" /></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M5.5 2.75a.75.75 0 0 0-1.5 0v14.5a.75.75 0 0 0 1.5 0V2.75Z" /><path d="M8.5 4.75a.75.75 0 0 0-1.5 0v10.5a.75.75 0 0 0 1.5 0V4.75Z" /><path d="M11.5 6.75a.75.75 0 0 0-1.5 0v6.5a.75.75 0 0 0 1.5 0V6.75Z" /><path d="M14.5 8.75a.75.75 0 0 0-1.5 0v2.5a.75.75 0 0 0 1.5 0V8.75Z" /></svg>`;
-    const getStopIcon = () => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2 10a8 8 0 1 1 16 0 8 8 0 0 1-16 0Zm6-3.75a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Zm4 0a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" /></svg>`;
-
-    try {
-        // --- Data Fetching ---
-        const fetchData = async (url) => {
-            try {
-                const response = await fetch(url);
-                if (!response.ok) {
-                    console.error(`Failed to fetch ${url}:`, response.statusText); return {};
-                }
-                return await response.json();
-            } catch (error) {
-                console.error(`Error fetching data from ${url}:`, error); return {};
-            }
-        };
-        
-        const [glossaryData, timelineData, connectionsData, partData, dynastyData, kingsData] = await Promise.all([
-            fetchData('./Glossary.json'),
-            fetchData('./TimelineData.json'),
-            fetchData('./ConnectionsData.json'),
-            fetchData('./part.json'),
-            fetchData('./dynasty.json'),
-            fetchData('./kings.json'),
-        ]);
-
-        // --- DYNAMIC CONTENT RENDERING ---
-
-        const renderStaticParts = () => {
-            document.getElementById('subtitle').textContent = partData.subtitle;
-            document.getElementById('search-bar').placeholder = partData.searchPlaceholder;
-            
-            const timelineSelection = document.getElementById('timeline-selection');
-            partData.timelineCards.forEach(card => {
-                const cardEl = document.createElement('button');
-                cardEl.dataset.target = card.target;
-                cardEl.className = 'timeline-card';
-                cardEl.setAttribute('aria-controls', card.target);
-                cardEl.innerHTML = `
-                    <span class="timeline-title">${card.title}</span>
-                    <span class="timeline-subtitle">${card.subtitle}</span>
-                    <span class="timeline-period">${card.period}</span>
-                `;
-                timelineSelection.appendChild(cardEl);
-            });
-        };
-
-        const renderContentSections = () => {
-            const timelineContent = document.getElementById('timeline-content');
-            Object.keys(dynastyData).forEach(sectionKey => {
-                const sectionData = dynastyData[sectionKey];
-                const sectionEl = document.getElementById(sectionKey);
-                if (!sectionEl) return;
-
-                let sectionHTML = `<h3 class="main-section-title">${sectionData.title}</h3>`;
-
-                sectionData.items.forEach(item => {
-                    let summaryHTML = '';
-                    if (item.type.includes('dynasty')) {
-                        const founderHTML = item.summary.founder ? `
-                            <span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-7 9a7 7 0 1 1 14 0H3Z" clip-rule="evenodd" /></svg><strong>${item.summary.founder.includes(':') ? item.summary.founder.split(':')[0] + ':' : 'संस्थापक:'}</strong> ${item.summary.founder.includes(':') ? item.summary.founder.split(':')[1].trim() : item.summary.founder}</span>
-                        ` : '';
-
-                        const capitalHTML = item.summary.capital ? `
-                            <span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 2a1 1 0 0 1 1 1v12a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1ZM15 2a1 1 0 0 1 1 1v12a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1ZM9 2a1 1 0 0 1 1 1v12a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1Z" clip-rule="evenodd" /><path d="M2 17.5a1.5 1.5 0 0 0 1.5 1.5h13a1.5 1.5 0 0 0 1.5-1.5V17a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v.5Z" /></svg><strong>राजधानी:</strong> ${item.summary.capital}</span>
-                        ` : '';
-                        
-                        const metaHTML = (founderHTML || capitalHTML) ? `
-                            <div class="dynasty-meta">
-                                ${founderHTML}
-                                ${capitalHTML}
-                            </div>
-                        ` : '';
-
-                        summaryHTML = `
-                            <div class="summary-content-wrapper">
-                                <div class="summary-title-line">
-                                    <span class="summary-title">${item.summary.title}</span>
-                                    ${item.summary.period ? `<span class="dynasty-period">${item.summary.period}</span>` : ''}
-                                </div>
-                                ${metaHTML}
-                            </div>`;
-                    } else { // event-details summary
-                        summaryHTML = `<span class="summary-title">${item.summary.title}</span>`;
-                    }
-                    
-                    const tempDiv = document.createElement('div');
-                    tempDiv.innerHTML = summaryHTML;
-                    const textToRead = tempDiv.textContent.replace(/\s+/g, ' ').trim();
-
-                    let contentHTML = '';
-                    if (item.content) {
-                        contentHTML = item.content;
-                    } else if (item.subItems) {
-                        item.subItems.forEach(key => {
-                            const subItemData = kingsData[key];
-                            if (subItemData) {
-                                const subItemSummaryTitle = subItemData.summary.title;
-                                const subItemTextToRead = subItemSummaryTitle.replace(/<[^>]*>?/gm, '').replace(/\s+/g, ' ').trim();
-
-                                contentHTML += `
-                                    <div class="details-wrapper">
-                                        <button class="read-aloud-btn" data-text-to-read="${subItemTextToRead}" aria-label="Read aloud: ${subItemTextToRead}">${getPlayIcon()}</button>
-                                        <details id="${key.replace(/\s+/g, '-').toLowerCase()}-details" class="${subItemData.type}">
-                                            <summary class="king-summary">
-                                                <span class="summary-title">${subItemSummaryTitle}</span>
-                                                ${subItemData.summary.reign ? `<span class="king-reign">${subItemData.summary.reign}</span>` : ''}
-                                                <span class="arrow-inner" aria-hidden="true">▶</span>
-                                            </summary>
-                                            <div class="content-panel">${subItemData.content}</div>
-                                        </details>
-                                    </div>
-                                `;
-                            }
-                        });
-                    }
-
-                    sectionHTML += `
-                        <div class="details-wrapper">
-                            <button class="read-aloud-btn" data-text-to-read="${textToRead}" aria-label="Read aloud: ${textToRead}">${getPlayIcon()}</button>
-                            <details id="${item.id || ''}" class="${item.type}">
-                                <summary class="${item.type.replace('-details', '-summary')}">${summaryHTML}<span class="arrow" aria-hidden="true">▶</span></summary>
-                                <div class="content-panel">${contentHTML}</div>
-                            </details>
-                        </div>
-                    `;
-                });
-                sectionEl.innerHTML = sectionHTML;
-            });
-        };
-        
-        // Render all dynamic content first
-        renderStaticParts();
-        renderContentSections();
-
-        // --- INITIALIZE FEATURES (after DOM is built) ---
-
-        // Existing elements (re-queried after dynamic rendering)
-        const timelineSelection = document.getElementById('timeline-selection');
-        const timelineContent = document.getElementById('timeline-content');
-        const timelineSections = document.querySelectorAll('.timeline-section');
-        const subtitle = document.getElementById('subtitle');
-        const searchBar = document.getElementById('search-bar');
-        const searchResultsContainer = document.getElementById('search-results-container');
-        let allDetails = document.querySelectorAll('details');
     
-        // --- Breadcrumb Feature Elements ---
-        const breadcrumbNav = document.getElementById('breadcrumb-nav');
-        let breadcrumbState = [{ name: partData.breadcrumbHome, level: 'home' }];
+    await fetchData();
     
-        // --- Search Feature Elements ---
-        let searchIndex = [];
-        let searchDebounceTimer;
-        
-        // --- Read Aloud Logic ---
-        const loadVoices = () => {
-             return new Promise((resolve) => {
-                voices = synth.getVoices();
-                if (voices.length) {
-                    resolve(voices); return;
-                }
-                synth.onvoiceschanged = () => {
-                    voices = synth.getVoices(); resolve(voices);
-                };
-            });
-        };
-        const voicesPromise = loadVoices();
+    // Populate UI text from part.json
+    document.getElementById('subtitle').textContent = dataStore.part.subtitle;
+    document.getElementById('search-bar').placeholder = dataStore.part.searchPlaceholder;
 
-        const readAloud = async (text, lang, button) => {
-            if (speakingButton === button && synth.speaking) { synth.cancel(); return; }
-            if (synth.speaking) { synth.cancel(); }
-            await voicesPromise;
-            const utterance = new SpeechSynthesisUtterance(text);
-            const voice = voices.find(v => v.lang === lang) || voices.find(v => v.lang.startsWith(lang.split('-')[0])) || null;
-            if (voice) { utterance.voice = voice; }
-            utterance.onstart = () => {
-                if (speakingButton) {
-                    speakingButton.classList.remove('speaking'); speakingButton.setAttribute('aria-label', speakingButton.dataset.textToRead ? `Read aloud: ${speakingButton.dataset.textToRead}` : 'Read aloud'); speakingButton.innerHTML = getPlayIcon();
-                }
-                speakingButton = button;
-                button.classList.add('speaking'); button.setAttribute('aria-label', 'Stop reading'); button.innerHTML = getStopIcon();
-            };
-            utterance.onend = () => {
-                if (speakingButton) {
-                    speakingButton.classList.remove('speaking'); speakingButton.setAttribute('aria-label', speakingButton.dataset.textToRead ? `Read aloud: ${speakingButton.dataset.textToRead}` : 'Read aloud'); speakingButton.innerHTML = getPlayIcon();
-                }
-                speakingButton = null;
-            };
-            utterance.onerror = () => {
-                 if (speakingButton) {
-                    speakingButton.classList.remove('speaking'); speakingButton.setAttribute('aria-label', speakingButton.dataset.textToRead ? `Read aloud: ${speakingButton.dataset.textToRead}` : 'Read aloud'); speakingButton.innerHTML = getPlayIcon();
-                }
-                speakingButton = null;
-            }
-            synth.speak(utterance);
-        };
-        
-        mainContent.addEventListener('click', (e) => {
-            const button = e.target.closest('.read-aloud-btn');
-            if (button) {
-                e.preventDefault();
-                e.stopPropagation();
-                const text = button.dataset.textToRead;
-                if (text) {
-                    readAloud(text, 'hi-IN', button);
-                }
-            }
-        });
-    
-        // --- Navigation Logic ---
-        const navigateToElement = (targetId) => {
-            const targetElement = document.getElementById(targetId);
-            if (targetElement) {
-                searchResultsContainer.classList.add('hidden');
-                timelineContent.style.display = 'block';
-                const section = targetElement.closest('.timeline-section');
-                if (section) {
-                     timelineSections.forEach(sec => sec.classList.add('hidden'));
-                     section.classList.remove('hidden');
-                }
-                let parent = targetElement.parentElement?.closest('details');
-                while(parent) {
-                    parent.open = true;
-                    parent = parent.parentElement?.closest('details');
-                }
-                targetElement.open = true;
-                targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                document.querySelectorAll('.highlight-search-target').forEach(el => el.classList.remove('highlight-search-target'));
-                const summary = targetElement.querySelector('summary');
-                if (summary) {
-                    summary.classList.add('highlight-search-target');
-                    setTimeout(() => { summary.classList.remove('highlight-search-target'); }, 1500);
-                }
-                updateBreadcrumbsFromElement(targetElement);
-            }
-        };
-    
-        // --- Breadcrumb Logic ---
-        const getSummaryName = (summary) => {
-            if (!summary) return 'Details';
-            const titleElement = summary.querySelector('.summary-title');
-            if (titleElement) {
-                const titleClone = titleElement.cloneNode(true);
-                titleClone.querySelectorAll('*').forEach(child => child.remove());
-                return titleClone.textContent?.trim() || 'Details';
-            }
-            const summaryClone = summary.cloneNode(true);
-            summaryClone.querySelectorAll('.arrow, .arrow-inner, .dynasty-period, .king-reign, .dynasty-meta').forEach(el => el.remove());
-            return summaryClone.textContent?.trim().replace(/\s+/g, ' ').trim() || 'Details';
-        };
-    
-        const renderBreadcrumbs = () => {
-            if (!breadcrumbNav) return;
-            breadcrumbNav.innerHTML = '';
-            breadcrumbNav.setAttribute('aria-label', 'Breadcrumb');
-            const fragment = document.createDocumentFragment();
-            breadcrumbState.forEach((crumb, index) => {
-                const isLast = index === breadcrumbState.length - 1;
-                if (index > 0) {
-                    const separator = document.createElement('span');
-                    separator.className = 'breadcrumb-separator'; separator.textContent = '>'; separator.setAttribute('aria-hidden', 'true'); fragment.appendChild(separator);
-                }
-                const crumbElement = document.createElement(isLast ? 'span' : 'button');
-                crumbElement.className = isLast ? 'breadcrumb-item-current' : 'breadcrumb-item';
-                crumbElement.textContent = crumb.name;
-                if (isLast) {
-                    crumbElement.setAttribute('aria-current', 'page');
-                } else {
-                    crumbElement.dataset.level = crumb.level; crumbElement.dataset.id = crumb.id || ''; crumbElement.dataset.index = index.toString();
-                }
-                fragment.appendChild(crumbElement);
-            });
-            breadcrumbNav.appendChild(fragment);
-        };
-    
-        const updateAndRenderBreadcrumbs = (newState) => {
-            breadcrumbState = newState; renderBreadcrumbs();
-        };
-    
-        const updateBreadcrumbsFromElement = (element) => {
-            const path = [{ name: partData.breadcrumbHome, level: 'home' }];
-            const section = element.closest('.timeline-section');
-            if (!section) { updateAndRenderBreadcrumbs(path); return; }
-            const sectionCard = document.querySelector(`.timeline-card[data-target="${section.id}"]`);
-            const sectionTitle = sectionCard?.querySelector('.timeline-title')?.textContent || 'Section';
-            const sectionSubtitle = sectionCard?.querySelector('.timeline-subtitle')?.textContent || '';
-            const fullSectionTitle = `${sectionTitle} (${sectionSubtitle})`;
-            path.push({ name: fullSectionTitle, level: 'section', id: section.id });
-            const ancestors = [];
-            let current = element.parentElement?.closest('details');
-            while (current) {
-                ancestors.unshift(current);
-                current = current.parentElement?.closest('details');
-            }
-            ancestors.forEach(ancestor => {
-                const summary = ancestor.querySelector(':scope > summary');
-                const name = getSummaryName(summary);
-                path.push({ name, level: 'details', id: ancestor.id });
-            });
-            if (element.tagName === 'DETAILS' && element.open) {
-                 const summary = element.querySelector(':scope > summary');
-                 const name = getSummaryName(summary);
-                 path.push({ name, level: 'details', id: element.id });
-            }
-            updateAndRenderBreadcrumbs(path);
-        };
-    
-        breadcrumbNav.addEventListener('click', (event) => {
-            const target = event.target.closest('.breadcrumb-item');
-            if (!target || !target.dataset.index) return;
-            const breadcrumbIndex = parseInt(target.dataset.index, 10);
-            const newBreadcrumbs = breadcrumbState.slice(0, breadcrumbIndex + 1);
-            const targetCrumb = newBreadcrumbs[newBreadcrumbs.length - 1];
-            if (targetCrumb.level === 'home') {
-                timelineContent.style.display = 'none'; searchResultsContainer.classList.add('hidden'); timelineSelection.style.display = 'grid'; subtitle.style.display = 'block'; searchBar.value = '';
-            } else if (targetCrumb.level === 'section') {
-                const sectionId = targetCrumb.id;
-                const section = document.getElementById(sectionId);
-                section?.querySelectorAll('details').forEach(d => d.open = false);
-                section?.querySelectorAll('.dynasty-details, .event-details').forEach(d => d.classList.remove('hidden'));
-            } else if (targetCrumb.level === 'details') {
-                const detailId = targetCrumb.id;
-                const detail = document.getElementById(detailId);
-                detail?.querySelectorAll('details').forEach(d => d.open = false);
-            }
-            updateAndRenderBreadcrumbs(newBreadcrumbs);
-        });
-    
-        // --- Build Search Index ---
-        const buildSearchIndex = () => {
-            searchIndex = [];
-            allDetails.forEach((details, index) => {
-                if (!details.id) { details.id = `details-search-target-${index}`; }
-                const parentSection = details.closest('.timeline-section');
-                const parentSectionTitle = parentSection?.querySelector('.main-section-title')?.textContent.split('(')[0].trim() || 'Unknown Section';
-                const summaryElement = details.querySelector(':scope > summary');
-                const title = getSummaryName(summaryElement);
-                const content = details.querySelector(':scope > .content-panel')?.textContent || '';
-                let founder = ''; let capital = '';
-                if (summaryElement) {
-                    const metaItems = summaryElement.querySelectorAll('.dynasty-meta .meta-item');
-                    metaItems.forEach(item => {
-                        const text = item.textContent || '';
-                        if (text.includes('संस्थापक:')) { founder = text.replace('संस्थापक:', '').trim(); }
-                        if (text.includes('राजधानी:')) { capital = text.replace('राजधानी:', '').trim(); }
-                    });
-                }
-                const fullText = (title + ' ' + founder + ' ' + capital + ' ' + content).toLowerCase();
-                searchIndex.push({ id: details.id, title: title, path: parentSectionTitle, fullText: fullText, element: details });
-            });
-        };
-    
-        // --- Search Function ---
-        const performSearch = (query) => {
-            if (!searchResultsContainer) return;
-            searchResultsContainer.setAttribute('role', 'region'); searchResultsContainer.setAttribute('aria-live', 'polite'); searchResultsContainer.innerHTML = '';
-            if (!query) {
-                searchResultsContainer.classList.add('hidden');
-                if (timelineContent.style.display !== 'block') { timelineSelection.style.display = 'grid'; subtitle.style.display = 'block'; }
-                return;
-            }
-            timelineSelection.style.display = 'none'; subtitle.style.display = 'none'; timelineContent.style.display = 'none'; searchResultsContainer.classList.remove('hidden');
-            const searchWords = query.split(/\s+/).filter(Boolean);
-            const results = searchIndex.filter(item => searchWords.every(word => item.fullText.includes(word)));
-            if (results.length === 0) { searchResultsContainer.innerHTML = `<div class="text-center text-gray-500 p-8" role="alert">कोई परिणाम नहीं मिला। (No results found.)</div>`; return; }
-            const fragment = document.createDocumentFragment();
-            const escapedWords = searchWords.map(word => word.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&'));
-            const regex = new RegExp(`(${escapedWords.join('|')})`, 'gi');
-            results.forEach(result => {
-                const resultElement = document.createElement('button');
-                resultElement.className = 'search-result-item'; resultElement.dataset.targetId = result.id;
-                const snippetText = result.fullText.substring(0, 200).replace(/\s+/g, ' ');
-                const highlightedSnippet = snippetText.replace(regex, match => `<mark>${match}</mark>`);
-                resultElement.innerHTML = `<div class="text-left w-full"><div class="search-result-path">${result.path}</div><div class="search-result-title">${result.title}</div><div class="search-result-snippet">...${highlightedSnippet}...</div></div>`;
-                fragment.appendChild(resultElement);
-            });
-            searchResultsContainer.appendChild(fragment);
-        };
-    
-        // --- Search Event Listeners ---
-        searchBar.addEventListener('input', () => {
-            clearTimeout(searchDebounceTimer); const query = searchBar.value.trim().toLowerCase();
-            searchDebounceTimer = setTimeout(() => { performSearch(query); }, 250);
-        });
-        searchResultsContainer.addEventListener('click', (event) => {
-            const targetItem = event.target.closest('.search-result-item');
-            if (!targetItem || !targetItem.dataset.targetId) return;
-            navigateToElement(targetItem.dataset.targetId);
-        });
-    
-        // --- Timeline Selection Logic ---
-        timelineSelection.addEventListener('click', (event) => {
-            const target = event.target.closest('.timeline-card');
-            if (!target) return;
-            const sectionId = target.dataset.target; const sectionToShow = document.getElementById(sectionId);
-            if (sectionToShow) {
-                timelineSelection.style.display = 'none'; timelineContent.style.display = 'block'; subtitle.style.display = 'none'; timelineSections.forEach(sec => sec.classList.add('hidden')); sectionToShow.classList.remove('hidden');
-                const sectionTitle = target.querySelector('.timeline-title')?.textContent || 'Section';
-                const sectionSubtitle = target.querySelector('.timeline-subtitle')?.textContent || '';
-                const fullTitle = `${sectionTitle} (${sectionSubtitle})`;
-                updateAndRenderBreadcrumbs([{ name: partData.breadcrumbHome, level: 'home' }, { name: fullTitle, level: 'section', id: sectionId }]);
-            }
-        });
-    
-        // --- King Color Coding Logic ---
-        const applyKingColorCoding = () => {
-            document.querySelectorAll('.dynasty-details').forEach(dynasty => {
-                const contentPanel = dynasty.querySelector(':scope > .content-panel');
-                if (!contentPanel) return;
-                const kings = contentPanel.querySelectorAll(':scope .king-details');
-                const numKings = kings.length;
-                kings.forEach((king, index) => {
-                    if (index === numKings - 1 && numKings > 0) { king.classList.add('king-color-last');
-                    } else { const colorIndex = (index % 12) + 1; king.classList.add(`king-color-${colorIndex}`); }
-                });
-            });
-        };
-    
-        // --- Accordion Logic ---
-        const setupAccordionLogic = () => {
-            const MAX_PANEL_HEIGHT_VH = 80;
-            const setPanelState = (panel, open) => {
-                if (open) {
-                    const scrollHeight = panel.scrollHeight; const maxAllowedHeight = (window.innerHeight * MAX_PANEL_HEIGHT_VH) / 100;
-                    panel.style.maxHeight = `${maxAllowedHeight}px`;
-                    panel.style.overflowY = scrollHeight > maxAllowedHeight ? 'auto' : 'hidden';
-                } else { panel.style.maxHeight = null; panel.style.overflowY = 'hidden'; }
-            };
-            allDetails.forEach((details, i) => {
-                const summary = details.querySelector(':scope > summary'); const contentPanel = details.querySelector(':scope > .content-panel');
-                if (summary && contentPanel) { if (!contentPanel.id) { contentPanel.id = `content-panel-${i}`; } summary.setAttribute('aria-controls', contentPanel.id); }
-                details.addEventListener('toggle', (event) => {
-                    const target = event.target;
-                    if (target.matches('.dynasty-details, .event-details')) {
-                        const parentSection = target.closest('.timeline-section');
-                        if (parentSection) {
-                            parentSection.querySelectorAll('.details-wrapper').forEach(wrapper => {
-                                const d = wrapper.querySelector('details');
-                                if (d && d !== target) {
-                                    target.open ? wrapper.classList.add('hidden') : wrapper.classList.remove('hidden');
-                                }
-                            });
-                        }
-                    }
-                    if (contentPanel) { setPanelState(contentPanel, target.open); }
-                    setTimeout(() => {
-                        let parent = target.parentElement?.closest('details[open]');
-                        while (parent) {
-                            const parentContentPanel = parent.querySelector(':scope > .content-panel');
-                            if (parentContentPanel) { setPanelState(parentContentPanel, true); }
-                            parent = parent.parentElement?.closest('details[open]');
-                        }
-                    }, 0);
-                    updateBreadcrumbsFromElement(target);
-                });
-            });
-        };
-    
-        // --- Visual Timeline Bar ---
-        const createVisualTimelines = (data) => {
-            if (!data || Object.keys(data).length === 0) return;
-            Object.entries(data).forEach(([sectionId, sectionData]) => {
-                const section = document.getElementById(sectionId); const title = section?.querySelector('.main-section-title');
-                if (!section || !title) return;
-                const totalDuration = Math.abs(sectionData.start - sectionData.end);
-                const container = document.createElement('div'); container.className = 'visual-timeline-container';
-                const bar = document.createElement('div'); bar.className = 'visual-timeline-bar';
-                sectionData.dynasties.forEach((dynasty) => {
-                    const duration = Math.abs(dynasty.start - dynasty.end); const width = (duration / totalDuration) * 100;
-                    const block = document.createElement('button');
-                    block.className = 'timeline-block'; block.style.width = `${width}%`; block.style.backgroundColor = dynasty.color; block.textContent = dynasty.name; block.title = `${dynasty.name} (${duration} years)`; block.dataset.detailsId = dynasty.detailsId;
-                    bar.appendChild(block);
-                });
-                container.appendChild(bar); title.after(container);
-            });
-            document.getElementById('timeline-content').addEventListener('click', (event) => {
-                const target = event.target;
-                if (target.classList.contains('timeline-block') && target.dataset.detailsId) {
-                    const element = document.getElementById(target.dataset.detailsId);
-                    element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        };
-    
-        // --- Inline Glossary ---
-        const initializeGlossary = (data) => {
-            const keyTerms = Object.keys(data); if (keyTerms.length === 0) return;
-            const regex = new RegExp(`(${keyTerms.join('|')})`, 'g');
-            document.querySelectorAll('.content-panel ul, .timeline-card .timeline-title').forEach(area => {
-                const walker = document.createTreeWalker(area, NodeFilter.SHOW_TEXT);
-                const nodesToModify = [];
-                while (walker.nextNode()) { if (walker.currentNode.parentElement?.tagName !== 'BUTTON') { nodesToModify.push(walker.currentNode); } }
-                nodesToModify.forEach(node => {
-                    if (node.nodeValue.match(regex)) {
-                        const fragment = document.createDocumentFragment();
-                        node.nodeValue.split(regex).forEach((part, index) => {
-                            if (index % 2 === 1) {
-                                const button = document.createElement('button');
-                                button.className = 'key-term'; button.dataset.term = part; button.textContent = part; fragment.appendChild(button);
-                            } else if (part) { fragment.appendChild(document.createTextNode(part)); }
-                        });
-                        node.parentNode.replaceChild(fragment, node);
-                    }
-                });
-            });
-            let popover = null; let lastFocusedTerm = null;
-            const removePopover = () => {
-                if (synth.speaking) synth.cancel();
-                if (popover) { popover.remove(); popover = null; }
-                if (lastFocusedTerm) { lastFocusedTerm.focus(); lastFocusedTerm = null; }
-            };
-            const handleTruncation = (popoverEl) => {
-                const existingBtn = popoverEl.querySelector('.glossary-learn-more'); if (existingBtn) existingBtn.remove();
-                const visibleContent = popoverEl.querySelector('.glossary-popover-content:not(.hidden)'); if (!visibleContent) return;
-                visibleContent.classList.remove('is-truncated'); visibleContent.style.maxHeight = '';
-                if (visibleContent.scrollHeight > visibleContent.clientHeight) {
-                    visibleContent.classList.add('is-truncated');
-                    const learnMoreBtn = document.createElement('button');
-                    learnMoreBtn.className = 'glossary-learn-more'; learnMoreBtn.textContent = visibleContent.lang === 'hi' ? 'और पढ़ें ▼' : 'Learn More ▼';
-                    popoverEl.querySelector('.glossary-popover-content-wrapper')?.after(learnMoreBtn);
-                    learnMoreBtn.addEventListener('click', () => {
-                        visibleContent.style.maxHeight = `${visibleContent.scrollHeight}px`; visibleContent.classList.remove('is-truncated'); learnMoreBtn.remove();
-                    }, { once: true });
-                }
-            };
-            const handlePopoverKeyDown = (event) => {
-                if (event.key === 'Escape') { removePopover(); }
-                if (event.key === 'Tab' && popover) { event.preventDefault(); popover.querySelector('.glossary-popover-close')?.focus(); }
-            };
-            const createPopover = (term, target) => {
-                removePopover(); lastFocusedTerm = target; const termData = data[term]; if (!termData) return;
-                popover = document.createElement('div');
-                popover.className = 'glossary-popover'; popover.setAttribute('role', 'dialog'); popover.setAttribute('aria-modal', 'true'); popover.setAttribute('aria-labelledby', 'popover-title-hi');
-                popover.innerHTML = `
-                    <div class="glossary-popover-header"><div class="glossary-titles"><h3 id="popover-title-hi" class="glossary-popover-title" lang="hi">${termData.title_hi}</h3><h3 id="popover-title-en" class="glossary-popover-title hidden" lang="en">${termData.title_en}</h3></div><div class="glossary-controls"><button class="read-aloud-btn" aria-label="Read aloud">${getPlayIcon()}</button><button class="language-toggle" aria-label="Switch to English">En</button><button class="glossary-popover-close" aria-label="बंद करें">&times;</button></div></div>
-                    <div class="glossary-popover-content-wrapper"><div class="glossary-popover-content" lang="hi">${termData.definition_hi}</div><div class="glossary-popover-content hidden" lang="en">${termData.definition_en}</div></div>`;
-                document.body.appendChild(popover);
-                const targetRect = target.getBoundingClientRect(); const popoverRect = popover.getBoundingClientRect(); let top = targetRect.bottom + 8; let left = targetRect.left;
-                if (top + popoverRect.height > window.innerHeight) { top = targetRect.top - popoverRect.height - 8; }
-                if (left + popoverRect.width > window.innerWidth) { left = window.innerWidth - popoverRect.width - 8; }
-                if (left < 8) { left = 8; }
-                popover.style.top = `${top + window.scrollY}px`; popover.style.left = `${left + window.scrollX}px`;
-                handleTruncation(popover); setTimeout(() => popover.classList.add('visible'), 10);
-                const closeButton = popover.querySelector('.glossary-popover-close');
-                const toggleBtn = popover.querySelector('.language-toggle');
-                const readBtn = popover.querySelector('.read-aloud-btn');
-                closeButton?.focus(); closeButton?.addEventListener('click', removePopover);
-                readBtn?.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const visibleTitle = popover.querySelector('.glossary-popover-title:not(.hidden)'); const visibleContent = popover.querySelector('.glossary-popover-content:not(.hidden)'); if (!visibleTitle || !visibleContent) return;
-                    const lang = visibleContent.lang === 'hi' ? 'hi-IN' : 'en-US'; const textToRead = `${visibleTitle.textContent}. ${visibleContent.textContent}`;
-                    readAloud(textToRead, lang, readBtn);
-                });
-                toggleBtn?.addEventListener('click', () => {
-                    const isSwitchingToEnglish = popover.querySelector('.glossary-popover-content[lang="en"]').classList.contains('hidden');
-                    popover.querySelectorAll('.glossary-popover-title, .glossary-popover-content').forEach(el => el.classList.toggle('hidden'));
-                    if (isSwitchingToEnglish) {
-                        toggleBtn.textContent = 'हि'; toggleBtn.setAttribute('aria-label', 'हिंदी में स्विच करें'); popover.setAttribute('aria-labelledby', 'popover-title-en');
-                    } else {
-                        toggleBtn.textContent = 'En'; toggleBtn.setAttribute('aria-label', 'Switch to English'); popover.setAttribute('aria-labelledby', 'popover-title-hi');
-                    }
-                    if (synth.speaking) synth.cancel(); handleTruncation(popover);
-                });
-                popover.addEventListener('keydown', handlePopoverKeyDown);
-            };
-            document.body.addEventListener('click', (event) => {
-                const target = event.target;
-                if (target.classList.contains('key-term') && target.dataset.term) { createPopover(target.dataset.term, target); } 
-                else if (popover && !popover.contains(target)) { removePopover(); }
-            });
-            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && popover) { removePopover(); } });
-        };
-        
-        // --- Connections Hub ---
-        const createConnectionsHubs = (data) => {
-            if (!data || Object.keys(data).length === 0) return;
-            Object.entries(data).forEach(([detailsId, connections]) => {
-                const detailsElement = document.getElementById(detailsId);
-                const contentPanel = detailsElement?.querySelector(':scope > .content-panel');
-                if (!contentPanel) return;
-                const hubContainer = document.createElement('div'); hubContainer.className = 'connections-hub';
-                const title = document.createElement('h4'); title.className = 'connections-title'; title.textContent = 'Related Topics:';
-                const tagsContainer = document.createElement('div'); tagsContainer.className = 'connections-tags';
-                connections.forEach((conn) => {
-                    const tag = document.createElement('button');
-                    tag.className = 'connection-tag'; tag.textContent = conn.label; tag.dataset.targetId = conn.targetId;
-                    tagsContainer.appendChild(tag);
-                });
-                hubContainer.appendChild(title); hubContainer.appendChild(tagsContainer); contentPanel.appendChild(hubContainer);
-            });
-            document.getElementById('timeline-content').addEventListener('click', (event) => {
-                const target = event.target.closest('.connection-tag');
-                if (target && target.dataset.targetId) { navigateToElement(target.dataset.targetId); }
-            });
-        };
-    
-        // --- Initial Load ---
-        updateAndRenderBreadcrumbs([{ name: partData.breadcrumbHome, level: 'home' }]);
-        buildSearchIndex();
-        setupAccordionLogic();
-        applyKingColorCoding();
-        createVisualTimelines(timelineData);
-        initializeGlossary(glossaryData);
-        createConnectionsHubs(connectionsData);
+    renderTimelineSelection();
+    buildSearchIndex();
+    updateBreadcrumbs();
 
-    } catch (error) {
-        console.error("Failed to initialize the application:", error);
-        if (mainContent) { mainContent.innerHTML = `<div class="text-center text-red-600 p-8" role="alert">Failed to load application data. Please try refreshing the page.</div>`; }
-    } finally {
-        if (loader) {
-            loader.classList.add('hidden');
-            loader.addEventListener('transitionend', () => loader.remove());
+    // Event Delegation for better performance
+    const body = document.body;
+    body.addEventListener('click', (event) => {
+        const target = event.target;
+
+        // Timeline card selection
+        const timelineCard = target.closest('.timeline-card');
+        if (timelineCard) {
+            showTimeline(timelineCard.dataset.target);
+            return;
         }
-        if (mainContent) { mainContent.classList.remove('hidden'); }
-    }
+        
+        // Breadcrumb navigation
+        const breadcrumbItem = target.closest('.breadcrumb-item');
+        if (breadcrumbItem) {
+            if (breadcrumbItem.dataset.target === 'home') {
+                showTimeline(null);
+            }
+            return;
+        }
+        
+        // Search result navigation
+        const searchResult = target.closest('.search-result-item');
+        if (searchResult) {
+            const { timelineId, targetId } = searchResult.dataset;
+            showTimeline(timelineId);
+            // Wait for render to complete before navigating
+            setTimeout(() => navigateToElement(targetId), 100);
+            return;
+        }
+
+        // Visual timeline bar navigation
+        const timelineBlock = target.closest('.timeline-block');
+        if (timelineBlock) {
+            navigateToElement(timelineBlock.dataset.targetId);
+            return;
+        }
+        
+        // Connection tag navigation
+        const connectionTag = target.closest('.connection-tag');
+        if (connectionTag) {
+            const targetId = connectionTag.dataset.targetId;
+            const targetItem = searchIndex.find(item => item.id === targetId);
+            if(targetItem) {
+                showTimeline(targetItem.timelineId);
+                setTimeout(() => navigateToElement(targetId), 100);
+            }
+            return;
+        }
+
+        // Glossary popover
+        const keyTermButton = target.closest('button.key-term');
+        if (keyTermButton) {
+            renderGlossaryPopover(keyTermButton);
+            return;
+        }
+        
+        // Close glossary popover
+        const closeButton = target.closest('.glossary-popover-close');
+        if (closeButton) {
+            closeButton.closest('.glossary-popover').remove();
+            stopSpeech();
+            return;
+        }
+
+        // Language toggle in popover
+        const langToggle = target.closest('.language-toggle');
+        if (langToggle) {
+            const popover = langToggle.closest('.glossary-popover');
+            const titleEl = popover.querySelector('.glossary-popover-title');
+            const contentEl = popover.querySelector('.glossary-popover-content p');
+            const termKey = document.querySelector(`button.key-term[data-term="${titleEl.textContent.split('(')[0].trim()}"]`)?.dataset.term || document.querySelector(`button.key-term[data-term*="${titleEl.textContent.split('¹')[0].trim()}"]`)?.dataset.term;
+            if (!termKey) return;
+            const termData = dataStore.glossary[termKey];
+            const currentLang = langToggle.dataset.lang;
+            if (currentLang === 'en') {
+                titleEl.textContent = termData.title_en;
+                contentEl.textContent = termData.definition_en;
+                langToggle.dataset.lang = 'hi';
+                langToggle.textContent = 'हिं';
+                langToggle.setAttribute('aria-label', 'Switch to Hindi');
+            } else {
+                titleEl.textContent = termData.title_hi;
+                contentEl.textContent = termData.definition_hi;
+                langToggle.dataset.lang = 'en';
+                langToggle.textContent = 'En';
+                langToggle.setAttribute('aria-label', 'Switch to English');
+            }
+             // Re-check for truncation and update UI
+            const contentDiv = popover.querySelector('.glossary-popover-content');
+            const learnMoreBtn = popover.querySelector('.glossary-learn-more');
+            contentDiv.classList.toggle('is-truncated', contentEl.scrollHeight > contentEl.clientHeight);
+            learnMoreBtn.classList.toggle('hidden', contentEl.scrollHeight <= contentEl.clientHeight);
+            return;
+        }
+        
+        // Glossary 'Learn More'
+        const learnMoreBtn = target.closest('.glossary-learn-more');
+        if(learnMoreBtn) {
+            const content = learnMoreBtn.previousElementSibling;
+            content.style.maxHeight = `${content.querySelector('p').scrollHeight}px`;
+            content.classList.remove('is-truncated');
+            learnMoreBtn.classList.add('hidden');
+        }
+
+        // Read Aloud button
+        const readAloudButton = target.closest('.read-aloud-btn');
+        if (readAloudButton) {
+            handleReadAloud(readAloudButton);
+            return;
+        }
+        
+        // Close popover if clicking outside
+        if (!target.closest('.glossary-popover') && !target.closest('button.key-term')) {
+            const existingPopover = document.querySelector('.glossary-popover');
+            if (existingPopover) {
+                 existingPopover.remove();
+                 stopSpeech();
+            }
+        }
+    });
+    
+    // Accordion toggle handler
+    body.addEventListener('toggle', (event) => {
+        if (event.target.tagName === 'DETAILS') {
+            handleAccordionToggle(event.target);
+        }
+    }, true); // Use capture phase to handle it before it bubbles
+
+    // Search bar handler with debounce
+    let searchTimeout;
+    document.getElementById('search-bar').addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            performSearch(e.target.value);
+        }, 300); // 300ms debounce
+    });
+
+    // --- [INITIAL REVEAL] ---
+    loader.classList.add('hidden');
+    mainContent.classList.remove('hidden');
 });
