@@ -229,26 +229,10 @@ button.search-result-item:focus-visible {
     border-radius: 2px;
 }
 
-/* --- [NEW] ACCESSIBILITY FIX: Wrapper for details + button --- */
-.details-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-.details-wrapper > details {
-    flex-grow: 1;
-}
-.timeline-section > .details-wrapper {
-    margin-bottom: 1.25rem;
-}
-.content-panel > .details-wrapper {
-    margin-top: 0.75rem;
-}
-
 .dynasty-details, .event-details {
     background-color: white;
     border-radius: 0.75rem;
-    /* margin-bottom removed, now on wrapper */
+    margin-bottom: 1.25rem;
     box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
     border: 1px solid #e2e8f0; /* slate-200 */
     overflow: hidden; /* Ensures children don't overflow rounded corners */
@@ -345,7 +329,6 @@ details > .content-panel {
 
 .king-details {
     border: none;
-    /* margin-top removed, now on wrapper */
     border-radius: 0.5rem;
     border: 1px solid #e2e8f0;
     transition: background-color 0.3s ease;
@@ -620,14 +603,21 @@ button.key-term:focus-visible {
 }
 
 
-/* --- [NEW] Read Aloud Button --- */
+/* --- [UPDATED] Read Aloud Button & Summary Controls --- */
+.summary-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+    margin-left: 1rem;
+}
 .read-aloud-btn {
     background-color: #f1f5f9;
     color: #4f46e5;
     border: 1px solid #e2e8f0;
-    border-radius: 9999px;
-    width: 28px;
-    height: 28px;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -643,8 +633,8 @@ button.key-term:focus-visible {
     outline-offset: 2px;
 }
 .read-aloud-btn svg {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
 }
 .read-aloud-btn.speaking {
     background-color: #4f46e5;

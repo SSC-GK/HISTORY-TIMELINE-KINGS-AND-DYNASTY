@@ -76,7 +76,11 @@ function setupEventListeners() {
         
         // --- Speech ---
         const readAloudButton = target.closest('.read-aloud-btn');
-        if (readAloudButton) { speech.handleReadAloud(readAloudButton); return; }
+        if (readAloudButton) {
+            event.stopPropagation(); // Stop click from toggling <details>
+            speech.handleReadAloud(readAloudButton);
+            return;
+        }
 
         // --- Popover dismissal ---
         if (!target.closest('.glossary-popover') && !target.closest('button.key-term')) {

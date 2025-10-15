@@ -29,13 +29,11 @@ export const handleReadAloud = async (button) => {
             }
         }
     } else {
-        const detailsWrapper = button.closest('.details-wrapper');
-        const summary = detailsWrapper?.querySelector('summary');
+        const summary = button.closest('summary');
         if (summary) {
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = summary.innerHTML;
-            tempDiv.querySelector('.arrow, .arrow-inner')?.remove(); // Clean up arrow icon
-            textToRead = tempDiv.textContent.trim().replace(/\s+/g, ' ');
+            const summaryClone = summary.cloneNode(true);
+            summaryClone.querySelector('.summary-controls')?.remove(); // Remove button/arrow container
+            textToRead = summaryClone.textContent.trim().replace(/\s+/g, ' ');
         }
     }
 

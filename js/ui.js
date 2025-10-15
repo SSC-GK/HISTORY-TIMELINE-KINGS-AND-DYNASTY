@@ -59,13 +59,18 @@ export const createAccordionItem = (item, level, index, totalItems) => {
             <div class="summary-title-line"><span class="summary-title">${item.summary.title}</span>${item.summary.period ? `<span class="dynasty-period">${item.summary.period}</span>` : ''}</div>
             ${dynastyMeta}
         </div>` : `
-        <span class="summary-title">${item.summary.title}</span>${item.summary.reign ? `<span class="king-reign">${item.summary.reign}</span>` : ''}`;
+        <div class="summary-content-wrapper">
+            <span class="summary-title">${item.summary.title}</span>
+            ${item.summary.reign ? `<span class="king-reign">${item.summary.reign}</span>` : ''}
+        </div>`;
 
     const arrowIcon = level === 0
         ? `<svg class="arrow w-6 h-6 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>`
         : `<span class="arrow-inner text-indigo-600" aria-hidden="true">▶</span>`;
 
-    const readAloudButton = `<button class="read-aloud-btn" aria-label="Read ${item.summary.title} aloud"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M7.787 2.213A.75.75 0 0 0 6.75 3v10.5a.75.75 0 0 0 1.037.713l8.25-5.25a.75.75 0 0 0 0-1.426l-8.25-5.25Z" /><path d="M2.25 3A.75.75 0 0 0 1.5 3.75v8.5A.75.75 0 0 0 2.25 13h1.5a.75.75 0 0 0 0-1.5H3V4.5h.75a.75.75 0 0 0 0-1.5h-1.5Z" /></svg></button>`;
+    const readAloudButton = `<button class="read-aloud-btn" aria-label="Read ${item.summary.title} aloud"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M11.25 3.383c0-1.113-1.347-1.67-2.134-.883l-3.75 3.75H4.58c-.95 0-1.93.553-2.216 1.587A8.135 8.135 0 0 0 2.08 10c0 1.33.315 2.603.875 3.763.286 1.034 1.266 1.587 2.216 1.587h.783l3.75 3.75c.787.787 2.134.23 2.134-.883V3.383z" /><path d="M15.485 12.357a1.25 1.25 0 0 0 0-1.768 4.196 4.196 0 0 0-5.934 0 1.25 1.25 0 1 0 1.768 1.768 1.696 1.696 0 0 1 2.4 0 1.25 1.25 0 0 0 1.768 0z" /><path d="M13.719 14.375a1.25 1.25 0 0 0 0-1.768c-1.952-1.952-5.118-1.952-7.07 0a1.25 1.25 0 0 0 1.768 1.768c.976-.976 2.559-.976 3.535 0a1.25 1.25 0 0 0 1.768 0z" /></svg></button>`;
+    
+    const summaryControls = `<div class="summary-controls">${readAloudButton}${arrowIcon}</div>`;
 
     const connections = state.dataStore.connections[item.id];
     const connectionsHtml = connections ? `<div class="connections-hub"><h4 class="connections-title">Related Topics:</h4><div class="connections-tags">${connections.map(c => `<button class="connection-tag" data-target-id="${c.targetId}">${c.label}</button>`).join('')}</div></div>` : '';
@@ -80,13 +85,10 @@ export const createAccordionItem = (item, level, index, totalItems) => {
     }
 
     return `
-        <div class="details-wrapper">
-            <details id="${detailsId}" class="${detailsClass} ${colorClass}" data-level="${level}">
-                <summary class="${summaryClass}">${summaryContent}${arrowIcon}</summary>
-                <div class="${contentClass}">${subContent}${connectionsHtml}</div>
-            </details>
-            ${readAloudButton}
-        </div>`;
+        <details id="${detailsId}" class="${detailsClass} ${colorClass}" data-level="${level}">
+            <summary class="${summaryClass}">${summaryContent}${summaryControls}</summary>
+            <div class="${contentClass}">${subContent}${connectionsHtml}</div>
+        </details>`;
 };
 
 /**
@@ -184,7 +186,7 @@ export const navigateToElement = (targetId) => {
 
     const parentSection = target.closest('.timeline-section');
     if (parentSection) {
-        parentSection.querySelectorAll(':scope > .details-wrapper > details[data-level="0"]').forEach(d => {
+        parentSection.querySelectorAll(':scope > details[data-level="0"]').forEach(d => {
             d.style.display = '';
         });
     }
@@ -261,7 +263,7 @@ export const handleAccordionToggle = (details) => {
     // This is the 'focus mode' logic for top-level accordions (dynasties).
     // When one is opened, all other top-level ones are hidden.
     if (details.dataset.level === '0') {
-        const allTopLevel = details.closest('.timeline-section')?.querySelectorAll(':scope > .details-wrapper > details[data-level="0"]');
+        const allTopLevel = details.closest('.timeline-section')?.querySelectorAll(':scope > details[data-level="0"]');
         allTopLevel?.forEach(d => {
             if (details.open && d !== details) {
                 d.style.display = 'none';
@@ -379,7 +381,7 @@ export const renderGlossaryPopover = (targetButton) => {
             <div class="glossary-titles"><h3 class="glossary-popover-title">${termData.title_hi}</h3></div>
             <div class="glossary-controls">
                 <button class="language-toggle" data-lang="en" aria-label="Switch to English">En</button>
-                <button class="read-aloud-btn" data-type="glossary" aria-label="Read definition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M7.787 2.213A.75.75 0 0 0 6.75 3v10.5a.75.75 0 0 0 1.037.713l8.25-5.25a.75.75 0 0 0 0-1.426l-8.25-5.25Z" /><path d="M2.25 3A.75.75 0 0 0 1.5 3.75v8.5A.75.75 0 0 0 2.25 13h1.5a.75.75 0 0 0 0-1.5H3V4.5h.75a.75.75 0 0 0 0-1.5h-1.5Z" /></svg></button>
+                <button class="read-aloud-btn" data-type="glossary" aria-label="Read definition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M11.25 3.383c0-1.113-1.347-1.67-2.134-.883l-3.75 3.75H4.58c-.95 0-1.93.553-2.216 1.587A8.135 8.135 0 0 0 2.08 10c0 1.33.315 2.603.875 3.763.286 1.034 1.266 1.587 2.216 1.587h.783l3.75 3.75c.787.787 2.134.23 2.134-.883V3.383z" /><path d="M15.485 12.357a1.25 1.25 0 0 0 0-1.768 4.196 4.196 0 0 0-5.934 0 1.25 1.25 0 1 0 1.768 1.768 1.696 1.696 0 0 1 2.4 0 1.25 1.25 0 0 0 1.768 0z" /><path d="M13.719 14.375a1.25 1.25 0 0 0 0-1.768c-1.952-1.952-5.118-1.952-7.07 0a1.25 1.25 0 0 0 1.768 1.768c.976-.976 2.559-.976 3.535 0a1.25 1.25 0 0 0 1.768 0z" /></svg></button>
                 <button class="glossary-popover-close" aria-label="Close">&times;</button>
             </div>
         </div>

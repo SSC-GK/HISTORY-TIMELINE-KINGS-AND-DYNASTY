@@ -20,12 +20,14 @@
             <li><strong>Fully Dynamic, Data-Driven Architecture:</strong> To maximize performance and maintainability, the application is built on a data-driven architecture. The main HTML file is a lightweight skeleton. All displayable content—from UI text to detailed historical narratives—is externalized into a set of structured JSON files. The application fetches these files on load and dynamically builds the entire DOM, completely separating content from presentation.</li>
             <li><strong>Dynamic Content Panels:</strong> To ensure a clean UI, accordion content panels have a maximum height capped at 80% of the viewport height. Content exceeding this limit becomes scrollable. This behavior is responsive and adjusts as nested accordions are opened or closed.</li>
             <li><strong>Bilingual Interface:</strong> To cater to a wider audience, all major headings, titles, and key names (including dynasties and rulers) are presented in both Hindi (Devanagari script) and English.</li>
+            <li><strong>Standardized Footer:</strong> A clean, responsive footer provides copyright information and a persistent link back to this project overview page, ensuring transparency and easy access to documentation.</li>
         </ol>
         <hr>
         <h3>Project Structure</h3>
         <p>The project follows a modular structure to separate concerns:</p>
         <ul>
             <li><code>index.html</code>: The main application shell.</li>
+            <li><code>readme.html</code>: A user-facing HTML version of the project documentation (this file).</li>
             <li><code>index.css</code>: Contains all styles for the application.</li>
             <li><code>index.js</code>: The primary script that initializes the application and wires up event listeners.</li>
             <li><code>/js/</code>: A directory for JavaScript modules.
@@ -113,7 +115,7 @@
             <li><strong>Read Aloud Accessibility Feature:</strong>
                 <ul>
                     <li><strong>Purpose:</strong> To provide text-to-speech functionality for key content, improving accessibility for users with visual impairments or for those who prefer auditory learning.</li>
-                    <li><strong>Functionality:</strong> This feature is implemented using the browser's native Web Speech API, requiring no external services. A small speaker icon button is placed next to dynasty/ruler titles and within the glossary popover. Clicking the button reads the relevant text aloud. The button acts as a toggle; clicking it again while it's speaking will stop the narration. The icon animates to provide clear visual feedback during playback.</li>
+                    <li><strong>Functionality:</strong> This feature is implemented using the browser's native Web Speech API. A circular button featuring a clear speaker icon is now seamlessly integrated into the header bar of every accordion (for both dynasties and rulers) and within the glossary popover. This button's functionality is independent of the accordion's toggle mechanism; clicking the speaker icon exclusively triggers the read-aloud feature without opening or closing the content panel. Clicking it again while speaking will stop the narration. The icon animates with a pulse effect to provide clear visual feedback during playback.</li>
                 </ul>
             </li>
             <li><strong>Contextual Connections Hub:</strong>
@@ -151,7 +153,7 @@
                     <li><strong>Act as a Quality Guardrail:</strong> This rule prevents overly aggressive edits that could strip content of its educational value. It forces a disciplined approach, compelling an analysis of every piece of information and its contribution to the user's understanding.</li>
                 </ul>
             </li>
-            <li><strong>Understand App Context:</strong> Before making changes, thoroughly review this <code>README.txt</code> to understand the app's architecture, UI principles, and feature set. Content must be integrated in a way that is consistent with the established design.</li>
+            <li><strong>Understand App Context:</strong> Before making changes, thoroughly review this documentation to understand the app's architecture, UI principles, and feature set. Content must be integrated in a way that is consistent with the established design.</li>
             <li><strong>Fact Verification:</strong> Independently verify the accuracy of all source content before integrating it into the application to maintain historical integrity.</li>
             <li><strong>Preserve Functionality:</strong> Ensure that content updates do not break or negatively impact any existing application features, such as search, navigation, or other interactive elements.</li>
             <li><strong>Use Professional Judgment:</strong> Apply expert knowledge and common sense to handle any unspecified requirements, always prioritizing a high-quality, stable, and user-friendly outcome.</li>
@@ -184,7 +186,7 @@
         <h3>Developer & Contribution Guidelines</h3>
         <p>This section outlines mandatory rules for any developer making changes to the project.</p>
         <ol>
-            <li><strong>Mandatory README Updates:</strong> It is a strict requirement that <strong>any and all changes</strong> made to the application—whether a new feature, a UI tweak, a CSS refactor, or a change in the data structure—must be documented in this <code>README.txt</code> file. Before committing any code, ensure that the relevant sections of this document are updated to reflect your changes. This policy ensures the <code>README.txt</code> remains a single, accurate source of truth for the project's current state.</li>
+            <li><strong>Mandatory README Updates:</strong> It is a strict requirement that <strong>any and all changes</strong> made to the application—whether a new feature, a UI tweak, a CSS refactor, or a change in the data structure—must be documented in this <code>readme.html</code> file. Before committing any code, ensure that the relevant sections of this document are updated to reflect your changes. This policy ensures the <code>readme.html</code> file remains a single, accurate source of truth for the project's current state.</li>
         </ol>
     </main>
 </body>
