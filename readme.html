@@ -24,22 +24,36 @@
         </ol>
         <hr>
         <h3>Project Structure</h3>
-        <p>The project follows a modular structure to separate concerns:</p>
-        <ul>
-            <li><code>index.html</code>: The main application shell.</li>
-            <li><code>index.js</code>: The primary script that initializes the application and wires up event listeners.</li>
-            <li><code>/js/</code>: A directory for JavaScript modules.
-                <ul>
-                    <li><code>state.js</code>: Manages the application's global state.</li>
-                    <li><code>data.js</code>: Handles fetching and processing of all JSON data.</li>
-                    <li><code>ui.js</code>: Contains all functions related to DOM manipulation, rendering, and UI event handling.</li>
-                    <li><code>speech.js</code>: Manages the Web Speech API for the "Read Aloud" feature.</li>
-                </ul>
-            </li>
-            <li><code>/css/</code>: A directory containing modular CSS files for different components of the application (e.g., <code>accordion.css</code>, <code>search.css</code>, <code>glossary.css</code>).</li>
-            <li><code>/content-json/</code>: This directory serves as the application's database, containing all UI text, historical content, and relationship data in structured JSON files.</li>
-            <li><code>readme.html</code>: This documentation file.</li>
-        </ul>
+        <p>The project follows a modular structure to separate concerns, visually represented below:</p>
+        <pre><code>.
+├── 📄 index.html              <span class="text-slate-500">// Main application shell & entry point</span>
+├── 📄 readme.html             <span class="text-slate-500">// Project documentation (this file)</span>
+├── 📄 index.js                <span class="text-slate-500">// Main script, initializes the app</span>
+├── 📁 css/                     <span class="text-slate-500">// Modular stylesheets for components</span>
+│   ├── 📄 accordion.css
+│   ├── 📄 base.css
+│   ├── 📄 components.css
+│   ├── 📄 glossary.css
+│   ├── 📄 header_footer.css
+│   ├── 📄 loader.css
+│   ├── 📄 main_content.css
+│   ├── 📄 readme.css
+│   ├── 📄 search.css
+│   ├── 📄 timeline_selection.css
+│   └── 📄 visual_timeline.css
+├── 📁 js/                      <span class="text-slate-500">// JavaScript modules</span>
+│   ├── 📄 data.js               <span class="text-slate-500">// Handles data fetching & processing</span>
+│   ├── 📄 speech.js             <span class="text-slate-500">// Manages Web Speech API</span>
+│   ├── 📄 state.js              <span class="text-slate-500">// Manages global application state</span>
+│   └── 📄 ui.js                 <span class="text-slate-500">// Handles all DOM rendering & UI logic</span>
+└── 📁 content-json/           <span class="text-slate-500">// The application's "database"</span>
+    ├── 📄 ConnectionsData.json  <span class="text-slate-500">// Defines relationships between topics</span>
+    ├── 📄 Glossary.json         <span class="text-slate-500">// Key terms and definitions</span>
+    ├── 📄 TimelineData.json     <span class="text-slate-500">// Data for visual timeline bars</span>
+    ├── 📄 dynasty.json          <span class="text-slate-500">// High-level content structure</span>
+    ├── 📄 kings.json            <span class="text-slate-500">// Detailed content for rulers/events</span>
+    ├── 📄 other.json            <span class="text-slate-500">// Reserved for future content</span>
+    └── 📄 part.json             <span class="text-slate-500">// UI text & home screen card data</span></code></pre>
         <hr>
         <h3>Data Architecture & Hierarchy</h3>
         <p>The application's content is managed through a hierarchy of interconnected JSON files, all located within the <code>/content-json/</code> directory:</p>
