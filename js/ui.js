@@ -1,3 +1,4 @@
+
 /**
  * @file Handles all DOM rendering, manipulation, and UI-related event logic.
  */
@@ -144,6 +145,9 @@ export const renderVisualTimelineBar = (timelineId) => {
  * @param {string|null} timelineId - The ID of the timeline to show, or null to show the menu.
  */
 export const showTimeline = (timelineId) => {
+    // [FIX] Reset "focus mode" display styles before changing views to prevent sections from staying hidden.
+    document.querySelectorAll('#timeline-content details[data-level="0"]').forEach(d => d.style.display = '');
+
     const timelineSelection = document.getElementById('timeline-selection');
     const timelineContent = document.getElementById('timeline-content');
     const searchResultsContainer = document.getElementById('search-results-container');
@@ -213,25 +217,25 @@ export const navigateToElement = (targetId) => {
 /**
  * Recursively updates the max-height of all open parent accordions.
  * This ensures that when a nested accordion is opened or closed, the parent
- * containers expand or shrink correctly to fit the new content.
+ * containers expand or shrink correctly to fit the new content, applying
+ * height constraints where necessary.
  * @param {HTMLElement} element - The starting element (the one that was toggled).
  */
 function updateParentAccordions(element) {
-    // Find the immediate parent <details> element that is currently open.
     const parentDetails = element.parentElement.closest('details[open]');
-
-    // Base case: If there are no more open parent <details>, stop the recursion.
-    if (!parentDetails) {
-        return;
-    }
+    if (!parentDetails) return;
 
     const parentContentPanel = parentDetails.querySelector('.content-panel');
     if (parentContentPanel) {
-        // We use requestAnimationFrame to ensure the browser has calculated the new
-        // scrollHeight of the parent before we try to set its maxHeight. This prevents
-        // jerky animations and incorrect height calculations.
         requestAnimationFrame(() => {
-            parentContentPanel.style.maxHeight = `${parentContentPanel.scrollHeight}px`;
+            const newScrollHeight = parentContentPanel.scrollHeight;
+            // Apply the same height constraint logic to parent panels
+            if (parentDetails.dataset.level === '0') {
+                const maxAllowedHeight = window.innerHeight * 0.8; // 80vh
+                parentContentPanel.style.maxHeight = `${Math.min(newScrollHeight, maxAllowedHeight)}px`;
+            } else {
+                parentContentPanel.style.maxHeight = `${newScrollHeight}px`;
+            }
         });
     }
 
@@ -241,7 +245,8 @@ function updateParentAccordions(element) {
 
 
 /**
- * Handles smooth accordion open/close animations and focus mode.
+ * Handles smooth accordion open/close animations, applying height constraints
+ * to top-level panels to prevent excessive page scrolling.
  * @param {HTMLDetailsElement} details - The details element being toggled.
  */
 export const handleAccordionToggle = (details) => {
@@ -249,8 +254,15 @@ export const handleAccordionToggle = (details) => {
     if (!contentPanel) return;
 
     if (details.open) {
-        // When opening, set max-height to its content's scroll height.
-        contentPanel.style.maxHeight = `${contentPanel.scrollHeight}px`;
+        const scrollHeight = contentPanel.scrollHeight;
+        // Constrain height only for top-level dynasty panels
+        if (details.dataset.level === '0') {
+            const maxAllowedHeight = window.innerHeight * 0.8; // 80vh
+            contentPanel.style.maxHeight = `${Math.min(scrollHeight, maxAllowedHeight)}px`;
+        } else {
+            // Nested items (kings) expand to their full content height
+            contentPanel.style.maxHeight = `${scrollHeight}px`;
+        }
     } else {
         // When closing, stop any speech originating from the header button.
         const speakingButton = details.querySelector('summary .read-aloud-btn.speaking');
@@ -258,7 +270,8 @@ export const handleAccordionToggle = (details) => {
             stopSpeech();
         }
         
-        // Animate it shut.
+        // Animate it shut by setting max-height to 0.
+        // The RAF trick is for a smooth closing animation.
         requestAnimationFrame(() => {
             contentPanel.style.maxHeight = `${contentPanel.scrollHeight}px`;
             requestAnimationFrame(() => {
@@ -269,7 +282,6 @@ export const handleAccordionToggle = (details) => {
 
     // After any toggle, update parent accordion heights.
     updateParentAccordions(details);
-
 
     // 'Focus mode' logic for top-level accordions.
     if (details.dataset.level === '0') {
