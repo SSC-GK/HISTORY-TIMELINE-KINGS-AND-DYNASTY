@@ -2,6 +2,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     const loader = document.getElementById('loader-overlay');
     const mainContent = document.getElementById('main-content');
 
+    // --- Read Aloud Feature ---
+    const synth = window.speechSynthesis;
+    let voices = [];
+    let speakingButton = null;
+
+    const getPlayIcon = () => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" /></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M5.5 2.75a.75.75 0 0 0-1.5 0v14.5a.75.75 0 0 0 1.5 0V2.75Z" /><path d="M8.5 4.75a.75.75 0 0 0-1.5 0v10.5a.75.75 0 0 0 1.5 0V4.75Z" /><path d="M11.5 6.75a.75.75 0 0 0-1.5 0v6.5a.75.75 0 0 0 1.5 0V6.75Z" /><path d="M14.5 8.75a.75.75 0 0 0-1.5 0v2.5a.75.75 0 0 0 1.5 0V8.75Z" /></svg>`;
+    const getStopIcon = () => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2 10a8 8 0 1 1 16 0 8 8 0 0 1-16 0Zm6-3.75a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Zm4 0a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" /></svg>`;
+
     try {
         // --- Data Fetching ---
         const fetchData = async (url) => {
@@ -84,6 +92,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                     } else { // event-details summary
                         summaryHTML = `<span class="summary-title">${item.summary.title}</span>`;
                     }
+                    
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = summaryHTML;
+                    const textToRead = tempDiv.textContent.replace(/\s+/g, ' ').trim();
 
                     let contentHTML = '';
                     if (item.content) {
@@ -92,25 +104,34 @@ document.addEventListener('DOMContentLoaded', async () => {
                         item.subItems.forEach(key => {
                             const subItemData = kingsData[key];
                             if (subItemData) {
+                                const subItemSummaryTitle = subItemData.summary.title;
+                                const subItemTextToRead = subItemSummaryTitle.replace(/<[^>]*>?/gm, '').replace(/\s+/g, ' ').trim();
+
                                 contentHTML += `
-                                    <details id="${key.replace(/\s+/g, '-').toLowerCase()}-details" class="${subItemData.type}">
-                                        <summary class="king-summary">
-                                            <span class="summary-title">${subItemData.summary.title}</span>
-                                            ${subItemData.summary.reign ? `<span class="king-reign">${subItemData.summary.reign}</span>` : ''}
-                                            <span class="arrow-inner" aria-hidden="true">▶</span>
-                                        </summary>
-                                        <div class="content-panel">${subItemData.content}</div>
-                                    </details>
+                                    <div class="details-wrapper">
+                                        <button class="read-aloud-btn" data-text-to-read="${subItemTextToRead}" aria-label="Read aloud: ${subItemTextToRead}">${getPlayIcon()}</button>
+                                        <details id="${key.replace(/\s+/g, '-').toLowerCase()}-details" class="${subItemData.type}">
+                                            <summary class="king-summary">
+                                                <span class="summary-title">${subItemSummaryTitle}</span>
+                                                ${subItemData.summary.reign ? `<span class="king-reign">${subItemData.summary.reign}</span>` : ''}
+                                                <span class="arrow-inner" aria-hidden="true">▶</span>
+                                            </summary>
+                                            <div class="content-panel">${subItemData.content}</div>
+                                        </details>
+                                    </div>
                                 `;
                             }
                         });
                     }
 
                     sectionHTML += `
-                        <details id="${item.id || ''}" class="${item.type}">
-                            <summary class="${item.type.replace('-details', '-summary')}">${summaryHTML}<span class="arrow" aria-hidden="true">▶</span></summary>
-                            <div class="content-panel">${contentHTML}</div>
-                        </details>
+                        <div class="details-wrapper">
+                            <button class="read-aloud-btn" data-text-to-read="${textToRead}" aria-label="Read aloud: ${textToRead}">${getPlayIcon()}</button>
+                            <details id="${item.id || ''}" class="${item.type}">
+                                <summary class="${item.type.replace('-details', '-summary')}">${summaryHTML}<span class="arrow" aria-hidden="true">▶</span></summary>
+                                <div class="content-panel">${contentHTML}</div>
+                            </details>
+                        </div>
                     `;
                 });
                 sectionEl.innerHTML = sectionHTML;
@@ -139,12 +160,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // --- Search Feature Elements ---
         let searchIndex = [];
         let searchDebounceTimer;
-
-        // --- Read Aloud Feature ---
-        const synth = window.speechSynthesis;
-        let voices = [];
-        let speakingButton = null;
-
+        
         // --- Read Aloud Logic ---
         const loadVoices = () => {
              return new Promise((resolve) => {
@@ -159,9 +175,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
         const voicesPromise = loadVoices();
 
-        const getPlayIcon = () => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5"><path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" /></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5"><path d="M5.5 2.75a.75.75 0 0 0-1.5 0v14.5a.75.75 0 0 0 1.5 0V2.75Z" /><path d="M8.5 4.75a.75.75 0 0 0-1.5 0v10.5a.75.75 0 0 0 1.5 0V4.75Z" /><path d="M11.5 6.75a.75.75 0 0 0-1.5 0v6.5a.75.75 0 0 0 1.5 0V6.75Z" /><path d="M14.5 8.75a.75.75 0 0 0-1.5 0v2.5a.75.75 0 0 0 1.5 0V8.75Z" /></svg>`;
-        const getStopIcon = () => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M2 10a8 8 0 1 1 16 0 8 8 0 0 1-16 0Zm6-3.75a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Zm4 0a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" /></svg>`;
-
         const readAloud = async (text, lang, button) => {
             if (speakingButton === button && synth.speaking) { synth.cancel(); return; }
             if (synth.speaking) { synth.cancel(); }
@@ -171,43 +184,37 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (voice) { utterance.voice = voice; }
             utterance.onstart = () => {
                 if (speakingButton) {
-                    speakingButton.classList.remove('speaking'); speakingButton.setAttribute('aria-label', 'Read aloud'); speakingButton.innerHTML = getPlayIcon();
+                    speakingButton.classList.remove('speaking'); speakingButton.setAttribute('aria-label', speakingButton.dataset.textToRead ? `Read aloud: ${speakingButton.dataset.textToRead}` : 'Read aloud'); speakingButton.innerHTML = getPlayIcon();
                 }
                 speakingButton = button;
                 button.classList.add('speaking'); button.setAttribute('aria-label', 'Stop reading'); button.innerHTML = getStopIcon();
             };
             utterance.onend = () => {
                 if (speakingButton) {
-                    speakingButton.classList.remove('speaking'); speakingButton.setAttribute('aria-label', 'Read aloud'); speakingButton.innerHTML = getPlayIcon();
+                    speakingButton.classList.remove('speaking'); speakingButton.setAttribute('aria-label', speakingButton.dataset.textToRead ? `Read aloud: ${speakingButton.dataset.textToRead}` : 'Read aloud'); speakingButton.innerHTML = getPlayIcon();
                 }
                 speakingButton = null;
             };
             utterance.onerror = () => {
                  if (speakingButton) {
-                    speakingButton.classList.remove('speaking'); speakingButton.setAttribute('aria-label', 'Read aloud'); speakingButton.innerHTML = getPlayIcon();
+                    speakingButton.classList.remove('speaking'); speakingButton.setAttribute('aria-label', speakingButton.dataset.textToRead ? `Read aloud: ${speakingButton.dataset.textToRead}` : 'Read aloud'); speakingButton.innerHTML = getPlayIcon();
                 }
                 speakingButton = null;
             }
             synth.speak(utterance);
         };
-
-        const injectReadAloudButtons = () => {
-            document.querySelectorAll('summary').forEach(summary => {
-                const titleEl = summary.querySelector('.summary-title');
-                if (!titleEl) return;
-                const button = document.createElement('button');
-                button.className = 'read-aloud-btn';
-                button.setAttribute('aria-label', 'Read aloud');
-                button.innerHTML = getPlayIcon();
-                button.addEventListener('click', (e) => {
-                    e.preventDefault(); e.stopPropagation();
-                    const text = titleEl.textContent?.trim();
-                    if (text) { readAloud(text, 'hi-IN', button); }
-                });
-                const targetContainer = summary.querySelector('.summary-title-line') || titleEl;
-                targetContainer.prepend(button);
-            });
-        };
+        
+        mainContent.addEventListener('click', (e) => {
+            const button = e.target.closest('.read-aloud-btn');
+            if (button) {
+                e.preventDefault();
+                e.stopPropagation();
+                const text = button.dataset.textToRead;
+                if (text) {
+                    readAloud(text, 'hi-IN', button);
+                }
+            }
+        });
     
         // --- Navigation Logic ---
         const navigateToElement = (targetId) => {
@@ -409,7 +416,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.querySelectorAll('.dynasty-details').forEach(dynasty => {
                 const contentPanel = dynasty.querySelector(':scope > .content-panel');
                 if (!contentPanel) return;
-                const kings = contentPanel.querySelectorAll(':scope > .king-details');
+                const kings = contentPanel.querySelectorAll(':scope .king-details');
                 const numKings = kings.length;
                 kings.forEach((king, index) => {
                     if (index === numKings - 1 && numKings > 0) { king.classList.add('king-color-last');
@@ -436,8 +443,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     if (target.matches('.dynasty-details, .event-details')) {
                         const parentSection = target.closest('.timeline-section');
                         if (parentSection) {
-                            parentSection.querySelectorAll('.dynasty-details, .event-details').forEach(other => {
-                                if (other !== target) { target.open ? other.classList.add('hidden') : other.classList.remove('hidden'); }
+                            parentSection.querySelectorAll('.details-wrapper').forEach(wrapper => {
+                                const d = wrapper.querySelector('details');
+                                if (d && d !== target) {
+                                    target.open ? wrapper.classList.add('hidden') : wrapper.classList.remove('hidden');
+                                }
                             });
                         }
                     }
@@ -595,7 +605,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     
         // --- Initial Load ---
         updateAndRenderBreadcrumbs([{ name: partData.breadcrumbHome, level: 'home' }]);
-        injectReadAloudButtons();
         buildSearchIndex();
         setupAccordionLogic();
         applyKingColorCoding();
