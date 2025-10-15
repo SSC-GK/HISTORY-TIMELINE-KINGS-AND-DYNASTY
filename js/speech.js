@@ -57,7 +57,7 @@ export const handleReadAloud = async (button) => {
     };
     
     utterance.onerror = (e) => {
-        console.error("Speech synthesis error:", e);
+        console.error("Speech synthesis error:", e.error);
         stopSpeech();
     };
 

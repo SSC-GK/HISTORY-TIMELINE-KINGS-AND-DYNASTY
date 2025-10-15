@@ -106,11 +106,60 @@
                     <li><strong>Functionality:</strong> Each dynasty's main summary header has been enhanced to display not only its name and time period but also its <strong>Founder</strong> and <strong>Capital City</strong>. Each piece of information is paired with a distinct icon for quick visual recognition, allowing for faster learning and comparison between dynasties.</li>
                 </ul>
             </li>
-            <li><strong>Enhanced Ruler Profile Cards:</strong>
-                <ul>
-                    <li><strong>Purpose:</strong> To present detailed information about rulers in a structured, scannable, and visually appealing format, moving beyond simple bullet points.</li>
-                    <li><strong>Implementation:</strong> Key rulers have enhanced profile cards that organize information into distinct sections like "Titles" and "Key Achievements," complete with icons, tags for titles, and custom-styled lists for accomplishments.</li>
+            <li><strong>The 'Royal Legacy' Comprehensive Profile Card:</strong>
+                <p>To provide a richer, multi-faceted view of significant historical figures, a new comprehensive profile card structure has been designed. This "Royal Legacy" format is the new standard for rulers with extensive available information, presenting their story in a logical, modular, and visually engaging way.</p>
+                <p>The structure is organized into the following sections, each with a distinct icon and purpose:</p>
+                <ul> <!-- Using nested ul for better semantics -->
+                    <li><strong>👑 The Ascent: Rise to Power:</strong> Sets the stage by explaining the ruler's origin and how they came to power.</li>
+                    <li><strong>📜 Reign & Administration:</strong> Details the internal governance and key policies that defined their rule.</li>
+                    <li><strong>⚔️ Conquests & Diplomacy:</strong> Outlines military achievements and foreign relations.</li>
+                    <li><strong>🏛️ Culture & Patronage:</strong> Highlights contributions to art, architecture, and literature.</li>
+                    <li><strong>🌸 Faith & Philosophy:</strong> Explores personal beliefs and state policy towards religion. (Note: A generic icon like a lotus is used for neutrality.)</li>
+                    <li><strong>⏳ Legacy & Assessment:</strong> Provides a concluding analysis of their long-term historical significance.</li>
                 </ul>
+                
+                <p style="margin-top: 1rem;"><strong>Component Usage:</strong></p>
+                <ul>
+                    <li><strong>Styled Tags for Emphasis:</strong> In addition to titles, styled tags are now used to highlight a ruler's most significant achievements or Unique Selling Propositions (USPs). This helps key facts stand out. A distinct color is used to differentiate these "fact tags" from "title tags."</li>
+                    <li><strong>Iconography and Structure:</strong> Each of the six sections is clearly demarcated by a styled header containing a unique SVG icon and title, allowing for quick visual identification of content themes. The content within can be a mix of paragraphs, styled lists, and tags to best suit the information.</li>
+                </ul>
+
+                <p style="margin-top: 1rem;"><strong>Implementation Blueprint (Sample for <code>kings.json</code>):</strong> The following template should be used within the <code>"content"</code> property for a ruler. The outer <code>&lt;details&gt;</code> element must include the class <code>enhanced-profile</code> to activate the correct styling.</p>
+                <pre><code>&lt;!-- Wrapper div for the entire new card --&gt;
+&lt;div class="royal-legacy-card"&gt;
+    
+    &lt;!-- Section 1: The Ascent --&gt;
+    &lt;div class="legacy-section"&gt;
+        &lt;div class="legacy-section-header"&gt;
+            &lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"&gt;&lt;path d="M11.983 1.904a.75.75 0 0 0-1.292-.748L5.432 6.173a.75.75 0 0 0-.236.425L4.5 9.5l2.44-.406a.75.75 0 0 0 .52-.224l4.815-4.816ZM9.309 6.216l-1.933.322 1.23-1.23 1.933-.322-1.23 1.23Zm4.36-4.36L12.5 3.023l1.933-.322L15.6 1.534a.75.75 0 0 0-1.088-.848.75.75 0 0 0-.843 1.088Z" /&gt;&lt;path d="M7.424 9.924a.75.75 0 0 0-1.06 1.06l3.75 3.75a.75.75 0 0 0 1.06 0l1.25-1.25a.75.75 0 1 0-1.06-1.06l-.72.72-3.16-3.161ZM15 13a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" /&gt;&lt;/svg&gt;
+            &lt;h5&gt;The Ascent: Rise to Power&lt;/h5&gt;
+        &lt;/div&gt;
+        &lt;div class="legacy-section-content"&gt;
+            &lt;p&gt;A concise paragraph covering lineage, political situation, and key events of accession...&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;!-- Section 2: Reign & Administration --&gt;
+    &lt;div class="legacy-section"&gt;
+        &lt;div class="legacy-section-header"&gt;
+            &lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"&gt;&lt;path fill-rule="evenodd" d="M4 2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H4Zm2.5 4.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7Zm0 3a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7Zm0 3a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4Z" clip-rule="evenodd" /&gt;&lt;/svg&gt;
+            &lt;h5&gt;Reign & Administration&lt;/h5&gt;
+        &lt;/div&gt;
+        &lt;div class="legacy-section-content"&gt;
+            &lt;h6&gt;Key Policies:&lt;/h6&gt;
+            &lt;ul class="profile-achievements"&gt;
+                &lt;li&gt;Major administrative or legal reforms...&lt;/li&gt;
+            &lt;/ul&gt;
+            &lt;div class="profile-tags"&gt;
+                 &lt;span class="profile-tag"&gt;Vikramaditya&lt;/span&gt;
+                 &lt;span class="profile-fact-tag"&gt;First king to issue gold coins&lt;/span&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;!-- Other sections (Conquests, Culture, etc.) follow the same pattern... --&gt;
+
+&lt;/div&gt;</code></pre>
             </li>
             <li><strong>Interactive Visual Timeline Bar:</strong>
                 <ul>
@@ -188,6 +237,28 @@
         <hr>
         <h3>Notable Fixes & Enhancements</h3>
         <ul>
+            <li>
+                <strong>Icon &amp; Readability Fix (Royal Legacy Cards):</strong>
+                <ul>
+                    <li><strong>Problem:</strong> The "Royal Legacy" profile cards featured large SVG icons that were difficult to control with CSS, often appearing oversized and breaking the card's layout.</li>
+                    <li><strong>Solution:</strong> The problematic SVG icons were completely removed and replaced with standard, semantic emojis (e.g., 👑, 📜, ⚔️) wrapped in a span for easier styling. This change ensures visual consistency and resolves layout issues. Additionally, the section titles within these cards were changed to a darker, more distinct color to improve readability and visual hierarchy.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Accordion Content Clipping (Overflow Bug):</strong>
+                <ul>
+                    <li><strong>Problem:</strong> In sections with extensive content, the text inside an expanded accordion panel would get cut off at the bottom, and no scrollbar would appear.</li>
+                    <li><strong>Root Cause:</strong> The main accordion container (<code>.dynasty-details</code>) had a CSS rule of <code>overflow: hidden;</code>. This rule prevented the inner content panel (which was set to <code>overflow-y: auto;</code>) from ever displaying its own scrollbar, as its overflowing content was simply hidden by the parent.</li>
+                    <li><strong>Solution:</strong> The conflicting <code>overflow: hidden;</code> rule was removed from <code>css/accordion.css</code>. This allows the content panel to correctly display a vertical scrollbar when its content exceeds the dynamically calculated <code>max-height</code>, making all information fully accessible.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Improved Readability for Project Documentation:</strong>
+                <ul>
+                    <li><strong>Problem:</strong> The code blocks and file tree representations in <code>readme.html</code> were unstyled, appearing as plain text which made them difficult to read and understand.</li>
+                    <li><strong>Solution:</strong> New styles were added to a dedicated <code>css/readme.css</code> file. These rules format <code>&lt;pre&gt;</code> and <code>&lt;code&gt;</code> blocks with a distinct background, appropriate padding, and a monospaced font, significantly improving the clarity and professional appearance of the project's documentation.</li>
+                </ul>
+            </li>
             <li><strong>Major Content Enrichment (Delhi Sultanate):</strong>
                 <ul>
                     <li><strong>Enhancement:</strong> The entire "Dynasties of the Delhi Sultanate" section has been significantly enriched. What was previously a high-level overview has been expanded into a comprehensive, multi-level accordion.</li>
