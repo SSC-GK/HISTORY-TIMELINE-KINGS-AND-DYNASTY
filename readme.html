@@ -238,6 +238,13 @@
         <h3>Notable Fixes & Enhancements</h3>
         <ul>
             <li>
+                <strong>Glossary System Refactoring (Dynamic Implementation):</strong>
+                <ul>
+                    <li><strong>Problem:</strong> The interactive glossary was implemented by hardcoding HTML <code>&lt;button&gt;</code> tags directly into the content JSON files. This made the content difficult to read and maintain, and scaling the glossary by adding new terms was inefficient and error-prone.</li>
+                    <li><strong>Solution:</strong> The feature has been refactored to be fully dynamic. All hardcoded tags were removed from the JSON content, which now contains only clean, semantic HTML. The application now uses a dedicated JavaScript function that scans the rendered text on the fly and automatically wraps any term found in <code>Glossary.json</code> with the necessary interactive elements. This change decouples content from presentation, significantly improves maintainability, and makes adding new glossary terms as simple as updating a single file.</li>
+                </ul>
+            </li>
+            <li>
                 <strong>Icon &amp; Readability Fix (Royal Legacy Cards):</strong>
                 <ul>
                     <li><strong>Problem:</strong> The "Royal Legacy" profile cards featured large SVG icons that were difficult to control with CSS, often appearing oversized and breaking the card's layout.</li>
