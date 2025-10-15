@@ -1,0 +1,22 @@
+.main-section-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #1e293b; /* slate-800 */
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #cbd5e1; /* slate-300 */
+    position: relative;
+}
+.main-section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; /* Aligns with the border */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: #6366f1; /* indigo-500 */
+    border-radius: 2px;
+}

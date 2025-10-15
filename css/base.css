@@ -1,0 +1,20 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f1f5f9; /* slate-100 */
+}
+
+/* Generic hidden class */
+.hidden {
+    display: none !important;
+}
+
+
+/* Initial state for main content */
+#main-content.hidden {
+    opacity: 0;
+}
+#main-content {
+    opacity: 1;
+    transition: opacity 0.4s ease-in-out;
+    transition-delay: 0.2s; /* Fade in slightly after loader fades out */
+}

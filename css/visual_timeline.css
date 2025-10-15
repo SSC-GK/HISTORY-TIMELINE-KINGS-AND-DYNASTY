@@ -1,0 +1,48 @@
+/* --- Visual Timeline Bar --- */
+.visual-timeline-container {
+    padding: 1rem 0.5rem;
+    margin-bottom: 1rem;
+}
+.visual-timeline-bar {
+    display: flex;
+    width: 100%;
+    height: 3rem;
+    background-color: #e2e8f0; /* slate-200 */
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+}
+.timeline-block {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0 0.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: filter 0.2s ease;
+    border-right: 2px solid rgba(255, 255, 255, 0.4);
+}
+button.timeline-block {
+    /* Reset button for accessibility */
+    border: none;
+    margin: 0;
+    font: inherit;
+    background: transparent;
+    border-right: 2px solid rgba(255, 255, 255, 0.4);
+}
+.timeline-block:last-child {
+    border-right: none;
+}
+.timeline-block:hover {
+    filter: brightness(1.1);
+}
+button.timeline-block:focus-visible {
+    outline: 3px solid #4f46e5;
+    outline-offset: -3px;
+    filter: brightness(1.1);
+    z-index: 1;
+}

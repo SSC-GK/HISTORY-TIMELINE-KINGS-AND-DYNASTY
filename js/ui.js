@@ -43,7 +43,16 @@ export const createAccordionItem = (item, level, index, totalItems) => {
         summaryClass = 'king-summary';
         contentClass = 'content-panel';
         if (item.type?.includes('king-details')) {
-            colorClass = (index === totalItems - 1) ? 'king-color-last' : `king-color-${(index % 12) + 1}`;
+            // [MODIFIED] New hierarchical color coding logic
+            if (index === 0) {
+                colorClass = 'king-color-founder'; // Highest priority
+            } else if (index === totalItems - 1 && totalItems > 1) {
+                colorClass = 'king-color-last'; // Second priority
+            } else {
+                // Positional colors for successors. index=1 gets color-2, etc.
+                // After 12, it will loop back to color-1 for the 13th king (index=12).
+                colorClass = `king-color-${(index % 12) + 1}`;
+            }
         }
         if (item.type?.includes('invasion-type-iranian')) colorClass = 'invasion-type-iranian';
         if (item.type?.includes('invasion-type-greek')) colorClass = 'invasion-type-greek';
@@ -64,9 +73,8 @@ export const createAccordionItem = (item, level, index, totalItems) => {
             ${item.summary.reign ? `<span class="king-reign">${item.summary.reign}</span>` : ''}
         </div>`;
 
-    const arrowIcon = level === 0
-        ? `<svg class="arrow w-6 h-6 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>`
-        : `<span class="arrow-inner text-indigo-600" aria-hidden="true">▶</span>`;
+    const arrowClasses = level === 0 ? 'arrow w-6 h-6 text-indigo-500' : 'arrow w-5 h-5 text-indigo-600';
+    const arrowIcon = `<svg class="${arrowClasses}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>`;
 
     const readAloudButton = `<button class="read-aloud-btn" aria-label="Read ${item.summary.title} aloud"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M11.25 3.383c0-1.113-1.347-1.67-2.134-.883l-3.75 3.75H4.58c-.95 0-1.93.553-2.216 1.587A8.135 8.135 0 0 0 2.08 10c0 1.33.315 2.603.875 3.763.286 1.034 1.266 1.587 2.216 1.587h.783l3.75 3.75c.787.787 2.134.23 2.134-.883V3.383z" /><path d="M15.485 12.357a1.25 1.25 0 0 0 0-1.768 4.196 4.196 0 0 0-5.934 0 1.25 1.25 0 1 0 1.768 1.768 1.696 1.696 0 0 1 2.4 0 1.25 1.25 0 0 0 1.768 0z" /><path d="M13.719 14.375a1.25 1.25 0 0 0 0-1.768c-1.952-1.952-5.118-1.952-7.07 0a1.25 1.25 0 0 0 1.768 1.768c.976-.976 2.559-.976 3.535 0a1.25 1.25 0 0 0 1.768 0z" /></svg></button>`;
     

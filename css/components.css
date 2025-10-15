@@ -1,0 +1,147 @@
+/* --- Read Aloud Button & Summary Controls --- */
+.summary-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+    margin-left: 1rem;
+}
+.read-aloud-btn {
+    background-color: #f1f5f9;
+    color: #4f46e5;
+    border: 1px solid #e2e8f0;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    flex-shrink: 0;
+}
+.read-aloud-btn:hover {
+    background-color: #e0e7ff;
+}
+.read-aloud-btn:focus-visible {
+    outline: 2px solid #4338ca;
+    outline-offset: 2px;
+}
+.read-aloud-btn svg {
+    width: 18px;
+    height: 18px;
+}
+.read-aloud-btn.speaking {
+    background-color: #4f46e5;
+    color: white;
+    animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(79, 70, 229, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
+}
+
+
+/* --- Connections Hub --- */
+.connections-hub {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px dashed #cbd5e1; /* slate-300 */
+}
+.connections-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #334155; /* slate-700 */
+    margin-bottom: 0.75rem;
+}
+.connections-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.connection-tag {
+    background-color: #eef2ff; /* indigo-100 */
+    color: #4338ca; /* indigo-700 */
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.3rem 0.75rem;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    border: 1px solid #c7d2fe; /* indigo-200 */
+}
+.connection-tag:hover {
+    background-color: #4338ca; /* indigo-700 */
+    color: white;
+}
+.connection-tag:focus-visible {
+    outline: 2px solid #4338ca;
+    outline-offset: 2px;
+}
+
+/* --- Enhanced Ruler Profile Cards --- */
+.enhanced-profile > .content-panel {
+    padding: 0;
+}
+.ruler-profile-card {
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.profile-section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #475569; /* slate-600 */
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.profile-section-title svg {
+    width: 1rem;
+    height: 1rem;
+    color: #818cf8; /* indigo-400 */
+}
+.profile-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-left: 1.5rem;
+}
+.profile-tag {
+    background-color: #e0e7ff; /* indigo-200 */
+    color: #3730a3; /* indigo-800 */
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+}
+.profile-achievements {
+    list-style-type: none;
+    padding-left: 1.5rem;
+    margin: 0;
+}
+.profile-achievements li {
+    font-size: 0.9rem;
+    color: #334155; /* slate-700 */
+    line-height: 1.6;
+    position: relative;
+    padding-left: 1.75rem;
+    margin-bottom: 0.5rem;
+}
+.profile-achievements li::before {
+    content: '✔';
+    position: absolute;
+    left: 0;
+    top: 2px;
+    color: #22c55e; /* green-500 */
+    font-weight: bold;
+    font-size: 1.1em;
+}
+.profile-achievements li:last-child {
+    margin-bottom: 0;
+}

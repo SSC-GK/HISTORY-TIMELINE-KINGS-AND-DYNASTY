@@ -1,0 +1,31 @@
+/* --- Loader --- */
+.loader-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: #f1f5f9; /* slate-100, same as body */
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 0.4s ease-in-out;
+    pointer-events: auto;
+}
+.loader-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+.loader-spinner {
+    width: 48px;
+    height: 48px;
+    border: 5px solid #a5b4fc; /* indigo-300 */
+    border-bottom-color: #4338ca; /* indigo-700 */
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

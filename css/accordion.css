@@ -1,0 +1,183 @@
+.dynasty-details, .event-details {
+    background-color: white;
+    border-radius: 0.75rem;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+    border: 1px solid #e2e8f0; /* slate-200 */
+    overflow: hidden; /* Ensures children don't overflow rounded corners */
+}
+.dynasty-summary, .event-summary {
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #1e293b; /* slate-800 */
+    width: 100%;
+}
+/* --- Dynasty Summary Enhancements --- */
+.summary-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: left;
+    flex-grow: 1; /* Allow content to take up space */
+}
+.summary-title-line {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0 0.75rem;
+}
+.summary-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+.dynasty-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+}
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #475569;
+}
+.meta-item svg {
+    width: 0.875rem;
+    height: 0.875rem;
+    color: #818cf8;
+    flex-shrink: 0;
+}
+.meta-item strong {
+    font-weight: 600;
+    color: #334155;
+    margin-right: 0.25rem;
+}
+
+.dynasty-period {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #475569; /* slate-600 */
+    background-color: #e2e8f0; /* slate-200 */
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    vertical-align: middle;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+/* --- Generic Accordion Arrow Styles --- */
+summary::-webkit-details-marker {
+    display: none;
+}
+summary .arrow {
+    transition: transform 0.3s ease-out;
+}
+details[open] > summary .arrow {
+    transform: rotate(90deg);
+}
+
+.content-panel {
+    padding: 0 1.5rem;
+    border-top: 1px solid #e2e8f0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding-top 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding-bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+details[open] > .content-panel {
+    /* max-height is now set by JS */
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+/* Color Hierarchy: Ocean Breeze Theme */
+details > .content-panel {
+    background: linear-gradient(120deg, #ecfeff, #f0fdf4); /* cyan-50 to green-50 */
+}
+
+.king-details {
+    border: none;
+    border-radius: 0.5rem;
+    border: 1px solid #e2e8f0;
+    transition: background-color 0.3s ease;
+}
+
+/* --- King Color Coding System --- */
+/* Special 'Founder King' Color */
+.king-details.king-color-founder { background: linear-gradient(120deg, #fecaca, #fca5a5); } /* Darker Red */
+
+/* Positional Colors */
+.king-details.king-color-1 { background: linear-gradient(120deg, #fef2f2, #fff1f2); } /* 1st (Red) - Used for 13th king in cycle */
+.king-details.king-color-2 { background: linear-gradient(120deg, #dcfce7, #bbf7d0); } /* 2nd (Dark Green) */
+.king-details.king-color-3 { background: linear-gradient(120deg, #fefce8, #fffbeb); } /* 3rd (Golden) */
+.king-details.king-color-4 { background: linear-gradient(120deg, #f5f3ff, #faf5ff); } /* 4th (Purple) */
+.king-details.king-color-5 { background: linear-gradient(120deg, #f0fdfa, #ccfbf1); } /* 5th (Teal) */
+.king-details.king-color-6 { background: linear-gradient(120deg, #fff7ed, #fffaf0); } /* 6th (Orange) */
+.king-details.king-color-7 { background: linear-gradient(120deg, #fdf2f8, #fce7f3); } /* 7th (Pink) */
+.king-details.king-color-8 { background: linear-gradient(120deg, #f7fee7, #f0fdf4); } /* 8th (Lime) */
+.king-details.king-color-9 { background: linear-gradient(120deg, #eef2ff, #e0e7ff); } /* 9th (Indigo) */
+.king-details.king-color-10 { background: linear-gradient(120deg, #f9fafb, #f3f4f6); } /* 10th (Gray) */
+.king-details.king-color-11 { background: linear-gradient(120deg, #ecfdf5, #d1fae5); } /* 11th (Emerald) */
+.king-details.king-color-12 { background: linear-gradient(120deg, #fdf4ff, #fae8ff); } /* 12th (Fuchsia) */
+
+/* Special 'Last King' Color */
+.king-details.king-color-last { background: linear-gradient(120deg, #fef9c3, #fde047); } /* Dark Yellow */
+
+/* --- Invasion-specific coloring --- */
+.invasion-type-iranian {
+    background: linear-gradient(120deg, #fff7ed, #ffedd5); /* Orange-50 to Orange-100 */
+}
+.invasion-type-greek {
+    background: linear-gradient(120deg, #ecfeff, #e0f2fe); /* Cyan-50 to Sky-100 */
+}
+
+.king-summary {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #334155; /* slate-700 */
+}
+.king-summary .summary-title {
+    font-size: 1rem;
+    font-weight: 600;
+}
+.king-summary .king-reign {
+    font-weight: 400;
+    font-size: 0.875rem;
+    color: #64748b; /* slate-500 */
+}
+
+.king-details[open] > .content-panel {
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background-color: transparent; /* Ensure panel inherits king's color */
+    border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+ul {
+     list-style-type: disc;
+    padding-left: 1.25rem;
+    margin-top: 0.5rem;
+    color: #475569; /* slate-600 */
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-top: 0.75rem;
+    margin-bottom: 0.25rem;
+}

@@ -302,9 +302,17 @@ button.search-result-item:focus-visible {
     white-space: nowrap;
     display: inline-block;
 }
-.dynasty-summary::-webkit-details-marker, .event-summary::-webkit-details-marker { display: none; }
-.dynasty-summary .arrow, .event-summary .arrow { transition: transform 0.3s ease-out; }
-details[open] > summary .arrow { transform: rotate(90deg); }
+
+/* --- [UPDATED] Generic Accordion Arrow Styles --- */
+summary::-webkit-details-marker { 
+    display: none; 
+}
+summary .arrow { 
+    transition: transform 0.3s ease-out; 
+}
+details[open] > summary .arrow { 
+    transform: rotate(90deg); 
+}
 
 
 .content-panel {
@@ -335,8 +343,11 @@ details > .content-panel {
 }
 
 /* --- King Color Coding System --- */
+/* [NEW] Special 'Founder King' Color */
+.king-details.king-color-founder { background: linear-gradient(120deg, #fecaca, #fca5a5); } /* Darker Red */
+
 /* Positional Colors */
-.king-details.king-color-1 { background: linear-gradient(120deg, #fef2f2, #fff1f2); } /* 1st (Red) */
+.king-details.king-color-1 { background: linear-gradient(120deg, #fef2f2, #fff1f2); } /* 1st (Red) - Used for 13th king in cycle */
 .king-details.king-color-2 { background: linear-gradient(120deg, #dcfce7, #bbf7d0); } /* 2nd (Dark Green) */
 .king-details.king-color-3 { background: linear-gradient(120deg, #fefce8, #fffbeb); } /* 3rd (Golden) */
 .king-details.king-color-4 { background: linear-gradient(120deg, #f5f3ff, #faf5ff); } /* 4th (Purple) */
@@ -379,9 +390,6 @@ details > .content-panel {
     font-size: 0.875rem;
     color: #64748b; /* slate-500 */
 }
-.king-summary::-webkit-details-marker { display: none; }
-.king-summary .arrow-inner { transition: transform 0.3s ease-out; }
-.king-details[open] > .king-summary .arrow-inner { transform: rotate(90deg); }
 
 .king-details[open] > .content-panel {
     padding-top: 0.5rem;
