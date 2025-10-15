@@ -46,8 +46,8 @@ function setupEventListeners() {
         const target = event.target;
 
         // --- Navigation ---
-        const timelineCard = target.closest('.timeline-card');
-        if (timelineCard) { ui.handleTimelineCardClick(timelineCard); return; }
+        const navCard = target.closest('.timeline-card, .link-card');
+        if (navCard) { ui.showTimeline(navCard.dataset.target); return; }
 
         const breadcrumbItem = target.closest('.breadcrumb-item');
         if (breadcrumbItem) { ui.handleBreadcrumbClick(breadcrumbItem); return; }

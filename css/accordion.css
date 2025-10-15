@@ -1,11 +1,12 @@
 
+
 .dynasty-details, .event-details {
     background-color: white;
     border-radius: 0.75rem;
     margin-bottom: 1.25rem;
     box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
     border: 1px solid #e2e8f0; /* slate-200 */
-    /* overflow: hidden; <-- REMOVED this line to fix the scrollbar issue */
+    /* overflow: hidden; <-- THIS WAS THE BUG. Removing it allows child content to be visible and scrollable. */
 }
 .dynasty-summary, .event-summary {
     padding: 1rem 1.5rem;

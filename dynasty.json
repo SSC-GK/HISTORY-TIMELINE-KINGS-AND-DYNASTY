@@ -68,12 +68,31 @@
     "sultanate": {
         "title": "भाग VII: दिल्ली सल्तनत और समकालीन राज्य",
         "items": [
-            { "id": "delhi-sultanate-intro", "type": "event-details", "summary": { "title": "दिल्ली सल्तनत के राजवंश" }, "subItems": ["mamluk-dynasty", "khilji-dynasty", "tughlaq-dynasty", "sayyid-dynasty", "lodi-dynasty"] },
+            { 
+                "id": "delhi-sultanate-intro", 
+                "type": "timeline-link-card",
+                "target": "sultanate-dynasties",
+                "summary": { 
+                    "title": "दिल्ली सल्तनत के राजवंश",
+                    "subtitle": "Explore the 5 Dynasties of the Sultanate"
+                }
+            },
             { "id": "vijayanagara-empire", "type": "dynasty-details", "summary": { "title": "विजयनगर साम्राज्य (Vijayanagara Empire)", "period": "1336 – 1646 CE", "founder": "हरिहर प्रथम और बुक्का राय प्रथम", "capital": "विजयनगर (हम्पी)" }, "subItems": ["vijayanagara-details"] },
             { "id": "chutiya-kingdom", "type": "dynasty-details", "summary": { "title": "चुटिया साम्राज्य (Chutiya Kingdom)", "period": "c. 1187 – 1673 CE", "founder": "बीरपाल", "capital": "सादिया" }, "subItems": ["chutiya-details"] },
             { "id": "ahom-dynasty", "type": "dynasty-details", "summary": { "title": "अहोम वंश (Ahom Dynasty)", "period": "1228 – 1826 CE", "founder": "सुकाफ़ा", "capital": "चराइदेव, रंगपुर" }, "subItems": ["ahom-details"] },
             { "id": "sharqi-dynasty", "type": "dynasty-details", "summary": { "title": "शर्की वंश (जौनपुर) (Sharqi Dynasty)", "period": "c. 1394 – 1479 CE", "founder": "मलिक सरवर", "capital": "जौनपुर" }, "subItems": ["sharqi-details"] },
             { "id": "manikya-dynasty", "type": "dynasty-details", "summary": { "title": "माणिक्य वंश (त्रिपुरा) (Manikya Dynasty)", "period": "c. 1400 – 1949 CE", "founder": "महा माणिक्य", "capital": "उदयपुर, बाद में अगरतला" }, "subItems": ["manikya-details"] }
+        ]
+    },
+    "sultanate-dynasties": {
+        "title": "दिल्ली सल्तनत के राजवंश (Dynasties of the Delhi Sultanate)",
+        "parent": "sultanate",
+        "items": [
+            { "id": "mamluk-dynasty", "type": "dynasty-details", "summary": { "title": "मामलुक वंश (दिल्ली)", "period": "1206 – 1290 CE", "founder": "कुतुबुद्दीन ऐबक", "capital": "दिल्ली, लाहौर" }, "subItems": ["mamluk-details"] },
+            { "id": "khilji-dynasty", "type": "dynasty-details", "summary": { "title": "खिलजी वंश", "period": "1290 – 1320 CE", "founder": "जलाल-उद-दीन खिलजी", "capital": "दिल्ली" }, "subItems": ["khilji-details"] },
+            { "id": "tughlaq-dynasty", "type": "dynasty-details", "summary": { "title": "तुगलक वंश", "period": "1320 – 1414 CE", "founder": "गियास-उद-दीन तुगलक", "capital": "दिल्ली" }, "subItems": ["tughlaq-details"] },
+            { "id": "sayyid-dynasty", "type": "dynasty-details", "summary": { "title": "सैयद वंश", "period": "1414 – 1451 CE", "founder": "खिज्र खान", "capital": "दिल्ली" }, "subItems": ["sayyid-details"] },
+            { "id": "lodi-dynasty", "type": "dynasty-details", "summary": { "title": "लोदी वंश", "period": "1451 – 1526 CE", "founder": "बहलोल लोदी", "capital": "दिल्ली" }, "subItems": ["lodi-details"] }
         ]
     },
     "mughal": {

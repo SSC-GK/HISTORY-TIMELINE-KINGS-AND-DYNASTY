@@ -24,14 +24,24 @@ export const renderTimelineSelection = () => {
 };
 
 /**
- * Creates the HTML for a single accordion item.
- * @param {object} item - The data object for the accordion item.
+ * Creates the HTML for a single accordion item or a link card.
+ * @param {object} item - The data object for the item.
  * @param {number} level - The nesting level.
  * @param {number} index - The index of the item for color coding.
  * @param {number} totalItems - The total number of items at the same level.
- * @returns {string} The HTML string for the accordion item.
+ * @returns {string} The HTML string for the item.
  */
 export const createAccordionItem = (item, level, index, totalItems) => {
+    // Handle the new link card type
+    if (item.type === 'timeline-link-card') {
+        return `
+            <button class="link-card" data-target="${item.target}" aria-label="Explore ${item.summary.title}">
+                <span class="timeline-title">${item.summary.title}</span>
+                <span class="timeline-subtitle">${item.summary.subtitle}</span>
+            </button>
+        `;
+    }
+
     const detailsId = item.id || `item-${Date.now()}-${Math.random()}`;
     let detailsClass, summaryClass, contentClass, colorClass = '';
 
@@ -99,6 +109,7 @@ export const createAccordionItem = (item, level, index, totalItems) => {
             <div class="${contentClass}">${subContent}${connectionsHtml}</div>
         </details>`;
 };
+
 
 /**
  * Renders a specific timeline section based on its ID.
@@ -180,12 +191,32 @@ export const showTimeline = (timelineId) => {
 export const updateBreadcrumbs = () => {
     const nav = document.getElementById('breadcrumb-nav');
     const homeText = state.dataStore.part.breadcrumbHome || 'Home';
-    let crumbs = `<button class="breadcrumb-item" data-target="home">${homeText}</button>`;
+    let crumbs = [`<button class="breadcrumb-item" data-target="home">${homeText}</button>`];
+
     if (state.currentTimeline) {
-        const title = state.dataStore.dynasty[state.currentTimeline].title.split('(')[1]?.replace(')', '').trim() || state.currentTimeline;
-        crumbs += `<span class="breadcrumb-separator">/</span><span class="breadcrumb-item-current">${title}</span>`;
+        let path = [];
+        let currentId = state.currentTimeline;
+        
+        while(currentId) {
+            const timelineData = state.dataStore.dynasty[currentId];
+            if (timelineData) {
+                path.unshift({ id: currentId, title: timelineData.title });
+            }
+            currentId = timelineData?.parent;
+        }
+
+        path.forEach((p, index) => {
+            const title = p.title.split('(')[1]?.replace(')', '').trim() || p.title;
+            crumbs.push('<span class="breadcrumb-separator">/</span>');
+            if (index === path.length - 1) {
+                crumbs.push(`<span class="breadcrumb-item-current">${title}</span>`);
+            } else {
+                crumbs.push(`<button class="breadcrumb-item" data-target="${p.id}">${title}</button>`);
+            }
+        });
     }
-    nav.innerHTML = crumbs;
+
+    nav.innerHTML = crumbs.join('');
 };
 
 /**
@@ -440,8 +471,14 @@ export const dismissGlossaryPopover = () => {
 
 // --- [EVENT HANDLER WRAPPERS] ---
 
-export const handleTimelineCardClick = (card) => showTimeline(card.dataset.target);
-export const handleBreadcrumbClick = (item) => { if (item.dataset.target === 'home') showTimeline(null); };
+export const handleBreadcrumbClick = (item) => {
+    const target = item.dataset.target;
+    if (target === 'home') {
+        showTimeline(null);
+    } else if (target) {
+        showTimeline(target);
+    }
+};
 export const handleSearchResultClick = (item) => {
     const { timelineId, targetId } = item.dataset;
     showTimeline(timelineId);
