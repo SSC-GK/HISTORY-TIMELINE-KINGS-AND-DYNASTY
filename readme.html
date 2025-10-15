@@ -17,7 +17,7 @@
         <h3>Core Architecture & UI Principles</h3>
         <ol>
             <li><strong>Single-Page Application (SPA):</strong> The entire experience is contained within a single HTML file, with content sections dynamically shown or hidden. The application logic is organized into a modular JavaScript architecture, with <code>index.js</code> as the main entry point and separate modules in a <code>js/</code> directory for managing state (<code>state.js</code>), data fetching (<code>data.js</code>), UI rendering (<code>ui.js</code>), and speech synthesis (<code>speech.js</code>).</li>
-            <li><strong>Nested Accordion UI:</strong> The primary content structure relies on nested <code>&lt;details&gt;</code> elements. This allows for progressive disclosure, letting users explore high-level topics before drilling down into specific details.</li>
+            <li><strong>Nested Accordion UI:</strong> The primary content structure relies on nested <code>&lt;details&gt;</code> elements. This allows for progressive disclosure, letting users explore high-level topics before drilling down into specific details. This is exemplified in sections like the Delhi Sultanate, where each dynasty accordion opens to reveal detailed entries for every individual ruler.</li>
             <li><strong>Fully Dynamic, Data-Driven Architecture:</strong> To maximize performance and maintainability, the application is built on a data-driven architecture. The main HTML file is a lightweight skeleton. All displayable content—from UI text to detailed historical narratives—is externalized into a set of structured JSON files. The application fetches these files on load and dynamically builds the entire DOM, completely separating content from presentation.</li>
             <li><strong>Dynamic Content Panels:</strong> To ensure a clean UI, accordion content panels have a maximum height capped at 80% of the viewport height. Content exceeding this limit becomes scrollable. This behavior is responsive and adjusts as nested accordions are opened or closed.</li>
             <li><strong>Bilingual Interface:</strong> To cater to a wider audience, all major headings, titles, and key names (including dynasties and rulers) are presented in both Hindi (Devanagari script) and English.</li>
@@ -186,8 +186,14 @@
             </li>
         </ol>
         <hr>
-        <h3>Notable Bug Fixes</h3>
+        <h3>Notable Fixes & Enhancements</h3>
         <ul>
+            <li><strong>Major Content Enrichment (Delhi Sultanate):</strong>
+                <ul>
+                    <li><strong>Enhancement:</strong> The entire "Dynasties of the Delhi Sultanate" section has been significantly enriched. What was previously a high-level overview has been expanded into a comprehensive, multi-level accordion.</li>
+                    <li><strong>Details:</strong> Each of the five dynasties (Mamluk, Khilji, Tughlaq, Sayyid, and Lodi) now contains detailed entries for every individual sultan, from Qutb-ud-din Aibak to Ibrahim Lodi. Each ruler's entry includes key facts, policies, and significant events from their reign, all integrated with the existing bilingual text, glossary, and color-coding systems. This update serves as a prime example of the application's data-driven architecture and content enrichment policy in action.</li>
+                </ul>
+            </li>
             <li><strong>Initialization Crash (Defensive Rendering):</strong>
                 <ul>
                     <li><strong>Problem:</strong> The application would crash on startup with a <code>Cannot read properties of undefined (reading 'includes')</code> error.</li>

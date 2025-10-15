@@ -88,11 +88,11 @@
         "title": "दिल्ली सल्तनत के राजवंश (Dynasties of the Delhi Sultanate)",
         "parent": "sultanate",
         "items": [
-            { "id": "mamluk-dynasty", "type": "dynasty-details", "summary": { "title": "मामलुक वंश (दिल्ली)", "period": "1206 – 1290 CE", "founder": "कुतुबुद्दीन ऐबक", "capital": "दिल्ली, लाहौर" }, "subItems": ["mamluk-details"] },
-            { "id": "khilji-dynasty", "type": "dynasty-details", "summary": { "title": "खिलजी वंश", "period": "1290 – 1320 CE", "founder": "जलाल-उद-दीन खिलजी", "capital": "दिल्ली" }, "subItems": ["khilji-details"] },
-            { "id": "tughlaq-dynasty", "type": "dynasty-details", "summary": { "title": "तुगलक वंश", "period": "1320 – 1414 CE", "founder": "गियास-उद-दीन तुगलक", "capital": "दिल्ली" }, "subItems": ["tughlaq-details"] },
-            { "id": "sayyid-dynasty", "type": "dynasty-details", "summary": { "title": "सैयद वंश", "period": "1414 – 1451 CE", "founder": "खिज्र खान", "capital": "दिल्ली" }, "subItems": ["sayyid-details"] },
-            { "id": "lodi-dynasty", "type": "dynasty-details", "summary": { "title": "लोदी वंश", "period": "1451 – 1526 CE", "founder": "बहलोल लोदी", "capital": "दिल्ली" }, "subItems": ["lodi-details"] }
+            { "id": "mamluk-dynasty", "type": "dynasty-details", "summary": { "title": "मामलुक / गुलाम वंश", "period": "1206 – 1290 CE", "founder": "कुतुबुद्दीन ऐबक", "capital": "दिल्ली, लाहौर" }, "subItems": ["qutbuddin-aibak", "aram-shah", "iltutmish", "ruknuddin-firuz", "raziya-sultan", "bahram-shah", "masud-shah", "nasiruddin-mahmud", "ghiyasuddin-balban", "kaiqubad"] },
+            { "id": "khilji-dynasty", "type": "dynasty-details", "summary": { "title": "खिलजी वंश", "period": "1290 – 1320 CE", "founder": "जलाल-उद-दीन खिलजी", "capital": "दिल्ली" }, "subItems": ["jalaluddin-khilji", "alauddin-khilji", "mubarak-khilji", "khusrau-khan"] },
+            { "id": "tughlaq-dynasty", "type": "dynasty-details", "summary": { "title": "तुगलक वंश", "period": "1320 – 1414 CE", "founder": "गियास-उद-दीन तुगलक", "capital": "दिल्ली" }, "subItems": ["ghiyasuddin-tughlaq", "muhammad-bin-tughlaq", "firuz-shah-tughlaq", "tughlaq-later-rulers"] },
+            { "id": "sayyid-dynasty", "type": "dynasty-details", "summary": { "title": "सैयद वंश", "period": "1414 – 1451 CE", "founder": "खिज्र खान", "capital": "दिल्ली" }, "subItems": ["khizr-khan", "mubarak-shah", "muhammad-shah", "alam-shah"] },
+            { "id": "lodi-dynasty", "type": "dynasty-details", "summary": { "title": "लोदी वंश", "period": "1451 – 1526 CE", "founder": "बहलोल लोदी", "capital": "दिल्ली" }, "subItems": ["bahlul-lodi", "sikandar-lodi", "ibrahim-lodi"] }
         ]
     },
     "mughal": {

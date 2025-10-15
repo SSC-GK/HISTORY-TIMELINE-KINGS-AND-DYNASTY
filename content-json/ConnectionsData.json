@@ -24,5 +24,11 @@
     "vakataka-dynasty": [{ "label": "Gupta Dynasty (Alliance)", "targetId": "gupta-dynasty" }],
     "harshavardhana-details": [{ "label": "Chalukyas of Badami (Conflict)", "targetId": "chalukyas-badami" }, { "label": "Gupta Dynasty (Predecessor Era)", "targetId": "gupta-dynasty" }],
     "chalukyas-badami": [{ "label": "Harshavardhana (Conflict)", "targetId": "harshavardhana-details" }, { "label": "Pallavas of Kanchi (Rivalry)", "targetId": "pallavas-kanchi" }],
-    "pallavas-kanchi": [{ "label": "Chalukyas of Badami (Rivalry)", "targetId": "chalukyas-badami" }]
+    "pallavas-kanchi": [{ "label": "Chalukyas of Badami (Rivalry)", "targetId": "chalukyas-badami" }],
+    
+    "mamluk-dynasty": [{ "label": "Khilji Dynasty (Successor)", "targetId": "khilji-dynasty" }],
+    "khilji-dynasty": [{ "label": "Mamluk Dynasty (Predecessor)", "targetId": "mamluk-dynasty" }, { "label": "Tughlaq Dynasty (Successor)", "targetId": "tughlaq-dynasty" }],
+    "tughlaq-dynasty": [{ "label": "Khilji Dynasty (Predecessor)", "targetId": "khilji-dynasty" }, { "label": "Timur's Invasion", "targetId": "tughlaq-later-rulers" }, { "label": "Sayyid Dynasty (Successor)", "targetId": "sayyid-dynasty" }],
+    "sayyid-dynasty": [{ "label": "Tughlaq Dynasty (Predecessor)", "targetId": "tughlaq-dynasty" }, { "label": "Lodi Dynasty (Successor)", "targetId": "lodi-dynasty" }],
+    "lodi-dynasty": [{ "label": "Sayyid Dynasty (Predecessor)", "targetId": "sayyid-dynasty" }, { "label": "Mughal Empire (Successor)", "targetId": "mughal-empire" }]
 }

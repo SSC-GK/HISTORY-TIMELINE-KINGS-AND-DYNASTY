@@ -292,5 +292,41 @@
         "definition_en": "A style of temple architecture that emerged in Southern India. It is primarily characterized by its pyramidal towers (vimana) constructed with stepped tiers that are smaller and smaller as they ascend.",
         "title_hi": "द्रविड़ मंदिर वास्तुकला",
         "definition_hi": "मंदिर वास्तुकला की एक शैली जो दक्षिण भारत में उभरी। इसकी मुख्य विशेषता इसके पिरामिडनुमा शिखर (विमान) हैं जो सीढ़ीदार स्तरों से बने होते हैं, जो ऊपर की ओर छोटे होते जाते हैं।"
+    },
+    "इक्तादारी प्रथा": {
+        "title_en": "इक्तादारी प्रथा (Iqtadari System)",
+        "definition_en": "A system of land distribution where pieces of land (Iqtas) were granted to army officers in lieu of salary. The holders, called Iqtadars, were responsible for collecting revenue and maintaining troops.",
+        "title_hi": "इक्तादारी प्रथा",
+        "definition_hi": "भूमि वितरण की एक प्रणाली जिसमें सेना के अधिकारियों को वेतन के बदले भूमि के टुकड़े (इक्ता) दिए जाते थे। इक्तादार कहे जाने वाले धारक राजस्व एकत्र करने और सैनिकों को बनाए रखने के लिए जिम्मेदार थे।"
+    },
+    "चालीसा": {
+        "title_en": "चालीसा (Chalisa/Turkan-i-Chahalgani)",
+        "definition_en": "A powerful council of 40 Turkic slave-nobles established by Iltutmish. They held significant political influence, often acting as kingmakers during the reigns of his successors.",
+        "title_hi": "चालीसा/तुर्कान-ए-चहलगानी",
+        "definition_hi": "इल्तुतमिश द्वारा स्थापित 40 तुर्की गुलाम-अमीरों की एक शक्तिशाली परिषद। उनके पास महत्वपूर्ण राजनीतिक प्रभाव था, और वे अक्सर उसके उत्तराधिकारियों के शासनकाल में राजा बनाने वाले के रूप में कार्य करते थे।"
+    },
+    "सिजदा और पैबोस": {
+        "title_en": "सिजदा और पैबोस (Sijda and Paibos)",
+        "definition_en": "Persian court customs introduced by Balban. Sijda was prostration before the Sultan, and Paibos was kissing the Sultan's feet. These were meant to assert the Sultan's supreme authority.",
+        "title_hi": "सिजदा और पैबोस",
+        "definition_hi": "बलबन द्वारा शुरू किए गए फारसी दरबारी रिवाज। सिजदा सुल्तान के सामने साष्टांग प्रणाम करना था, और पैबोस सुल्तान के पैरों को चूमना था। इनका उद्देश्य सुल्तान के सर्वोच्च अधिकार को स्थापित करना था।"
+    },
+    "दीवान-ए-कोही": {
+        "title_en": "दीवान-ए-कोही (Diwan-i-Kohi)",
+        "definition_en": "A department of agriculture established by Muhammad-bin-Tughlaq to bring uncultivated land under farming by providing state support and loans (sondhar).",
+        "title_hi": "दीवान-ए-कोही",
+        "definition_hi": "मुहम्मद-बिन-तुगलक द्वारा स्थापित एक कृषि विभाग, जिसका उद्देश्य राज्य सहायता और ऋण (सोंधर) प्रदान करके बंजर भूमि को खेती के अधीन लाना था।"
+    },
+    "टंका और जीतल": {
+        "title_en": "टंका और जीतल (Tanka and Jital)",
+        "definition_en": "Standardized coins introduced by Iltutmish. The Tanka was a silver coin, and the Jital was a copper coin. This was the first standardized currency of the Sultanate.",
+        "title_hi": "टंका और जीतल",
+        "definition_hi": "इल्तुतमिश द्वारा शुरू किए गए मानकीकृत सिक्के। टंका एक चांदी का सिक्का था, और जीतल एक तांबे का सिक्का था। यह सल्तनत की पहली मानकीकृत मुद्रा थी।"
+    },
+    "दाग और चेहरा": {
+        "title_en": "दाग और चेहरा (Dagh and Chehra)",
+        "definition_en": "A military reform by Ala-ud-din Khilji. 'Dagh' was the branding of horses to prevent substitution, and 'Chehra' was the maintenance of a descriptive roll of each soldier.",
+        "title_hi": "दाग और चेहरा",
+        "definition_hi": "अला-उद-दीन खिलजी द्वारा एक सैन्य सुधार। 'दाग' घोड़ों को बदलने से रोकने के लिए उन्हें दागना था, और 'चेहरा' प्रत्येक सैनिक का एक वर्णनात्मक विवरण रखना था।"
     }
 }
